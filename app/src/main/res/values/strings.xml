@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ProgettoMobileCamilloniTiseniGiri</string>
+    <string name="home">Home</string>
+    <string name="corsi">Corsi</string>
+    <string name="preferiti">Preferiti</string>
+    <string name="utente">Utente</string>
+    <string name="settings">Impostazioni</string>
+    <string name="faq">FAQ</string>
+    <string name="logout">Esci</string>
+
 </resources>

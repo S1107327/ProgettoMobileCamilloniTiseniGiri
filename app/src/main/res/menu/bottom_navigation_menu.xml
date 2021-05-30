@@ -3,12 +3,21 @@
     <item
         android:id="@+id/page_1"
         android:enabled="true"
-        android:icon="@drawable/icon_1"
-        android:title="@string/text_label_1"/>
+        android:icon="@drawable/home"
+        android:title="@string/home"/>
     <item
         android:id="@+id/page_2"
         android:enabled="true"
-        android:icon="@drawable/icon_2"
-        android:title="@string/text_label_2"/>
-</menu>
+        android:icon="@drawable/corsi"
+        android:title="@string/corsi"/>
+    <item
+        android:id="@+id/page_3"
+        android:enabled="true"
+        android:icon="@drawable/preferiti"
+        android:title="@string/preferiti"/>
+    <item
+        android:id="@+id/page_4"
+        android:enabled="true"
+        android:icon="@drawable/user_area"
+        android:title="@string/utente"/>
 </menu>
