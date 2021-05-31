@@ -7,5 +7,11 @@
     <string name="settings">Impostazioni</string>
     <string name="faq">FAQ</string>
     <string name="logout">Esci</string>
-
+    <string name="lessonTitle">Titolo Lezione</string>
+    <string name="courseRedirect">Vai al corso</string>
+    <string name="description">Descrizione Lezione</string>
+    <string name="popular">Popolari</string>
+    <string name="consigliati">Consigliati</string>
+    <string name="recentlyAdded">Aggiunt di Recente</string>
+    <string name="lastLesson">Riprendi la scorsa lezione</string>
 </resources>
