@@ -27,6 +27,8 @@
     <!--Stringhe Area Utente-->
     <string name="logout">Esci</string>
     <string name="yourCourses">I tuoi corsi</string>
+    <!--Stringhe Fragment Catalogo-->
+    <string name="categories">Categorie</string>
 
 
 </resources>

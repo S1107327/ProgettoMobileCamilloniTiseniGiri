@@ -9,6 +9,10 @@
         android:label="@string/home"
         android:name="com.example.progettomobilecamillonitisenigiri.FragmentHome"
         tools:layout="@layout/fragment_home"/>
+    <fragment android:id="@+id/FragmentCatalogo"
+        android:label="@string/preferiti"
+        android:name="com.example.progettomobilecamillonitisenigiri.FragmentCatalogo"
+        tools:layout="@layout/fragment_catalogo"/>
     <fragment android:id="@+id/FragmentPreferiti"
         android:label="@string/preferiti"
         android:name="com.example.progettomobilecamillonitisenigiri.FragmentFavorites"
