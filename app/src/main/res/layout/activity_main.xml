@@ -40,15 +40,17 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <fragment
-        android:id="@+id/fragment"
-        android:name="com.example.progettomobilecamillonitisenigiri.FragmentHome"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/myNavHostFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout2"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/navigation"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

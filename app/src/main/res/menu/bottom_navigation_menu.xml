@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/page_1"
+        android:id="@+id/FragmentHome"
         android:enabled="true"
         android:icon="@drawable/home"
         android:title="@string/home"/>
     <item
-        android:id="@+id/page_2"
+        android:id="@+id/FragmentCorsi"
         android:enabled="true"
         android:icon="@drawable/corsi"
         android:title="@string/corsi"/>
     <item
-        android:id="@+id/page_3"
+        android:id="@+id/FragmentPreferiti"
         android:enabled="true"
         android:icon="@drawable/preferiti"
         android:title="@string/preferiti"/>
     <item
-        android:id="@+id/page_4"
+        android:id="@+id/FragmentUser"
         android:enabled="true"
         android:icon="@drawable/user_area"
         android:title="@string/utente"/>
