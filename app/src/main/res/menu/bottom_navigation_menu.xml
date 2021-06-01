@@ -11,6 +11,11 @@
         android:icon="@drawable/corsi"
         android:title="@string/corsi"/>
     <item
+        android:id="@+id/FragmentYourCourses"
+        android:enabled="true"
+        android:icon="@drawable/ituoicorsi"
+        android:title="@string/preferiti"/>
+    <item
         android:id="@+id/FragmentPreferiti"
         android:enabled="true"
         android:icon="@drawable/preferiti"

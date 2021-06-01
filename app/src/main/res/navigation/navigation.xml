@@ -10,11 +10,15 @@
         android:name="com.example.progettomobilecamillonitisenigiri.FragmentHome"
         tools:layout="@layout/fragment_home"/>
     <fragment android:id="@+id/FragmentPreferiti"
-        android:label="@string/home"
+        android:label="@string/preferiti"
         android:name="com.example.progettomobilecamillonitisenigiri.FragmentFavorites"
         tools:layout="@layout/fragment_favorites"/>
     <fragment android:id="@+id/FragmentUser"
-        android:label="@string/home"
+        android:label="@string/utente"
         android:name="com.example.progettomobilecamillonitisenigiri.FragmentUser"
         tools:layout="@layout/fragment_user"/>
+    <fragment android:id="@+id/FragmentYourCourses"
+        android:label="@string/yourCourses"
+        android:name="com.example.progettomobilecamillonitisenigiri.FragmentYourCourses"
+        tools:layout="@layout/fragment_personal_courses"/>
 </navigation>

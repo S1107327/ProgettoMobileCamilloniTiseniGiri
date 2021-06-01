@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
-                R.id.logout -> {
+                R.id.share -> {
                     val intent = Intent(Intent.ACTION_WEB_SEARCH)
                     intent.putExtra(SearchManager.QUERY, "logout")
                     if (intent.resolveActivity(packageManager) != null) {

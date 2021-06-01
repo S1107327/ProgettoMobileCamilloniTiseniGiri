@@ -11,7 +11,7 @@
         android:title="@string/faq"
         android:contentDescription="@string/faq" />
     <item
-        android:id="@+id/logout"
-        android:title="@string/logout"
-        android:contentDescription="@string/logout" />
+        android:id="@+id/share"
+        android:title="@string/share"
+        android:contentDescription="@string/share" />
 </menu>

@@ -1,33 +1,32 @@
 <resources>
     <string name="app_name">ProgettoMobileCamilloniTiseniGiri</string>
+
+    <!--Stringhe menù a tendina sulla top app bar-->
+    <string name="settings">Impostazioni</string>
+    <string name="faq">FAQ</string>
+    <string name="share">Condividi</string>
+
+    <!--Stringhe Bottom Navigation Bar-->
     <string name="home">Home</string>
     <string name="corsi">Corsi</string>
     <string name="preferiti">Preferiti</string>
     <string name="utente">Utente</string>
-    <string name="settings">Impostazioni</string>
-    <string name="faq">FAQ</string>
-    <string name="logout">Esci</string>
-    <string name="lessonTitle">Titolo Lezione</string>
-    <string name="courseRedirect">Vai al corso</string>
-    <string name="description">Descrizione Lezione</string>
+
+    <!--Stringhe Fragment Home-->
+    <string name="lastLesson">Riprendi la scorsa lezione</string>
     <string name="popular">Popolari</string>
     <string name="consigliati">Consigliati</string>
     <string name="recentlyAdded">Aggiunt di Recente</string>
-    <string name="lastLesson">Riprendi la scorsa lezione</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="courseRedirect">Vai al corso</string>
 
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
+    <!--Stringhe Card della lezione-->
+    <string name="lessonTitle">Titolo Lezione</string>
+    <string name="description">Descrizione Lezione</string>
 
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!--Stringhe Area Utente-->
+    <string name="logout">Esci</string>
+    <string name="yourCourses">I tuoi corsi</string>
+
+
 </resources>
