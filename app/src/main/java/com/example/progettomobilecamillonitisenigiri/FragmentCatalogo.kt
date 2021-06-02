@@ -1,28 +1,17 @@
 package com.example.progettomobilecamillonitisenigiri
 
-import android.app.SearchManager
-import android.content.ComponentName
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.SearchView
+import android.widget.Button
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.google.android.material.textfield.TextInputEditText
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FragmentCatalogo.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FragmentCatalogo : Fragment(R.layout.fragment_catalogo) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,10 +30,11 @@ class FragmentCatalogo : Fragment(R.layout.fragment_catalogo) {
         chip.setOnClickListener {
             view.findNavController().navigate(R.id.action_FragmentCatalogo_to_FragmentCategoria)
         }
-        val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val componentName = ComponentName("com.example.progettomobilecamillonitisenigiri", "SearchableActivity")
-        view.findViewById<SearchView>(R.id.searchView2).apply {
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        val searchButton = view.findViewById<Button>(R.id.textButton)
+        searchButton.setOnClickListener{
+            val query = view.findViewById<TextInputEditText>(R.id.query).text.toString()
+            val action = FragmentCatalogoDirections.actionFragmentCatalogoToFragmentRicerca(query)
+            view.findNavController().navigate(action)
         }
     }
 }

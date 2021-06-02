@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_FragmentCatalogo_to_FragmentCategoria"
             app:destination="@id/FragmentCategoria" />
+        <action
+            android:id="@+id/action_FragmentCatalogo_to_FragmentRicerca"
+            app:destination="@id/FragmentRicerca" />
     </fragment>
     <fragment android:id="@+id/FragmentPreferiti"
         android:label="@string/preferiti"
@@ -33,4 +36,14 @@
         android:label="@string/home"
         android:name="com.example.progettomobilecamillonitisenigiri.FragmentCategoria"
         tools:layout="@layout/fragment_categoria"/>
+    <fragment
+        android:id="@+id/FragmentRicerca"
+        android:name="com.example.progettomobilecamillonitisenigiri.FragmentRicerca"
+        android:label="fragment_ricerca"
+        tools:layout="@layout/fragment_ricerca">
+        <argument
+            android:name="query"
+            app:argType="string" />
+
+    </fragment>
 </navigation>

@@ -9,16 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-        <activity
-            android:name=".SearchableActivity"
-            android:label="@string/title_activity_searchable">
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-        </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".SettingsActivity" />
