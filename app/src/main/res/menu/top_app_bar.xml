@@ -14,4 +14,8 @@
         android:id="@+id/share"
         android:title="@string/share"
         android:contentDescription="@string/share" />
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout"
+        android:contentDescription="@string/logout" />
 </menu>
