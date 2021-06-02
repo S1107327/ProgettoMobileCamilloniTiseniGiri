@@ -35,5 +35,8 @@
     <!--Stringhe Fragment Categoria-->
     <string name="categoria">Nome Categoria:</string>
 
+    <!--Stringhe Fragment Ricerca-->
+    <string name="ricerca">Risultati ricerca per: *query di ricerca immessa*</string>
+
 
 </resources>
