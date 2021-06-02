@@ -12,7 +12,11 @@
     <fragment android:id="@+id/FragmentCatalogo"
         android:label="@string/preferiti"
         android:name="com.example.progettomobilecamillonitisenigiri.FragmentCatalogo"
-        tools:layout="@layout/fragment_catalogo"/>
+        tools:layout="@layout/fragment_catalogo">
+        <action
+            android:id="@+id/action_FragmentCatalogo_to_FragmentCategoria"
+            app:destination="@id/FragmentCategoria" />
+    </fragment>
     <fragment android:id="@+id/FragmentPreferiti"
         android:label="@string/preferiti"
         android:name="com.example.progettomobilecamillonitisenigiri.FragmentFavorites"
@@ -25,4 +29,8 @@
         android:label="@string/yourCourses"
         android:name="com.example.progettomobilecamillonitisenigiri.FragmentYourCourses"
         tools:layout="@layout/fragment_personal_courses"/>
+    <fragment android:id="@+id/FragmentCategoria"
+        android:label="@string/home"
+        android:name="com.example.progettomobilecamillonitisenigiri.FragmentCategoria"
+        tools:layout="@layout/fragment_categoria"/>
 </navigation>
