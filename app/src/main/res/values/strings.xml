@@ -47,4 +47,8 @@
     <string name="title_activity_register">RegisterActivity</string>
 
 
+    <!--Stringhe menùv login/registrati-->
+    <string name="firstname">Nome</string>
+    <string name="lastname">Cognome</string>
+
 </resources>
