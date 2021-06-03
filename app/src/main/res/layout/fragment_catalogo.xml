@@ -19,33 +19,25 @@
             android:id="@+id/boxRicerca"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:hint="@string/utente"
-            app:layout_constraintEnd_toStartOf="@+id/textButton"
+            android:hint="@string/search"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:startIconContentDescription="@string/utente">
+            app:startIconContentDescription="@string/search"
+            app:startIconDrawable="@drawable/search">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/query"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:imeOptions="actionSearch"
+                android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/textButton"
-            style="@style/Widget.MaterialComponents.Button.Icon"
-            android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:icon="@drawable/preferiti"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView2"
@@ -78,42 +70,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Java" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="cucina francese" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="cucina libanese" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="kotlin" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="cucina giapponese" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="design" />
-
                 </com.google.android.material.chip.ChipGroup>
 
                 <com.google.android.material.chip.ChipGroup
@@ -122,43 +78,6 @@
                     android:layout_height="match_parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chipGroup">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip11"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Java" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip22"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="cucina francese" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip33"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="cucina libanese" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip44"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="kotlin" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip55"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="cucina giapponese" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip66"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="design" />
-
                 </com.google.android.material.chip.ChipGroup>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </HorizontalScrollView>
