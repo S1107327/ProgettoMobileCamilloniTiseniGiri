@@ -10,11 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
 import com.example.progettomobilecamillonitisenigiri.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), PopularAdapter.OnPopularAdapterListener {
 
     lateinit var mAuth: FirebaseAuth
     lateinit var mLogoutBtn: Button
@@ -39,11 +42,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.faq -> {
-                    val intent = Intent(Intent.ACTION_WEB_SEARCH)
-                    intent.putExtra(SearchManager.QUERY, "faq")
-                    if (intent.resolveActivity(packageManager) != null) {
-                        startActivity(intent)
-                    }
+                    val intent = Intent(this,CorsoActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.share -> {
@@ -67,6 +67,28 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+        val corso1:Corsi = Corsi()
+        val corso2:Corsi = Corsi()
+        val corso3:Corsi = Corsi()
+        val corso4:Corsi = Corsi()
+        val corso5:Corsi = Corsi()
+        if (navController.currentDestination?.id == R.id.FragmentHome) {
+            val rvPopolari: RecyclerView? = this.findViewById(R.id.recyclerViewPopolari)
+            rvPopolari?.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            rvPopolari?.adapter =
+                PopularAdapter(mutableListOf<Corsi>(corso1, corso2, corso3, corso4, corso5))
+            val rvConsigliati: RecyclerView? = this.findViewById(R.id.recyclerViewConsigliati)
+            rvConsigliati?.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            rvConsigliati?.adapter =
+                PopularAdapter(mutableListOf<Corsi>(corso1, corso2, corso3, corso4, corso5))
+            val rvRecenti: RecyclerView? = this.findViewById(R.id.recyclerViewRecenti)
+            rvRecenti?.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            rvRecenti?.adapter =
+                PopularAdapter(mutableListOf<Corsi>(corso1, corso2, corso3, corso4, corso5))
+        }
     }
 
     override fun onStart() {
@@ -82,5 +104,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(applicationContext, "Login Successfully ", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onNoteClick(position: Int) {
+        intent = Intent(this,CorsoActivity::class.java)
+        startActivity(intent)
     }
 }

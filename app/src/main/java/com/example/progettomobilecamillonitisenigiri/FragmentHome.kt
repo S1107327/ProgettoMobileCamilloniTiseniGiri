@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
 
-class FragmentHome: Fragment(R.layout.fragment_home) {
+class FragmentHome: Fragment(R.layout.fragment_home){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val corso1:Corsi = Corsi()
