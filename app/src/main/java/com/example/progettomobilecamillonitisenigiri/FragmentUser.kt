@@ -63,10 +63,10 @@ class FragmentUser : Fragment(R.layout.fragment_user) {
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference!!.child("Users")
         mAuth = FirebaseAuth.getInstance()
-        tvFirstName = getView()?.findViewById<View>(R.id.tv_first_name) as EditText
-        tvLastName = getView()?.findViewById<View>(R.id.tv_last_name) as EditText
-        tvEmail = getView()?.findViewById<View>(R.id.tv_email) as TextView
-        mSaveBtn = getView()?.findViewById(R.id.save_btn) as Button
+        tvFirstName = view?.findViewById<View>(R.id.tv_first_name) as EditText
+        tvLastName = view?.findViewById<View>(R.id.tv_last_name) as EditText
+        tvEmail = view?.findViewById<View>(R.id.tv_email) as TextView
+        mSaveBtn = view?.findViewById(R.id.save_btn) as Button
 
         mSaveBtn.setOnClickListener{
             mUser?.let { it1 -> mDatabaseReference!!.child(it1.uid).child("firstName").setValue(

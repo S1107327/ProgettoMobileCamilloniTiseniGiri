@@ -10,9 +10,15 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
 
-class PopularAdapter (val data: List<Corsi>): RecyclerView.Adapter<PopularAdapter.PopularViewHolder>() {
-    class PopularViewHolder(val box: View) : RecyclerView.ViewHolder(box) {
+class PopularAdapter (val data: List<Corsi>, val monPopularAdapter: OnPopularAdapterListener): RecyclerView.Adapter<PopularAdapter.PopularViewHolder>() {
+    class PopularViewHolder(val box: View,val onPopularAdapterListener: OnPopularAdapterListener) : RecyclerView.ViewHolder(box) , View.OnClickListener {
+        init{
+           box.setOnClickListener(this)
+        }
         val cardpopular = box.findViewById<CardView>(R.id.cardpopular)
+        override fun onClick(v: View?) {
+            onPopularAdapterListener.onCorsoClick(adapterPosition)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularViewHolder {
@@ -20,7 +26,7 @@ class PopularAdapter (val data: List<Corsi>): RecyclerView.Adapter<PopularAdapte
             R.layout.layout_corso,
             parent, false
         )
-        return PopularViewHolder(layout)
+        return PopularViewHolder(layout,monPopularAdapter)
     }
 
     override fun onBindViewHolder(holder: PopularViewHolder, position: Int) {
@@ -31,6 +37,6 @@ class PopularAdapter (val data: List<Corsi>): RecyclerView.Adapter<PopularAdapte
     override fun getItemCount(): Int = data.size
 
     interface OnPopularAdapterListener{
-        fun onNoteClick(position: Int)
+        fun onCorsoClick(position: Int)
     }
 }

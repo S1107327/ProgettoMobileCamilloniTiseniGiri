@@ -10,14 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
 import com.example.progettomobilecamillonitisenigiri.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
-class MainActivity : AppCompatActivity(), PopularAdapter.OnPopularAdapterListener {
+class MainActivity : AppCompatActivity() {
 
     lateinit var mAuth: FirebaseAuth
     lateinit var mLogoutBtn: Button
@@ -62,32 +60,8 @@ class MainActivity : AppCompatActivity(), PopularAdapter.OnPopularAdapterListene
                     finish()
                     true
                 }
-
-
                 else -> false
             }
-        }
-        val corso1:Corsi = Corsi()
-        val corso2:Corsi = Corsi()
-        val corso3:Corsi = Corsi()
-        val corso4:Corsi = Corsi()
-        val corso5:Corsi = Corsi()
-        if (navController.currentDestination?.id == R.id.FragmentHome) {
-            val rvPopolari: RecyclerView? = this.findViewById(R.id.recyclerViewPopolari)
-            rvPopolari?.layoutManager =
-                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-            rvPopolari?.adapter =
-                PopularAdapter(mutableListOf<Corsi>(corso1, corso2, corso3, corso4, corso5))
-            val rvConsigliati: RecyclerView? = this.findViewById(R.id.recyclerViewConsigliati)
-            rvConsigliati?.layoutManager =
-                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-            rvConsigliati?.adapter =
-                PopularAdapter(mutableListOf<Corsi>(corso1, corso2, corso3, corso4, corso5))
-            val rvRecenti: RecyclerView? = this.findViewById(R.id.recyclerViewRecenti)
-            rvRecenti?.layoutManager =
-                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-            rvRecenti?.adapter =
-                PopularAdapter(mutableListOf<Corsi>(corso1, corso2, corso3, corso4, corso5))
         }
     }
 
@@ -104,10 +78,5 @@ class MainActivity : AppCompatActivity(), PopularAdapter.OnPopularAdapterListene
         } else {
             Toast.makeText(applicationContext, "Login Successfully ", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    override fun onNoteClick(position: Int) {
-        intent = Intent(this,CorsoActivity::class.java)
-        startActivity(intent)
     }
 }

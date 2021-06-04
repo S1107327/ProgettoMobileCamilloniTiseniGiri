@@ -1,13 +1,17 @@
 package com.example.progettomobilecamillonitisenigiri
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
 
-class FragmentCategoria: Fragment(R.layout.fragment_categoria) {
+class FragmentCategoria: Fragment(R.layout.fragment_categoria), PopularAdapter.OnPopularAdapterListener {
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val corso1:Corsi = Corsi()
@@ -20,8 +24,12 @@ class FragmentCategoria: Fragment(R.layout.fragment_categoria) {
         val corso8:Corsi = Corsi()
         val corso9:Corsi = Corsi()
         val corso10:Corsi = Corsi()
-        val rvCategoria: RecyclerView = view.findViewById(R.id.recyclerViewCategoria)
+        val rvCategoria:RecyclerView = view.findViewById(R.id.recyclerViewCategoria)
         rvCategoria.layoutManager = GridLayoutManager(context,2)
-        rvCategoria.adapter = PopularAdapter(mutableListOf<Corsi>(corso1,corso2,corso3,corso4,corso5,corso6,corso7,corso8,corso9,corso10))
+        rvCategoria.adapter = PopularAdapter(mutableListOf<Corsi>(corso1,corso2,corso3,corso4,corso5,corso6,corso7,corso8,corso9,corso10),this)
+    }
+    override fun onCorsoClick(position: Int) {
+        val intent = Intent(context, CorsoActivity::class.java)
+        startActivity(intent)
     }
 }
