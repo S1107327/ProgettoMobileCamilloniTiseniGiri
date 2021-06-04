@@ -27,6 +27,10 @@
     <!--Stringhe Area Utente-->
     <string name="logout">Esci</string>
     <string name="yourCourses">I tuoi corsi</string>
+    <string name="nome">Nome</string>
+    <string name="cognome">Cognome</string>
+    <string name="email">Email</string>
+
 
 
     <!--Stringhe Fragment Catalogo-->
@@ -46,9 +50,22 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
 
-
     <!--Stringhe menùv login/registrati-->
     <string name="firstname">Nome</string>
     <string name="lastname">Cognome</string>
+
+    <!--Stringhe Bottom Navigation Bar del Corso-->
+    <string name="info">Info</string>
+    <string name="lezioni">Lezioni</string>
+    <string name="dispense">Dispense</string>
+    <string name="forum">Forum</string>
+    <string name="nome_corso">Nome del Corso</string>
+
+    <!--Stringhe Fragment Info Corso-->
+    <string name="descrizioneCorso">Descrizione:</string>
+    <string name="docenteCorso">Docente:</string>
+    <string name="numeroLezioni">Numero di lezioni:</string>
+
+
 
 </resources>
