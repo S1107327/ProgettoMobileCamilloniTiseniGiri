@@ -62,10 +62,15 @@
     <string name="forum">Forum</string>
     <string name="nome_corso">Nome del Corso</string>
 
+    <!--Stringhe Activity Corso-->
+    <string name="sezionenondisponibile">Per visualizzare questa sezione devi essere iscritto al corso</string>
+
     <!--Stringhe Fragment Info Corso-->
     <string name="descrizioneCorso">Descrizione:</string>
     <string name="docenteCorso">Docente:</string>
     <string name="numeroLezioni">Numero di lezioni:</string>
+    <string name="prezzoCorso">Prezzo:</string>
+    <string name="iscriviti">Iscriviti</string>
 
 
 
