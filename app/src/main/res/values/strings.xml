@@ -9,6 +9,7 @@
     <!--Stringhe Bottom Navigation Bar-->
     <string name="home">Home</string>
     <string name="corsi">Corsi</string>
+    <string name="wishlist">WishList</string>
     <string name="preferiti">Preferiti</string>
     <string name="utente">Utente</string>
 

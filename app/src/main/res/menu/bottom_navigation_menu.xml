@@ -19,8 +19,8 @@
     <item
         android:id="@+id/FragmentPreferiti"
         android:enabled="true"
-        android:icon="@drawable/preferiti"
-        android:title="@string/preferiti"/>
+        android:icon="@drawable/wishlist"
+        android:title="@string/wishlist"/>
     <item
         android:id="@+id/FragmentUser"
         android:enabled="true"

@@ -72,6 +72,7 @@ class FragmentUser : Fragment(R.layout.fragment_user) {
             mUser?.let { it1 -> mDatabaseReference!!.child(it1.uid).child("firstName").setValue(
                 tvFirstName!!.text.toString()) }
             mUser?.let { it1 -> mDatabaseReference!!.child(it1.uid).child("lastName").setValue(tvLastName!!.text.toString()) }
+            Toast.makeText(context,"Modifiche salvate correttamente", Toast.LENGTH_LONG).show()
         }
     }
 
