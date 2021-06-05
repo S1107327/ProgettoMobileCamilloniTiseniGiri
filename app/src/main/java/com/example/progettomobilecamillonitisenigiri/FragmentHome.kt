@@ -7,25 +7,33 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
+import com.example.progettomobilecamillonitisenigiri.Model.Corso
+import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
 
-class FragmentHome: Fragment(R.layout.fragment_home), PopularAdapter.OnPopularAdapterListener{
-
+class FragmentHome: Fragment(R.layout.fragment_home), MyAdapter.OnMyAdapterListener{
+    var list=ArrayList<Corso>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val corso1:Corsi = Corsi()
-        val corso2:Corsi = Corsi()
-        val corso3:Corsi = Corsi()
-        val corso4:Corsi = Corsi()
-        val corso5:Corsi = Corsi()
         val rvPopolari:RecyclerView = view.findViewById(R.id.recyclerViewPopolari)
-        rvPopolari.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
-        rvPopolari.adapter = PopularAdapter(mutableListOf<Corsi>(corso1,corso2,corso3,corso4,corso5),this)
         val rvConsigliati:RecyclerView= view.findViewById(R.id.recyclerViewConsigliati)
-        rvConsigliati?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
-        rvConsigliati?.adapter = PopularAdapter(mutableListOf<Corsi>(corso1,corso2,corso3,corso4,corso5),this)
         val rvRecenti:RecyclerView = view.findViewById(R.id.recyclerViewRecenti)
-        rvRecenti.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
-        rvRecenti.adapter = PopularAdapter(mutableListOf<Corsi>(corso1,corso2,corso3,corso4,corso5),this)
+        val firebaseConnection = FirebaseConnection()
+        firebaseConnection.readData() {
+            rvPopolari.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
+            rvConsigliati?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
+            rvRecenti.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
+        }
+
+        list = firebaseConnection.getListaCorsi()
+
+
+        rvPopolari.adapter = MyAdapter(list,this)
+
+
+        rvConsigliati?.adapter = MyAdapter(list,this)
+
+
+        rvRecenti.adapter = MyAdapter(firebaseConnection.getListaCorsi(),this)
     }
     override fun onCorsoClick(position: Int) {
         val intent = Intent(context,CorsoActivity::class.java)
