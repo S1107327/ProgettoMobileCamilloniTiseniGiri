@@ -72,6 +72,8 @@
     <string name="prezzoCorso">Prezzo:</string>
     <string name="iscriviti">Iscriviti</string>
 
+    <!--Stringhe Fragment Lezioni-->
+    <string name="listaLezioni">Lista delle lezioni:</string>
 
 
 </resources>

@@ -1,6 +1,7 @@
 package com.example.progettomobilecamillonitisenigiri.Utils
 
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
+import com.example.progettomobilecamillonitisenigiri.Model.Lezione
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -11,6 +12,7 @@ class FirebaseConnection {
     private var database: DatabaseReference? = null
     val listCorsi = ArrayList<Corso>()
     val listCategorie = mutableListOf<String>()
+    val listLezioni = ArrayList<Lezione>()
     init {
 
         database = FirebaseDatabase.getInstance().reference
@@ -23,6 +25,9 @@ class FirebaseConnection {
     }
     interface CallbackCategorie {
         fun onCallback(value: MutableList<String>)
+    }
+    interface CallbackLezioni {
+        fun onCallback(value: ArrayList<Lezione>)
     }
 
     fun readData(myCallback: (List<Corso>) -> Unit) {
@@ -46,6 +51,30 @@ class FirebaseConnection {
         })
 
     }
+
+    //TODO() da finire
+    fun readDataLezioni(CallbackLezioni: (List<Lezione>) -> Unit) {
+        database?.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.child("Corsi")!!.exists()) {
+                    listLezioni.clear()
+                    for (e in snapshot.child("Corsi").child("0").child("lezioni").children) {
+                        val lezione = e.getValue(Lezione::class.java)
+                        listLezioni.add(lezione!!)
+                    }
+                }
+                CallbackLezioni(listLezioni)
+                System.out.println("OKKKK")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+
+    }
+
     fun readCategorie(CallbackCategorie: (MutableList<String>) -> Unit) {
         database?.addValueEventListener(object : ValueEventListener {
 
@@ -72,6 +101,10 @@ class FirebaseConnection {
     fun getListaCorsi(): ArrayList<Corso> {
         System.out.println("Entra")
         return listCorsi
+    }
+    fun getListaLezioni(): ArrayList<Lezione> {
+        System.out.println("Entra")
+        return listLezioni
     }
     fun getCategorie():MutableList<String>{
         System.out.println("EntraCategoria")
