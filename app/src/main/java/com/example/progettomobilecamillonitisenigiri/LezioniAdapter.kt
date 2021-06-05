@@ -21,7 +21,7 @@ class LezioniAdapter (val data: List<Lezione>, val monPopularAdapter: OnLezioniA
         }
         val cardLezione = box.findViewById<CardView>(R.id.cardViewLezione)
         override fun onClick(v: View?) {
-            onLezioniAdapterListener.onLezioneClick(adapterPosition)
+            onLezioniAdapterListener.onLezioneClick(adapterPosition, v)
         }
     }
 
@@ -44,6 +44,6 @@ class LezioniAdapter (val data: List<Lezione>, val monPopularAdapter: OnLezioniA
     override fun getItemCount(): Int = data.size
 
     interface OnLezioniAdapterListener{
-        fun onLezioneClick(position: Int)
+        fun onLezioneClick(position: Int, v: View?)
     }
 }

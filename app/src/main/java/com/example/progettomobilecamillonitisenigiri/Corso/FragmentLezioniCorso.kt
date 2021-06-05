@@ -1,19 +1,20 @@
 package com.example.progettomobilecamillonitisenigiri.Corso
 
-import android.content.Intent
+import android.R.attr.*
+import android.graphics.Matrix
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.LezioniAdapter
-import com.example.progettomobilecamillonitisenigiri.Model.Corso
-import com.example.progettomobilecamillonitisenigiri.MyAdapter
+import com.example.progettomobilecamillonitisenigiri.Model.Lezione
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
-import com.example.progettomobilecamillonitisenigiri.Model.Lezione
+
 
 class FragmentLezioniCorso : Fragment(),  LezioniAdapter.OnLezioniAdapterListener {
     override fun onCreateView(
@@ -30,17 +31,31 @@ class FragmentLezioniCorso : Fragment(),  LezioniAdapter.OnLezioniAdapterListene
 
         val firebaseConnection = FirebaseConnection()
         firebaseConnection.readDataLezioni() {
-            rvLezioni.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+            rvLezioni.layoutManager = LinearLayoutManager(
+                context,
+                LinearLayoutManager.VERTICAL,
+                false
+            )
         }
 
         list = firebaseConnection.getListaLezioni()
 
 
-        rvLezioni.adapter = LezioniAdapter(list,this)
+        rvLezioni.adapter = LezioniAdapter(list, this)
     }
 
 
-        override fun onLezioneClick(position: Int) {
-            TODO()
+        override fun onLezioneClick(position: Int, view: View?) {
+            val image = view?.findViewById<ImageView>(R.id.frecciaLezione)
+
+            val layout = view?.findViewById<ViewGroup>(R.id.expandableLayout)
+            if (layout?.visibility == View.GONE) {
+                image?.rotation = 90f
+                layout?.setVisibility(View.VISIBLE)
+            }
+            else {
+                image?.rotation = 0f
+                layout?.setVisibility(View.GONE)
+            }
         }
 }
