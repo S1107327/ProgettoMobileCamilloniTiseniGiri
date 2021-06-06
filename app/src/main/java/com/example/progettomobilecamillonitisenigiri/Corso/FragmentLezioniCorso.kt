@@ -7,10 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.LezioniAdapter
+import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Model.Lezione
+import com.example.progettomobilecamillonitisenigiri.MyAdapter
 import com.example.progettomobilecamillonitisenigiri.R
+import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
 
 
 class FragmentLezioniCorso : Fragment(),  LezioniAdapter.OnLezioniAdapterListener {
@@ -25,20 +31,13 @@ class FragmentLezioniCorso : Fragment(),  LezioniAdapter.OnLezioniAdapterListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val rvLezioni: RecyclerView = view.findViewById(R.id.recyclerViewLezioni)
-/*
-        val firebaseConnection = FirebaseConnection()
-        firebaseConnection.readDataLezioni() {
-            rvLezioni.layoutManager = LinearLayoutManager(
-                context,
-                LinearLayoutManager.VERTICAL,
-                false
-            )
-        }
 
-        list = firebaseConnection.getListaLezioni()
+        val model: FirebaseConnection by viewModels()
+        rvLezioni.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-
-        rvLezioni.adapter = LezioniAdapter(list, this)*/
+        model.getListaLezioni().observe(viewLifecycleOwner, Observer<HashMap<String,ArrayList<Lezione>>>{ lezioni->
+            rvLezioni.adapter = LezioniAdapter(corsi,this)
+        })
     }
 
 
