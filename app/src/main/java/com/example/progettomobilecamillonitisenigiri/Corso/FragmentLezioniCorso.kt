@@ -2,10 +2,12 @@ package com.example.progettomobilecamillonitisenigiri.Corso
 
 import android.R.attr.*
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -17,9 +19,12 @@ import com.example.progettomobilecamillonitisenigiri.Model.Lezione
 import com.example.progettomobilecamillonitisenigiri.MyAdapter
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
+import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 
 class FragmentLezioniCorso : Fragment(),  LezioniAdapter.OnLezioniAdapterListener {
+    val model: FirebaseConnection by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,21 +32,21 @@ class FragmentLezioniCorso : Fragment(),  LezioniAdapter.OnLezioniAdapterListene
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_lezioni_corso, container, false)
     }
-        var list=ArrayList<Lezione>()
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val rvLezioni: RecyclerView = view.findViewById(R.id.recyclerViewLezioni)
+    override fun onResume() {
+        super.onResume()
+        val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
+        val rvLezioni: RecyclerView? = view?.findViewById(R.id.recyclerViewLezioni)
 
-        val model: FirebaseConnection by viewModels()
-        rvLezioni.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        rvLezioni?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         model.getListaLezioni().observe(viewLifecycleOwner, Observer<HashMap<String,ArrayList<Lezione>>>{ lezioni->
-            rvLezioni.adapter = LezioniAdapter(corsi,this)
+            rvLezioni?.adapter = LezioniAdapter(lezioni.getValue(id).toList(), this)
         })
     }
 
 
-        override fun onLezioneClick(position: Int, view: View?) {
+
+    override fun onLezioneClick(position: Int, view: View?) {
             val image = view?.findViewById<ImageView>(R.id.frecciaLezione)
 
             val layout = view?.findViewById<ViewGroup>(R.id.expandableLayout)
