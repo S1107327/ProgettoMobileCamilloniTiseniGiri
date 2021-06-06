@@ -45,6 +45,8 @@ class MyAdapter (val data: List<Corso>, val monPopularAdapter: OnMyAdapterListen
             data.get(position).id
         holder.cardpopular.findViewById<TextView>(R.id.textView3).text =
             data.get(position).titolo
+        holder.cardpopular.findViewById<TextView>(R.id.categoriaCorsoCard).text =
+            data.get(position).categoria
         try {
             System.out.println("immagine:"+(data.get(position).immagine) )
             Picasso.get().load(data.get(position).immagine).into(holder.cardpopular.findViewById<ImageView>(R.id.imageView))

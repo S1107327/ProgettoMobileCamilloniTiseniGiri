@@ -49,6 +49,8 @@
                         android:id="@+id/titoloLezione"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
                         android:text="@string/lessonTitle"
                         android:textAppearance="?attr/textAppearanceHeadline6"
                         app:layout_constraintStart_toStartOf="parent"
@@ -69,10 +71,13 @@
                         android:id="@+id/descrizioneLezione"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
                         android:text="@string/description"
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/videoView" />
 
