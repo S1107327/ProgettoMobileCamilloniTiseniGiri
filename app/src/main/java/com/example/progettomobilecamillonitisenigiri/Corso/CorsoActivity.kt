@@ -21,14 +21,8 @@ class CorsoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityCorsoBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_corso)
-        val id = intent.getStringExtra("ID_CORSO")
-        val arg = Bundle()
-        arg.putString("ID_CORSO", id)
-        model.getListaCorsi().observe(this, Observer<List<Corso>>{ corsi->
-        })
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.myNavHostCorsoFragment) as NavHostFragment
-        val inflater = navHostFragment.navController.navInflater
         val navController = navHostFragment.navController
         binding.bottomCorsoNavigation.setupWithNavController(navController)
     }

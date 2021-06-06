@@ -1,26 +1,20 @@
 package com.example.progettomobilecamillonitisenigiri.Corso
 
-import android.R.attr.*
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.LezioniAdapter
-import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Model.Lezione
-import com.example.progettomobilecamillonitisenigiri.MyAdapter
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
-import com.squareup.picasso.Picasso
-import java.lang.Exception
+
 
 
 class FragmentLezioniCorso : Fragment(),  LezioniAdapter.OnLezioniAdapterListener {
