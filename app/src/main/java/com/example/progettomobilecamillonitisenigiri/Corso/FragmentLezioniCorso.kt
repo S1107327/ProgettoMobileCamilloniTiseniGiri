@@ -1,19 +1,16 @@
 package com.example.progettomobilecamillonitisenigiri.Corso
 
 import android.R.attr.*
-import android.graphics.Matrix
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.LezioniAdapter
 import com.example.progettomobilecamillonitisenigiri.Model.Lezione
 import com.example.progettomobilecamillonitisenigiri.R
-import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
 
 
 class FragmentLezioniCorso : Fragment(),  LezioniAdapter.OnLezioniAdapterListener {

@@ -16,7 +16,7 @@
             android:layout_height="70dp">
 
             <ImageView
-                android:id="@+id/documento"
+                android:id="@+id/frecciaLezione"
                 android:layout_width="39dp"
                 android:layout_height="41dp"
                 android:layout_marginStart="16dp"
@@ -35,14 +35,14 @@
                 app:layout_constraintBottom_toBottomOf="parent" />
 
             <TextView
-                android:id="@+id/titoloDelDocumento"
+                android:id="@+id/titoloDellaLezione"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
                 android:text="Documento1.pdf"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/documento"
+                app:layout_constraintStart_toEndOf="@+id/frecciaLezione"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
