@@ -22,13 +22,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/expandableLayout" />
 
             <TextView
-                android:id="@+id/titoloDellaLezione"
+                android:id="@+id/titoloDelDocumento"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
                 android:text="Lezione 1: Come fare qualcosa"
-                app:layout_constraintEnd_toStartOf="@+id/frecciaLezione"
+                app:layout_constraintEnd_toStartOf="@+id/documento"
                 app:layout_constraintHorizontal_bias="0.4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/titoloDellaLezione"
+                app:layout_constraintTop_toBottomOf="@+id/titoloDelDocumento"
                 tools:layout_editor_absoluteX="0dp">
 
                 <VideoView
@@ -65,7 +65,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
-                android:id="@+id/frecciaLezione"
+                android:id="@+id/documento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
