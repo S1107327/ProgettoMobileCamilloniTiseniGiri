@@ -41,7 +41,7 @@ class FragmentLezioniCorso : Fragment(),  LezioniAdapter.OnLezioniAdapterListene
 
 
     override fun onLezioneClick(position: Int, view: View?) {
-            val image = view?.findViewById<ImageView>(R.id.frecciaLezione)
+            val image = view?.findViewById<ImageView>(R.id.immagineDocumento)
 
             val layout = view?.findViewById<ViewGroup>(R.id.expandableLayout)
             if (layout?.visibility == View.GONE) {
