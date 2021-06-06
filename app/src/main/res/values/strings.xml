@@ -33,7 +33,6 @@
     <string name="email">Email</string>
 
 
-
     <!--Stringhe Fragment Catalogo-->
     <string name="categories">Categorie</string>
     <string name="search">Cerca</string>
@@ -61,6 +60,12 @@
     <string name="dispense">Dispense</string>
     <string name="forum">Forum</string>
     <string name="nome_corso">Nome del Corso</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+    <string name="backToLogin">Torna al Login</string>
+    <string name="register">Registrati</string>
+    <string name="category">Categoria</string>
+
 
     <!--Stringhe Activity Corso-->
     <string name="sezionenondisponibile">Per visualizzare questa sezione devi essere iscritto al corso</string>
@@ -74,6 +79,8 @@
 
     <!--Stringhe Fragment Lezioni-->
     <string name="listaLezioni">Lista delle lezioni:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
