@@ -8,8 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,8 +43,8 @@ class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_catalogo, container, false)
-        val chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroup)
-        val chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroup2)
+        val chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo1)
+        val chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo2)
 
 
         for (i in 1..12) {
@@ -67,25 +71,30 @@ class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
 
 
     var list = ArrayList<Corso>()
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val rvCat1: RecyclerView = view.findViewById(R.id.recyclerViewCat1)
         val rvCat2: RecyclerView = view.findViewById(R.id.recyclerViewCat2)
-        val firebaseConnection = FirebaseConnection()
-        firebaseConnection.readData() {
-
-            rvCat1.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            rvCat2.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        }
 
 
-        rvCat1.adapter = MyAdapter(firebaseConnection.getListaCorsi(), this)
+        rvCat1.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rvCat2.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        val model:FirebaseConnection by viewModels()
+        model.getListaCorsi().observe(viewLifecycleOwner,Observer<List<Corso>>{corsi->
+            rvCat1.adapter = MyAdapter(corsi, this)
+            rvCat2.adapter = MyAdapter(corsi, this)
+        })
 
 
-        rvCat2.adapter = MyAdapter(firebaseConnection.getListaCorsi(), this)
+
+
+
+
         val editText = view.findViewById<TextInputEditText>(R.id.query)
         editText.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -105,8 +114,9 @@ class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
         view.findNavController().navigate(R.id.action_FragmentCatalogo_to_FragmentCategoria)
     }
 
-    override fun onCorsoClick(position: Int) {
+    override fun onCorsoClick(position: Int,v: View?) {
         val intent = Intent(context, CorsoActivity::class.java)
+        intent.putExtra("ID_CORSO",v?.findViewById<TextView>(R.id.corsoId).toString())
         startActivity(intent)
     }
 

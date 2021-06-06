@@ -28,7 +28,7 @@ class FragmentLezioniCorso : Fragment(),  LezioniAdapter.OnLezioniAdapterListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val rvLezioni: RecyclerView = view.findViewById(R.id.recyclerViewLezioni)
-
+/*
         val firebaseConnection = FirebaseConnection()
         firebaseConnection.readDataLezioni() {
             rvLezioni.layoutManager = LinearLayoutManager(
@@ -41,7 +41,7 @@ class FragmentLezioniCorso : Fragment(),  LezioniAdapter.OnLezioniAdapterListene
         list = firebaseConnection.getListaLezioni()
 
 
-        rvLezioni.adapter = LezioniAdapter(list, this)
+        rvLezioni.adapter = LezioniAdapter(list, this)*/
     }
 
 

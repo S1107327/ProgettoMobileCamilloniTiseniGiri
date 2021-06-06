@@ -17,7 +17,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imageCorso"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:contentDescription="Immagine Corso"
@@ -28,7 +28,7 @@
                 tools:src="@tools:sample/backgrounds/scenic" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/nomeCorso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -39,13 +39,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/rating" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/categoriaCorso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="Categoria"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintTop_toBottomOf="@+id/nomeCorso" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -57,10 +57,10 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                app:layout_constraintTop_toBottomOf="@+id/categoriaCorso" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/descrizioneCorso"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -81,10 +81,10 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                app:layout_constraintTop_toBottomOf="@+id/descrizioneCorso" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/docenteCorso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -102,10 +102,10 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView10" />
+                app:layout_constraintTop_toBottomOf="@+id/docenteCorso" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/numLezioni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -123,7 +123,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                app:layout_constraintTop_toBottomOf="@+id/numLezioni" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -153,8 +153,8 @@
                 android:layout_marginTop="8dp"
                 android:background="@null"
                 android:src="@drawable/wishlistempty36dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView6"
-                app:layout_constraintStart_toEndOf="@+id/textView5"
+                app:layout_constraintBottom_toTopOf="@+id/categoriaCorso"
+                app:layout_constraintStart_toEndOf="@+id/nomeCorso"
                 app:layout_constraintTop_toBottomOf="@+id/rating" />
 
             <RatingBar
@@ -168,7 +168,7 @@
                 android:numStars="5"
                 android:stepSize="0.1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+                app:layout_constraintTop_toBottomOf="@+id/imageCorso" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
