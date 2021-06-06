@@ -26,7 +26,6 @@ class FirebaseConnection : ViewModel() {
     }
     val lista_corsi = ArrayList<Corso>()
     val lista_lezioni = HashMap<String,ArrayList<Lezione>>()
-    val tmp_list = ArrayList<Lezione>()
     val lista_cat = ArrayList<String>()
 
     fun readData() {
@@ -37,16 +36,16 @@ class FirebaseConnection : ViewModel() {
 
                 if (snapshot.child("Corsi")!!.exists()) {
                     for (e in snapshot.child("Corsi").children) {
-                        tmp_list.clear()
                         val corso = e.getValue(Corso::class.java)
                         val cat = e.child("categoria").toString()
+                        val tmp_list = ArrayList<Lezione>()
                         lista_cat.add(cat!!)
                         lista_corsi.add(corso!!)
                         for (lezione in e.child("lezioni").children) {
                             val l = lezione.getValue(Lezione::class.java)
                             if (l != null) tmp_list.add(l)
                         }
-                        lista_lezioni.put(corso.id.toString(),tmp_list)
+                        lista_lezioni.put(corso.id,tmp_list)
                     }
                     //inserisco il valore nelle mutableLiveData
                     listLezioni.postValue(lista_lezioni)
