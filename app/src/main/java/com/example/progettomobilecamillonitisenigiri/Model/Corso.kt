@@ -1,5 +1,8 @@
 package com.example.progettomobilecamillonitisenigiri.Model
 
+import com.google.gson.Gson
+import org.w3c.dom.Document
+
 
 class Corso(
     titolo: String,
@@ -10,6 +13,12 @@ class Corso(
     lezioni: ArrayList<Lezione>?,
     dispense: ArrayList<Documento>?
 ) {
+    fun clone(): Corso {
+        val corso = Gson().toJson(this)
+        return Gson().fromJson(corso,Corso::class.java)
+
+    }
+
     var titolo: String
     var descrizione: String
     var id: String
@@ -32,6 +41,8 @@ class Corso(
             this.dispense = dispense
         }
     }
-    constructor() : this("", "", "", "", "",null,null) {}
+    constructor() : this("Assente", "assente", "0", "assente", "assente",null,null) {
+
+    }
 
 }

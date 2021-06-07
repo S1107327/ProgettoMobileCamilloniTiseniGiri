@@ -78,7 +78,6 @@ class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
         val rvCat1: RecyclerView = view.findViewById(R.id.recyclerViewCat1)
         val rvCat2: RecyclerView = view.findViewById(R.id.recyclerViewCat2)
 
-
         rvCat1.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvCat2.layoutManager =
@@ -89,10 +88,6 @@ class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
             rvCat1.adapter = MyAdapter(corsi, this)
             rvCat2.adapter = MyAdapter(corsi, this)
         })
-
-
-
-
 
 
         val editText = view.findViewById<TextInputEditText>(R.id.query)
@@ -116,7 +111,7 @@ class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
 
     override fun onCorsoClick(position: Int,v: View?) {
         val intent = Intent(context, CorsoActivity::class.java)
-        intent.putExtra("ID_CORSO",v?.findViewById<TextView>(R.id.corsoId).toString())
+        intent.putExtra("ID_CORSO", v?.findViewById<TextView>(R.id.corsoId)?.text)
         startActivity(intent)
     }
 

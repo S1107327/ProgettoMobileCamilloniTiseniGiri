@@ -41,10 +41,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/titoloDelDocumento"
                 tools:layout_editor_absoluteX="0dp">
 
-                <VideoView
-                    android:id="@+id/videoView"
+                <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                    android:id="@+id/youtubeVideoView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    app:videoId="@string/video_id"
                     app:layout_constraintDimensionRatio="16:9"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:layout_editor_absoluteX="0dp" />

@@ -1,8 +1,6 @@
 package com.example.progettomobilecamillonitisenigiri.Utils
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Model.Documento
 import com.example.progettomobilecamillonitisenigiri.Model.Lezione
@@ -16,9 +14,11 @@ class FirebaseConnection : ViewModel() {
     private var mAuth: FirebaseAuth? = null
     private var database: DatabaseReference? = null
     private val listCorsi = MutableLiveData<List<Corso>>()
+    private val listAggiuntiDiRecente = MutableLiveData<List<Corso>>()
     private val listCategorie = MutableLiveData<Set<String>>()
-    private val listLezioni = MutableLiveData<HashMap<String,ArrayList<Lezione>>>()
-    private val listDispense = MutableLiveData<HashMap<String,ArrayList<Documento>>>()
+    private val listLezioni = MutableLiveData<HashMap<String, ArrayList<Lezione>>>()
+    private val listDispense = MutableLiveData<HashMap<String, ArrayList<Documento>>>()
+    private val currentCourse = MutableLiveData<Corso>()
 
     init {
 
@@ -26,10 +26,11 @@ class FirebaseConnection : ViewModel() {
         readData()
 
     }
+
     val lista_corsi = ArrayList<Corso>()
-    val lista_lezioni = HashMap<String,ArrayList<Lezione>>()
+    val lista_lezioni = HashMap<String, ArrayList<Lezione>>()
     val lista_cat = HashSet<String>()
-    val lista_dispense = HashMap<String,ArrayList<Documento>>()
+    val lista_dispense = HashMap<String, ArrayList<Documento>>()
 
     fun readData() {
 
@@ -49,16 +50,17 @@ class FirebaseConnection : ViewModel() {
                             val l = lezione.getValue(Lezione::class.java)
                             if (l != null) tmp_list.add(l)
                         }
-                        lista_lezioni.put(corso.id,tmp_list)
+                        lista_lezioni.put(corso.id, tmp_list)
                         for (documento in e.child("dispense").children) {
                             val l = documento.getValue(Documento::class.java)
                             if (l != null) tmp_list_dispense.add(l)
                         }
-                        lista_dispense.put(corso.id,tmp_list_dispense)
+                        lista_dispense.put(corso.id, tmp_list_dispense)
                     }
                     //inserisco il valore nelle mutableLiveData
                     listLezioni.postValue(lista_lezioni)
                     listCorsi.postValue(lista_corsi)
+                    listAggiuntiDiRecente.postValue(lista_corsi.reversed())//oppure takeLast(numero)
                     listCategorie.postValue(lista_cat)
                     listDispense.postValue(lista_dispense)
                 }
@@ -74,28 +76,27 @@ class FirebaseConnection : ViewModel() {
 
 
     fun getListaCorsi(): MutableLiveData<List<Corso>> {
-        System.out.println("Entra")
         return listCorsi
     }
-    fun getListaLezioni(): MutableLiveData<HashMap<String,ArrayList<Lezione>>> {
+    fun getAggiuntiDiRecente(): MutableLiveData<List<Corso>> {
+        return listAggiuntiDiRecente
+    }
+
+    fun getListaLezioni(): MutableLiveData<HashMap<String, ArrayList<Lezione>>> {
         System.out.println("EntraLezione")
         return listLezioni
     }
+
     fun getCategorie(): MutableLiveData<Set<String>> {
         System.out.println("EntraCategoria")
         return listCategorie
     }
-    fun getListaDispense(): MutableLiveData<HashMap<String,ArrayList<Documento>>> {
+
+    fun getListaDispense(): MutableLiveData<HashMap<String, ArrayList<Documento>>> {
         System.out.println("EntraDispense")
         return listDispense
     }
 
-    fun getCorso(id: String?): Corso? {
 
-        val it = lista_corsi.iterator()
-        for(corso in lista_corsi)
-            if (corso.id == id)
-                return corso
-        return null
-    }
 }
+
