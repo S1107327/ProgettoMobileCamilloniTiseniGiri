@@ -36,7 +36,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/expandableLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/titoloDelDocumento"
                 tools:layout_editor_absoluteX="0dp">
@@ -45,7 +45,6 @@
                     android:id="@+id/youtubeVideoView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    app:videoId="@string/video_id"
                     app:layout_constraintDimensionRatio="16:9"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:layout_editor_absoluteX="0dp" />
@@ -62,7 +61,7 @@
                     android:textColor="?android:attr/textColorSecondary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/videoView" />
+                    app:layout_constraintTop_toBottomOf="@+id/youtubeVideoView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView

@@ -46,7 +46,7 @@ class LezioniAdapter(val data: List<Lezione>, val monLezioniAdapter: OnLezioniAd
         ytView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 val videoId = data.get(position).url
-                youTubePlayer.loadVideo(videoId, 0f)
+                youTubePlayer.cueVideo(videoId, 0f)
             }
         })
     }
