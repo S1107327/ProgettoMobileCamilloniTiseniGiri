@@ -37,7 +37,8 @@ class DispenseAdapter (val data: List<Documento>, val monDispenseAdapter: OnDisp
     override fun onBindViewHolder(holder: DispenseAdapterViewHolder, position: Int) {
         holder.cardDocumento.findViewById<TextView>(R.id.titoloDelDocumento).text =
             data.get(position).titolo
-        // TODO() qui va messo url dispensa
+        holder.cardDocumento.findViewById<TextView>(R.id.urlDocumento).text =
+            data.get(position).url
     }
 
     override fun getItemCount(): Int = data.size

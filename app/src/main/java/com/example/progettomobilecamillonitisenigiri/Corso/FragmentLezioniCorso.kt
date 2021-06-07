@@ -39,7 +39,7 @@ class FragmentLezioniCorso : Fragment(), LezioniAdapter.OnLezioniAdapterListener
 
         model.getListaLezioni()
             .observe(viewLifecycleOwner, Observer<HashMap<String, ArrayList<Lezione>>> { lezioni ->
-                rvLezioni?.adapter = LezioniAdapter(lezioni.getValue(id).toList(), this)
+                rvLezioni?.adapter = LezioniAdapter(lezioni.getValue(id).toList(), this, view)
             })
     }
 

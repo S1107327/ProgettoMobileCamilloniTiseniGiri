@@ -25,11 +25,11 @@
                 android:id="@+id/titoloDelDocumento"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
                 android:text="Lezione 1: Come fare qualcosa"
-                app:layout_constraintEnd_toStartOf="@+id/immagineDocumento"
-                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,6 +47,7 @@
                     android:layout_height="0dp"
                     app:layout_constraintDimensionRatio="16:9"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:showFullScreenButton="false"
                     tools:layout_editor_absoluteX="0dp" />
 
                 <TextView
