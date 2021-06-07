@@ -1,6 +1,8 @@
 package com.example.progettomobilecamillonitisenigiri
 
+import android.app.AlertDialog
 import android.app.SearchManager
+import android.content.DialogInterface
 import android.content.Intent
 
 import android.os.Bundle
@@ -10,6 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -74,8 +77,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-
-
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser == null) {
 
@@ -84,6 +85,14 @@ class MainActivity : AppCompatActivity() {
             finish()
 
         } else {
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Indica le tue Categorie Preferite")
+            alertDialog.setMessage("Indicare le tue categorie preferite servirà all'app per aumentare la tua user experience")
+            alertDialog.setPositiveButton("OK",DialogInterface.OnClickListener(){ dialog, which ->
+                    this.findNavController(R.id.myNavHostFragment).navigate(R.id.action_FragmentHome_to_FragmentUser)
+            })
+            alertDialog.setNegativeButton("Più Tardi",null)
+            alertDialog.show()
             Toast.makeText(applicationContext, "Login Successfully ", Toast.LENGTH_SHORT).show()
         }
     }

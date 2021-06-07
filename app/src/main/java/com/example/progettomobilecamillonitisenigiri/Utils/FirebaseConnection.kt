@@ -41,7 +41,7 @@ class FirebaseConnection : ViewModel() {
                 if (snapshot.child("Corsi")!!.exists()) {
                     for (e in snapshot.child("Corsi").children) {
                         val corso = e.getValue(Corso::class.java)
-                        val cat = e.child("categoria").toString()
+                        val cat = e.child("categoria").value.toString()
                         val tmp_list = ArrayList<Lezione>()
                         val tmp_list_dispense = ArrayList<Documento>()
                         lista_cat.add(cat)
