@@ -31,11 +31,7 @@ import com.google.firebase.database.*
 
 class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
     //Firebase references
-    override fun onStart() {
-        super.onStart()
-
-    }
-
+    val model:FirebaseConnection by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,27 +41,27 @@ class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
         val view = inflater.inflate(R.layout.fragment_catalogo, container, false)
         val chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo1)
         val chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo2)
-
-
-        for (i in 1..12) {
-            var chip = inflater.inflate(R.layout.chip_catalogo, chipGroup1, false) as Chip
-            var chip2 = inflater.inflate(R.layout.chip_catalogo, chipGroup2, false) as Chip
-            if (i % 2 == 0) {
-                chip.id = i
-                chip.text = "design"
-                chip.setOnClickListener {
-                    onclick(view)
+        model.getCategorie().observe(viewLifecycleOwner,Observer<Set<String>>{ categorie->
+            for (i in 0..categorie.size-1) {
+                var chip = inflater.inflate(R.layout.chip_catalogo, chipGroup1, false) as Chip
+                var chip2 = inflater.inflate(R.layout.chip_catalogo, chipGroup2, false) as Chip
+                if (i % 2 == 0) {
+                    chip.id = i
+                    chip.text = categorie.elementAt(i)
+                    chip.setOnClickListener {
+                        onclick(view)
+                    }
+                    chipGroup1.addView(chip)
+                } else {
+                    chip2.id = i
+                    chip2.text = categorie.elementAt(i)
+                    chip2.setOnClickListener {
+                        onclick(view)
+                    }
+                    chipGroup2.addView(chip2)
                 }
-                chipGroup1.addView(chip)
-            } else {
-                chip2.id = i
-                chip2.text = "design"
-                chip2.setOnClickListener {
-                    onclick(view)
-                }
-                chipGroup2.addView(chip2)
             }
-        }
+        })
         return view
     }
 
@@ -78,16 +74,20 @@ class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
         val rvCat1: RecyclerView = view.findViewById(R.id.recyclerViewCat1)
         val rvCat2: RecyclerView = view.findViewById(R.id.recyclerViewCat2)
 
+
         rvCat1.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvCat2.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        val model:FirebaseConnection by viewModels()
         model.getListaCorsi().observe(viewLifecycleOwner,Observer<List<Corso>>{corsi->
             rvCat1.adapter = MyAdapter(corsi, this)
             rvCat2.adapter = MyAdapter(corsi, this)
         })
+
+
+
+
 
 
         val editText = view.findViewById<TextInputEditText>(R.id.query)
@@ -111,7 +111,7 @@ class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
 
     override fun onCorsoClick(position: Int,v: View?) {
         val intent = Intent(context, CorsoActivity::class.java)
-        intent.putExtra("ID_CORSO", v?.findViewById<TextView>(R.id.corsoId)?.text)
+        intent.putExtra("ID_CORSO",v?.findViewById<TextView>(R.id.corsoId)!!.text)
         startActivity(intent)
     }
 
