@@ -99,10 +99,10 @@ class FragmentUser : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initialise()
-       /* chipGroup1
+
 
         Log.d("MSG",chipGroup1.checkedChipIds.toString())
-        for (a in chipGroup1.checkedChipIds){
+        /*for (a in chipGroup1.checkedChipIds){
             val chip = chipGroup1.findViewById<Chip>(id)
             Log.d("Valore Chip", chip.text.toString())
         }*/

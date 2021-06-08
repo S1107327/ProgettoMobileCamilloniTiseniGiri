@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -18,6 +19,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
+import com.example.progettomobilecamillonitisenigiri.Model.User
 import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
 
 import com.example.progettomobilecamillonitisenigiri.databinding.ActivityMainBinding
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var mLogoutBtn: Button
     lateinit var firebaseConnection:FirebaseConnection
     var isThefirstTime = true
+    val model: FirebaseConnection by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,20 +91,26 @@ class MainActivity : AppCompatActivity() {
             finish()
 
         } else {
-            if(isThefirstTime) {
-                isThefirstTime = false
-                val alertDialog = AlertDialog.Builder(this)
-                alertDialog.setTitle("Indica le tue Categorie Preferite")
-                alertDialog.setMessage("Indicare le tue categorie preferite servirà all'app per aumentare la tua user experience")
-                alertDialog.setPositiveButton(
-                    "OK",
-                    DialogInterface.OnClickListener() { dialog, which ->
-                        this.findNavController(R.id.myNavHostFragment)
-                            .navigate(R.id.action_FragmentHome_to_FragmentUser)
-                    })
-                alertDialog.setNegativeButton("Più Tardi", null)
-                alertDialog.show()
-            }
+            model.getUser().observe(this, Observer<User> { utente->
+                if(utente.categoriePref.isEmpty()){
+                    if(isThefirstTime) {
+                        isThefirstTime = false
+                        val alertDialog = AlertDialog.Builder(this)
+                        alertDialog.setTitle("Indica le tue Categorie Preferite")
+                        alertDialog.setMessage("Indicare le tue categorie preferite servirà all'app per aumentare la tua user experience")
+                        alertDialog.setPositiveButton(
+                            "OK",
+                            DialogInterface.OnClickListener() { dialog, which ->
+                                this.findNavController(R.id.myNavHostFragment)
+                                    .navigate(R.id.action_FragmentHome_to_FragmentUser)
+                            })
+                        alertDialog.setNegativeButton("Più Tardi", null)
+                        alertDialog.show()
+                    }
+                }
+            })
+
+
             Toast.makeText(applicationContext, "Login Successfully ", Toast.LENGTH_SHORT).show()
         }
     }

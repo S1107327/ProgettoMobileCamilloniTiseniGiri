@@ -16,11 +16,11 @@ class User (firstName: String, lastName: String, iscrizioni: ArrayList<String>, 
         this.wishlist = wishlist
         this.ultimeLezioni = ultimeLezioni
         if (iscrizioni == null)
-            this.iscrizioni = ArrayList<String>()
+            this.iscrizioni = arrayListOf()
         if (categoriePref == null)
-            this.categoriePref = ArrayList<String>()
+            this.categoriePref =arrayListOf()
         if (wishlist == null)
-            this.wishlist = ArrayList<String>()
+            this.wishlist = arrayListOf()
         if (ultimeLezioni == null)
             this.ultimeLezioni = ArrayList<UltimaLezione>()
 

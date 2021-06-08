@@ -1,5 +1,6 @@
 package com.example.progettomobilecamillonitisenigiri.Utils
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Model.Documento
@@ -23,6 +24,7 @@ class FirebaseConnection : ViewModel() {
     private val listCategorie = MutableLiveData<Set<String>>()
     private val listLezioni = MutableLiveData<HashMap<String, ArrayList<Lezione>>>()
     private val listDispense = MutableLiveData<HashMap<String, ArrayList<Documento>>>()
+    private val listaConsigliati = MutableLiveData<List<Corso>>()
 
     private val currentCourse = MutableLiveData<Corso>()
     private val categoriePreferite = MutableLiveData<List<String>>()
@@ -45,11 +47,14 @@ class FirebaseConnection : ViewModel() {
 
     private var mUser: FirebaseUser? = null
     fun readUtente(snapshot: DataSnapshot) {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        if (snapshot.child("Users").child(currentUser!!.uid)!!.exists()) {
-            val utenteSnap = snapshot.child("Users").child(currentUser.uid)
+
+        if (snapshot.child("Users").child(loggedUser!!.uid)!!.exists()) {
+            val utenteSnap = snapshot.child("Users").child(loggedUser!!.uid)
+            val utente = utenteSnap.getValue(User::class.java)
+            currentUser.postValue(utente)
 
         }
+
     }
 
     fun setUtente(firstName: String, lastName: String) {
@@ -99,6 +104,7 @@ class FirebaseConnection : ViewModel() {
                 lista_lezioni.clear()
                 lista_cat.clear()
                 lista_dispense.clear()
+                readUtente(snapshot)
                 readUtenteCategoriePreferite(snapshot)
                 if (snapshot.child("Corsi")!!.exists()) {
                     for (e in snapshot.child("Corsi").children) {
@@ -142,6 +148,25 @@ class FirebaseConnection : ViewModel() {
 
     fun getListaCorsi(): MutableLiveData<List<Corso>> {
         return listCorsi
+    }
+
+    //Funzione che ritorna lista consigliati iterando una Lista di Corsi
+    //Non utilizza liveData
+    fun getListaConsigliati(corsi: ArrayList<Corso>): ArrayList<Corso> {
+        val consigliati = ArrayList<Corso>()
+        for (corso in corsi) {
+            for (categoria in currentUser.value!!.categoriePref) {
+                if (corso.categoria.equals(categoria)) {
+
+                    consigliati.add(corso)
+
+                }
+            }
+
+        }
+        if(consigliati.isEmpty())
+            return corsi //ritorna corsi se l'utente non ha categorie predefinite
+        return consigliati
     }
 
     fun getAggiuntiDiRecente(): MutableLiveData<List<Corso>> {

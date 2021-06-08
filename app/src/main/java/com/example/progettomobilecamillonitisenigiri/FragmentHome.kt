@@ -2,6 +2,7 @@ package com.example.progettomobilecamillonitisenigiri
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -32,12 +33,15 @@ class FragmentHome : Fragment(R.layout.fragment_home), MyAdapter.OnMyAdapterList
             rvPopolari.adapter = MyAdapter(corsi, this)
 
 
-            rvConsigliati?.adapter = MyAdapter(corsi, this)
 
-            rvRecenti.adapter = MyAdapter(corsi.reversed(), this)
+
+            rvConsigliati?.adapter = MyAdapter(model.getListaConsigliati(corsi as ArrayList<Corso>), this)
+
+            rvRecenti.adapter = MyAdapter(corsi.takeLast(5), this)
 
 
         })
+
 
 
     }
