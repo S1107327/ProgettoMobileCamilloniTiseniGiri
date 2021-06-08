@@ -13,15 +13,15 @@
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
         <activity android:name=".Corso.CorsoActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Auth.LoginActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Auth.RegisterActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight" />
         <activity
             android:name=".SettingsActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

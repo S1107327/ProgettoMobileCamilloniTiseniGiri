@@ -1,4 +1,4 @@
-package com.example.progettomobilecamillonitisenigiri
+package com.example.progettomobilecamillonitisenigiri.Main
 
 import android.app.AlertDialog
 import android.app.SearchManager
@@ -11,21 +11,21 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
-import com.example.progettomobilecamillonitisenigiri.Model.Corso
+import com.example.progettomobilecamillonitisenigiri.Auth.LoginActivity
 import com.example.progettomobilecamillonitisenigiri.Model.User
-import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
+import com.example.progettomobilecamillonitisenigiri.R
+import com.example.progettomobilecamillonitisenigiri.SettingsActivity
+import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
+import com.example.progettomobilecamillonitisenigiri.ViewModels.UserViewModel
 
 import com.example.progettomobilecamillonitisenigiri.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +33,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var mLogoutBtn: Button
     lateinit var firebaseConnection:FirebaseConnection
     var isThefirstTime = true
-    val model: FirebaseConnection by viewModels()
+    val userModel: UserViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,8 +92,9 @@ class MainActivity : AppCompatActivity() {
             finish()
 
         } else {
-            model.getUser().observe(this, Observer<User> { utente->
+            userModel.getUser().observe(this, Observer<User> { utente->
                 if(isThefirstTime){
+                    Toast.makeText(applicationContext, "Login Successfully ", Toast.LENGTH_SHORT).show()
                     if(utente.categoriePref.size<2){
                         isThefirstTime = false
                         val alertDialog = AlertDialog.Builder(this)
@@ -109,9 +111,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             })
-
-
-            Toast.makeText(applicationContext, "Login Successfully ", Toast.LENGTH_SHORT).show()
         }
     }
 

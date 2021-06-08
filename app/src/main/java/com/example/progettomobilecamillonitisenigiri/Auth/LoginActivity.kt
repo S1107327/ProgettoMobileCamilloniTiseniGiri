@@ -1,4 +1,4 @@
-package com.example.progettomobilecamillonitisenigiri
+package com.example.progettomobilecamillonitisenigiri.Auth
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.progettomobilecamillonitisenigiri.Main.MainActivity
+import com.example.progettomobilecamillonitisenigiri.R
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {

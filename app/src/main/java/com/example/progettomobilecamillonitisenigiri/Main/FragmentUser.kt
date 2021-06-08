@@ -1,4 +1,4 @@
-package com.example.progettomobilecamillonitisenigiri
+package com.example.progettomobilecamillonitisenigiri.Main
 
 import android.os.Bundle
 import android.util.Log
@@ -9,23 +9,19 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toast.makeText
-import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.progettomobilecamillonitisenigiri.Model.User
-import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
+import com.example.progettomobilecamillonitisenigiri.R
+import com.example.progettomobilecamillonitisenigiri.ViewModels.CorsiViewModel
+import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
+import com.example.progettomobilecamillonitisenigiri.ViewModels.UserViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 
 
 class FragmentUser : Fragment() {
@@ -42,7 +38,10 @@ class FragmentUser : Fragment() {
     lateinit var chipGroup1 : ChipGroup
     lateinit var chipGroup2 : ChipGroup
     val listaCategorie : ArrayList<String> = ArrayList()
-    val model:FirebaseConnection by viewModels()
+    val corsiModel: CorsiViewModel by viewModels()
+    val userModel: UserViewModel by viewModels()
+
+
 
     private var mUser:FirebaseUser?=null
     override fun onCreateView(
@@ -54,13 +53,13 @@ class FragmentUser : Fragment() {
         chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupUser1)
         chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupUser2)
 
-        model.getCategorie().observe(viewLifecycleOwner, Observer<Set<String>>{ categorie->
+        corsiModel.getCategorie().observe(viewLifecycleOwner, Observer<Set<String>>{ categorie->
             //Pulizia chipgroup
             chipGroup1.removeAllViews()
             chipGroup2.removeAllViews()
 
             listaCategorie.clear()
-            listaCategorie.addAll(model.getUser().value!!.categoriePref) //assegnazione categorie utente
+            listaCategorie.addAll(userModel.getUser().value!!.categoriePref) //assegnazione categorie utente
 
             for (i in 0..categorie.size-1) {
                 var chip = inflater.inflate(R.layout.chip_catalogo, chipGroup1, false) as Chip
@@ -141,7 +140,7 @@ class FragmentUser : Fragment() {
 
         mSaveBtn.setOnClickListener{
             listaCategorie.clear()
-            val utente : User = model.getUser().value as User
+            val utente : User = userModel.getUser().value as User
             utente.categoriePref.clear()
             utente.firstName = tvFirstName!!.text.toString()
             utente.lastName = tvLastName!!.text.toString()
@@ -158,7 +157,7 @@ class FragmentUser : Fragment() {
             //utente.categoriePref.addAll()
 
 
-            model.setUtente(utente)
+            userModel.setUtente(utente)
 
             Toast.makeText(context,"Modifiche salvate correttamente", Toast.LENGTH_LONG).show()
         }

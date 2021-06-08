@@ -7,19 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.R
-import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
+import com.example.progettomobilecamillonitisenigiri.ViewModels.CorsiViewModel
+import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
 class FragmentInfoCorso : Fragment() {
-    val model: FirebaseConnection by viewModels()
+    val corsoModel: CorsiViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +50,7 @@ class FragmentInfoCorso : Fragment() {
 
     fun populateView() {
         val id = requireActivity().intent.getStringExtra("ID_CORSO")
-        model.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
+        corsoModel.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
             for (a in corsi)
                 if (a.id.equals(id)) {
                     view?.findViewById<TextView>(R.id.nomeCorso)?.text = a.titolo

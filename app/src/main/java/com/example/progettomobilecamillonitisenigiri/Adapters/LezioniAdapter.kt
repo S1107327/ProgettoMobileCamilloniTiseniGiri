@@ -1,6 +1,5 @@
-package com.example.progettomobilecamillonitisenigiri
+package com.example.progettomobilecamillonitisenigiri.Adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +7,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Model.Lezione
+import com.example.progettomobilecamillonitisenigiri.R
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -34,7 +34,7 @@ class LezioniAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LezioniAdapter.LezioniAdapterViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LezioniAdapterViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(
             R.layout.layout_lezione,
             parent, false

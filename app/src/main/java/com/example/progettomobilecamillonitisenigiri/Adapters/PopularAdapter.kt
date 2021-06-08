@@ -1,14 +1,13 @@
-package com.example.progettomobilecamillonitisenigiri
+package com.example.progettomobilecamillonitisenigiri.Adapters
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
+import com.example.progettomobilecamillonitisenigiri.Corsi
+import com.example.progettomobilecamillonitisenigiri.R
 
 class PopularAdapter (val data: List<Corsi>, val monPopularAdapter: OnPopularAdapterListener): RecyclerView.Adapter<PopularAdapter.PopularViewHolder>() {
     class PopularViewHolder(val box: View,val onPopularAdapterListener: OnPopularAdapterListener) : RecyclerView.ViewHolder(box) , View.OnClickListener {

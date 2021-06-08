@@ -1,19 +1,13 @@
-package com.example.progettomobilecamillonitisenigiri
+package com.example.progettomobilecamillonitisenigiri.Adapters
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Model.Documento
-import com.example.progettomobilecamillonitisenigiri.Model.Lezione
-import com.squareup.picasso.Picasso
-import java.lang.Exception
-import java.net.URL
+import com.example.progettomobilecamillonitisenigiri.R
 
 class DispenseAdapter (val data: List<Documento>, val monDispenseAdapter: OnDispenseAdapterListener): RecyclerView.Adapter<DispenseAdapter.DispenseAdapterViewHolder>() {
     class DispenseAdapterViewHolder(val box: View,val onDispenseAdapterListener: OnDispenseAdapterListener) : RecyclerView.ViewHolder(box) , View.OnClickListener {
@@ -26,7 +20,7 @@ class DispenseAdapter (val data: List<Documento>, val monDispenseAdapter: OnDisp
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DispenseAdapter.DispenseAdapterViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DispenseAdapterViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(
             R.layout.layout_documento,
             parent, false

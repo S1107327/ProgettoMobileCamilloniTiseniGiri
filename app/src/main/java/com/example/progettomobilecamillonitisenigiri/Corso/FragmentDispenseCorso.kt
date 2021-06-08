@@ -12,14 +12,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.progettomobilecamillonitisenigiri.DispenseAdapter
+import com.example.progettomobilecamillonitisenigiri.Adapters.DispenseAdapter
 import com.example.progettomobilecamillonitisenigiri.Model.Documento
 import com.example.progettomobilecamillonitisenigiri.R
-import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
+import com.example.progettomobilecamillonitisenigiri.ViewModels.CorsiViewModel
+import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 
 
 class FragmentDispenseCorso : Fragment(), DispenseAdapter.OnDispenseAdapterListener {
-    val model: FirebaseConnection by viewModels()
+    val corsoModel: CorsiViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +39,7 @@ class FragmentDispenseCorso : Fragment(), DispenseAdapter.OnDispenseAdapterListe
             false
         )
 
-        model.getListaDispense().observe(
+        corsoModel.getListaDispense().observe(
             viewLifecycleOwner,
             Observer<HashMap<String, ArrayList<Documento>>> { dispense ->
                 rvDispense?.adapter = DispenseAdapter(dispense.getValue(id).toList(), this)

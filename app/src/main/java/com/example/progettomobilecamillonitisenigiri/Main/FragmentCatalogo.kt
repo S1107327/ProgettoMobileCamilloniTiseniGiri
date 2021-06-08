@@ -1,8 +1,6 @@
-package com.example.progettomobilecamillonitisenigiri
+package com.example.progettomobilecamillonitisenigiri.Main
 
 import android.content.Intent
-import android.content.Intent.getIntent
-import android.content.Intent.getIntentOld
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,28 +8,27 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
+import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
-import com.example.progettomobilecamillonitisenigiri.Model.Documento
-import com.example.progettomobilecamillonitisenigiri.Model.Lezione
+import com.example.progettomobilecamillonitisenigiri.Adapters.CorsoAdapter
+import com.example.progettomobilecamillonitisenigiri.R
+import com.example.progettomobilecamillonitisenigiri.ViewModels.CorsiViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 
-class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
-    //Firebase references
-    val model:FirebaseConnection by viewModels()
+class FragmentCatalogo : Fragment(), CorsoAdapter.OnMyAdapterListener {
+    //ViewModels
+    val corsiModel: CorsiViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +38,7 @@ class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
         val view = inflater.inflate(R.layout.fragment_catalogo, container, false)
         val chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo1)
         val chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo2)
-        model.getCategorie().observe(viewLifecycleOwner,Observer<Set<String>>{ categorie->
+        corsiModel.getCategorie().observe(viewLifecycleOwner,Observer<Set<String>>{ categorie->
             for (i in 0..categorie.size-1) {
                 var chip = inflater.inflate(R.layout.chip_catalogo, chipGroup1, false) as Chip
                 var chip2 = inflater.inflate(R.layout.chip_catalogo, chipGroup2, false) as Chip
@@ -80,9 +77,9 @@ class FragmentCatalogo : Fragment(), MyAdapter.OnMyAdapterListener {
         rvCat2.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        model.getListaCorsi().observe(viewLifecycleOwner,Observer<List<Corso>>{corsi->
-            rvCat1.adapter = MyAdapter(corsi, this)
-            rvCat2.adapter = MyAdapter(corsi, this)
+        corsiModel.getListaCorsi().observe(viewLifecycleOwner,Observer<List<Corso>>{corsi->
+            rvCat1.adapter = CorsoAdapter(corsi, this)
+            rvCat2.adapter = CorsoAdapter(corsi, this)
         })
 
 
