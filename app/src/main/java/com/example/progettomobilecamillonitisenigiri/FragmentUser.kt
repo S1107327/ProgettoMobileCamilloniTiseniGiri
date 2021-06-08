@@ -1,6 +1,7 @@
 package com.example.progettomobilecamillonitisenigiri
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.makeText
+import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -35,6 +37,8 @@ class FragmentUser : Fragment() {
     private var tvLastName: EditText? = null
     private var tvEmail: TextView? = null
     lateinit var mSaveBtn: Button
+    lateinit var chipGroup1 : ChipGroup
+    lateinit var chipGroup2 : ChipGroup
     val model:FirebaseConnection by viewModels()
 
     private var mUser:FirebaseUser?=null
@@ -44,8 +48,8 @@ class FragmentUser : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
-        val chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupUser1)
-        val chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupUser2)
+        chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupUser1)
+        chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupUser2)
         model.getCategorie().observe(viewLifecycleOwner, Observer<Set<String>>{ categorie->
             for (i in 0..categorie.size-1) {
                 var chip = inflater.inflate(R.layout.chip_catalogo, chipGroup1, false) as Chip
@@ -69,6 +73,7 @@ class FragmentUser : Fragment() {
                 }
             }
         })
+
         return view
     }
     override fun onStart() {
@@ -94,6 +99,13 @@ class FragmentUser : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initialise()
+       /* chipGroup1
+
+        Log.d("MSG",chipGroup1.checkedChipIds.toString())
+        for (a in chipGroup1.checkedChipIds){
+            val chip = chipGroup1.findViewById<Chip>(id)
+            Log.d("Valore Chip", chip.text.toString())
+        }*/
 
 
     }
@@ -103,15 +115,15 @@ class FragmentUser : Fragment() {
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference!!.child("Users")
         mAuth = FirebaseAuth.getInstance()
+
         tvFirstName = view?.findViewById<View>(R.id.tv_first_name) as EditText
         tvLastName = view?.findViewById<View>(R.id.tv_last_name) as EditText
         tvEmail = view?.findViewById<View>(R.id.tv_email) as TextView
         mSaveBtn = view?.findViewById(R.id.save_btn) as Button
 
         mSaveBtn.setOnClickListener{
-            mUser?.let { it1 -> mDatabaseReference!!.child(it1.uid).child("firstName").setValue(
-                tvFirstName!!.text.toString()) }
-            mUser?.let { it1 -> mDatabaseReference!!.child(it1.uid).child("lastName").setValue(tvLastName!!.text.toString()) }
+            model.setUtente(tvFirstName!!.text.toString(),tvLastName!!.text.toString())
+
             Toast.makeText(context,"Modifiche salvate correttamente", Toast.LENGTH_LONG).show()
         }
     }
