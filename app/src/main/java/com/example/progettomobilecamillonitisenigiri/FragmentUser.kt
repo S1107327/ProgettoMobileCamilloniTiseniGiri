@@ -81,7 +81,7 @@ class FragmentUser : Fragment() {
                     chip2.text = categorie.elementAt(i)
                     chip2.isCheckable = true
                     if(listaCategorie.contains(categorie.elementAt(i)))
-                        chip.isChecked = true
+                        chip2.isChecked = true
 
                     chipGroup2.setOnCheckedChangeListener { group, checkedId ->
                         view.findViewById<Chip>(checkedId).isChecked =  !view.findViewById<Chip>(checkedId).isChecked

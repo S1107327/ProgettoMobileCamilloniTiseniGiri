@@ -52,7 +52,7 @@ class FirebaseConnection : ViewModel() {
             val utenteSnap = snapshot.child("Users").child(loggedUser!!.uid)
             val utente = utenteSnap.getValue(User::class.java)
             currentUser.postValue(utente)
-
+            categoriePreferite.postValue(utente!!.categoriePref)
         }
 
     }
@@ -84,26 +84,6 @@ class FirebaseConnection : ViewModel() {
     }
 
 
-    fun readUtenteCategoriePreferite(snapshot: DataSnapshot) {
-
-        if (snapshot.child("Users").child(loggedUser!!.uid)!!.exists()) {
-            val tmp_list = ArrayList<String>()
-            val utenteSnap = snapshot.child("Users").child(loggedUser!!.uid)
-            if (utenteSnap.hasChild("categoriePref")) {
-
-                tmp_list.clear()
-                for (cat in utenteSnap.child("categoriePref").children) {
-                    val catPref = cat.value.toString()
-                    tmp_list.add(catPref)
-                }
-
-            } else {
-                tmp_list.clear()
-            }
-            categoriePreferite.postValue(tmp_list)
-
-        }
-    }
 
     fun readData() {
 
@@ -115,7 +95,7 @@ class FirebaseConnection : ViewModel() {
                 lista_cat.clear()
                 lista_dispense.clear()
                 readUtente(snapshot)
-                readUtenteCategoriePreferite(snapshot)
+
                 if (snapshot.child("Corsi")!!.exists()) {
                     for (e in snapshot.child("Corsi").children) {
                         val corso = e.getValue(Corso::class.java)
