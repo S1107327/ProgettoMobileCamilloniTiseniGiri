@@ -57,7 +57,7 @@ class FirebaseConnection : ViewModel() {
 
     }
 
-    fun setUtente(firstName: String, lastName: String) {
+    fun setUtente(firstName: String, lastName: String,) {
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference!!.child("Users")
 
@@ -68,6 +68,16 @@ class FirebaseConnection : ViewModel() {
         loggedUser.let { it1 ->
             mDatabaseReference!!.child(it1!!.uid).child("lastName")
                 .setValue(lastName)
+        }
+
+
+    }
+    fun setUtente(utente: User) {
+        mDatabase = FirebaseDatabase.getInstance()
+        mDatabaseReference = mDatabase!!.reference!!.child("Users")
+
+        loggedUser.let { it1 ->
+            mDatabaseReference!!.child(it1!!.uid).setValue(utente)
         }
 
 

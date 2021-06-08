@@ -92,8 +92,8 @@ class MainActivity : AppCompatActivity() {
 
         } else {
             model.getUser().observe(this, Observer<User> { utente->
-                if(utente.categoriePref.isEmpty()){
-                    if(isThefirstTime) {
+                if(isThefirstTime){
+                    if(utente.categoriePref.size<2){
                         isThefirstTime = false
                         val alertDialog = AlertDialog.Builder(this)
                         alertDialog.setTitle("Indica le tue Categorie Preferite")

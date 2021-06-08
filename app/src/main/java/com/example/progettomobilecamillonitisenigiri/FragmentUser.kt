@@ -13,7 +13,9 @@ import android.widget.Toast.makeText
 import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.example.progettomobilecamillonitisenigiri.Model.User
 import com.example.progettomobilecamillonitisenigiri.Utils.FirebaseConnection
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -39,6 +41,7 @@ class FragmentUser : Fragment() {
     lateinit var mSaveBtn: Button
     lateinit var chipGroup1 : ChipGroup
     lateinit var chipGroup2 : ChipGroup
+    val listaCategorie : ArrayList<String> = ArrayList()
     val model:FirebaseConnection by viewModels()
 
     private var mUser:FirebaseUser?=null
@@ -50,7 +53,15 @@ class FragmentUser : Fragment() {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
         chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupUser1)
         chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupUser2)
+
         model.getCategorie().observe(viewLifecycleOwner, Observer<Set<String>>{ categorie->
+            //Pulizia chipgroup
+            chipGroup1.removeAllViews()
+            chipGroup2.removeAllViews()
+
+            listaCategorie.clear()
+            listaCategorie.addAll(model.getUser().value!!.categoriePref) //assegnazione categorie utente
+
             for (i in 0..categorie.size-1) {
                 var chip = inflater.inflate(R.layout.chip_catalogo, chipGroup1, false) as Chip
                 var chip2 = inflater.inflate(R.layout.chip_catalogo, chipGroup2, false) as Chip
@@ -58,6 +69,9 @@ class FragmentUser : Fragment() {
                     chip.id = i
                     chip.text = categorie.elementAt(i)
                     chip.isCheckable = true
+                    if(listaCategorie.contains(categorie.elementAt(i)))
+                        chip.isChecked = true
+
                     chipGroup1.setOnCheckedChangeListener { group, checkedId ->
                         view.findViewById<Chip>(checkedId).isChecked =  !view.findViewById<Chip>(checkedId).isChecked
                     }
@@ -66,6 +80,9 @@ class FragmentUser : Fragment() {
                     chip2.id = i
                     chip2.text = categorie.elementAt(i)
                     chip2.isCheckable = true
+                    if(listaCategorie.contains(categorie.elementAt(i)))
+                        chip.isChecked = true
+
                     chipGroup2.setOnCheckedChangeListener { group, checkedId ->
                         view.findViewById<Chip>(checkedId).isChecked =  !view.findViewById<Chip>(checkedId).isChecked
                     }
@@ -121,8 +138,27 @@ class FragmentUser : Fragment() {
         tvEmail = view?.findViewById<View>(R.id.tv_email) as TextView
         mSaveBtn = view?.findViewById(R.id.save_btn) as Button
 
+
         mSaveBtn.setOnClickListener{
-            model.setUtente(tvFirstName!!.text.toString(),tvLastName!!.text.toString())
+            listaCategorie.clear()
+            val utente : User = model.getUser().value as User
+            utente.categoriePref.clear()
+            utente.firstName = tvFirstName!!.text.toString()
+            utente.lastName = tvLastName!!.text.toString()
+            for(id in chipGroup1.checkedChipIds){
+                var chip = view?.findViewById<Chip>(id)
+                listaCategorie.add(chip!!.text.toString())
+            }
+            for(id in chipGroup2.checkedChipIds){
+                var chip = view?.findViewById<Chip>(id)
+                listaCategorie.add(chip!!.text.toString())
+            }
+
+            utente.categoriePref.addAll(listaCategorie)
+            //utente.categoriePref.addAll()
+
+
+            model.setUtente(utente)
 
             Toast.makeText(context,"Modifiche salvate correttamente", Toast.LENGTH_LONG).show()
         }
