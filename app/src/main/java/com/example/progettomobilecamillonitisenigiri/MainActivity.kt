@@ -30,10 +30,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var mAuth: FirebaseAuth
     lateinit var mLogoutBtn: Button
     lateinit var firebaseConnection:FirebaseConnection
+    var isThefirstTime = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        if (savedInstanceState != null) {
+            isThefirstTime = savedInstanceState.getBoolean("firstTime")
+        }
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
         val navHostFragment =
@@ -85,15 +88,26 @@ class MainActivity : AppCompatActivity() {
             finish()
 
         } else {
-            val alertDialog = AlertDialog.Builder(this)
-            alertDialog.setTitle("Indica le tue Categorie Preferite")
-            alertDialog.setMessage("Indicare le tue categorie preferite servirà all'app per aumentare la tua user experience")
-            alertDialog.setPositiveButton("OK",DialogInterface.OnClickListener(){ dialog, which ->
-                    this.findNavController(R.id.myNavHostFragment).navigate(R.id.action_FragmentHome_to_FragmentUser)
-            })
-            alertDialog.setNegativeButton("Più Tardi",null)
-            alertDialog.show()
+            if(isThefirstTime) {
+                isThefirstTime = false
+                val alertDialog = AlertDialog.Builder(this)
+                alertDialog.setTitle("Indica le tue Categorie Preferite")
+                alertDialog.setMessage("Indicare le tue categorie preferite servirà all'app per aumentare la tua user experience")
+                alertDialog.setPositiveButton(
+                    "OK",
+                    DialogInterface.OnClickListener() { dialog, which ->
+                        this.findNavController(R.id.myNavHostFragment)
+                            .navigate(R.id.action_FragmentHome_to_FragmentUser)
+                    })
+                alertDialog.setNegativeButton("Più Tardi", null)
+                alertDialog.show()
+            }
             Toast.makeText(applicationContext, "Login Successfully ", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean("firstTime",isThefirstTime)
+        super.onSaveInstanceState(outState)
     }
 }
