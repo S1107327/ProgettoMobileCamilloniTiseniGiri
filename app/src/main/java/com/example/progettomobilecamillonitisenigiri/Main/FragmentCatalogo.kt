@@ -19,7 +19,6 @@ import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Adapters.CorsoAdapter
 import com.example.progettomobilecamillonitisenigiri.R
-import com.example.progettomobilecamillonitisenigiri.ViewModels.CorsiViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
@@ -28,7 +27,8 @@ import com.google.firebase.database.*
 
 class FragmentCatalogo : Fragment(), CorsoAdapter.OnMyAdapterListener {
     //ViewModels
-    val corsiModel: CorsiViewModel by viewModels()
+    //val corsiModel: CorsiViewModel by viewModels()
+    val firebaseConnection: FirebaseConnection by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +38,7 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnMyAdapterListener {
         val view = inflater.inflate(R.layout.fragment_catalogo, container, false)
         val chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo1)
         val chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo2)
-        corsiModel.getCategorie().observe(viewLifecycleOwner,Observer<Set<String>>{ categorie->
+        firebaseConnection.getCategorie().observe(viewLifecycleOwner,Observer<Set<String>>{ categorie->
             for (i in 0..categorie.size-1) {
                 var chip = inflater.inflate(R.layout.chip_catalogo, chipGroup1, false) as Chip
                 var chip2 = inflater.inflate(R.layout.chip_catalogo, chipGroup2, false) as Chip
@@ -77,7 +77,7 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnMyAdapterListener {
         rvCat2.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        corsiModel.getListaCorsi().observe(viewLifecycleOwner,Observer<List<Corso>>{corsi->
+        firebaseConnection.getListaCorsi().observe(viewLifecycleOwner,Observer<List<Corso>>{corsi->
             rvCat1.adapter = CorsoAdapter(corsi, this)
             rvCat2.adapter = CorsoAdapter(corsi, this)
         })

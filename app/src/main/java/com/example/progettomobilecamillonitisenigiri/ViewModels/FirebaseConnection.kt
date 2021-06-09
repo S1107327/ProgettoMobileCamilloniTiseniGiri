@@ -1,5 +1,6 @@
 package com.example.progettomobilecamillonitisenigiri.ViewModels
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Model.Documento
@@ -11,109 +12,56 @@ import com.google.firebase.database.*
 
 class FirebaseConnection : ViewModel() {
 
-    private lateinit var database: DatabaseReference
+    private var database: DatabaseReference
     private lateinit var mDatabase: FirebaseDatabase
-    private lateinit var mDatabaseReference: DatabaseReference
-//    private var  loggedUser: FirebaseUser?
-    private var controllerCorsi:CorsiViewModel = CorsiViewModel()
-    private var controllerUser:UserViewModel = UserViewModel()
+    //private var mDatabaseReference: DatabaseReference
+    private var userDatabaseReference: DatabaseReference
+    private var loggedUser = FirebaseAuth.getInstance().currentUser
 
+
+    // Mutable Live Data
     private val listCorsi = MutableLiveData<List<Corso>>()
     private val listAggiuntiDiRecente = MutableLiveData<List<Corso>>()
     private val listCategorie = MutableLiveData<Set<String>>()
     private val listLezioni = MutableLiveData<HashMap<String, ArrayList<Lezione>>>()
     private val listDispense = MutableLiveData<HashMap<String, ArrayList<Documento>>>()
-    private val listaConsigliati = MutableLiveData<List<Corso>>()
 
-    private val currentCourse = MutableLiveData<Corso>()
+
+    // Live data relativi tabella utente
     private val categoriePreferite = MutableLiveData<List<String>>()
     private val currentUser = MutableLiveData<User>()
 
-    private val lista_corsi = ArrayList<Corso>()
-    private val lista_lezioni = HashMap<String, ArrayList<Lezione>>()
-    private val lista_cat = HashSet<String>()
-    private val lista_dispense = HashMap<String, ArrayList<Documento>>()
+    private val corsoUtils: CorsoUtils = CorsoUtils()
+    private val utenteUtils: UserUtils = UserUtils()
 
     init {
+        //mDatabaseReference = FirebaseDatabase.getInstance().reference
         database = FirebaseDatabase.getInstance().reference
-        mDatabaseReference = FirebaseDatabase.getInstance().reference
-        readDataUser()
-    }
-/*
-    fun readUtente(snapshot: DataSnapshot) {
-
-        if (snapshot.child("Users").child(loggedUser!!.uid)!!.exists()) {
-            val utenteSnap = snapshot.child("Users").child(loggedUser!!.uid)
-            val utente = utenteSnap.getValue(User::class.java)
-            currentUser.postValue(utente)
-            categoriePreferite.postValue(utente!!.categoriePref)
-        }
-
+        userDatabaseReference = database!!.child("Users")
+        readData()
     }
 
-    fun setUtente(firstName: String, lastName: String,) {
-        mDatabase = FirebaseDatabase.getInstance()
-        mDatabaseReference = mDatabase!!.reference!!.child("Users")
-
-        loggedUser.let { it1 ->
-            mDatabaseReference!!.child(it1!!.uid).child("firstName")
-                .setValue(firstName)
-        }
-        loggedUser.let { it1 ->
-            mDatabaseReference!!.child(it1!!.uid).child("lastName")
-                .setValue(lastName)
-        }
-
-
-    }
-    fun setUtente(utente: User) {
-        mDatabase = FirebaseDatabase.getInstance()
-        mDatabaseReference = mDatabase!!.reference!!.child("Users")
-
-        loggedUser.let { it1 ->
-            mDatabaseReference!!.child(it1!!.uid).setValue(utente)
-        }
-
-
-    }
-*/
-
-    fun readDataUser() {
+    fun readData() {
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                /*lista_corsi.clear()
-                lista_lezioni.clear()
-                lista_cat.clear()
-                lista_dispense.clear()*/
-                controllerUser.readUtente(snapshot)
-                /*if (snapshot.child("Corsi")!!.exists()) {
-                    for (e in snapshot.child("Corsi").children) {
-                        val corso = e.getValue(Corso::class.java)
-                        val cat = e.child("categoria").value.toString()
-                        val tmp_list = ArrayList<Lezione>()
-                        val tmp_list_dispense = ArrayList<Documento>()
-                        lista_cat.add(cat)
-                        lista_corsi.add(corso!!)
-                        for (lezione in e.child("lezioni").children) {
-                            val l = lezione.getValue(Lezione::class.java)
-                            if (l != null) tmp_list.add(l)
-                        }
-                        lista_lezioni.put(corso.id, tmp_list)
-                        for (documento in e.child("dispense").children) {
-                            val l = documento.getValue(Documento::class.java)
-                            if (l != null) tmp_list_dispense.add(l)
-                        }
-                        lista_dispense.put(corso.id, tmp_list_dispense)
-                    }
-                    //inserisco il valore nelle mutableLiveData
-                    listLezioni.postValue(lista_lezioni)
-                    listCorsi.postValue(lista_corsi)
-                    listAggiuntiDiRecente.postValue(lista_corsi.reversed())//oppure takeLast(numero)
-                    listCategorie.postValue(lista_cat)
-                    listDispense.postValue(lista_dispense)
-                }
-                */
+                //Chiamata a utility utente e popolazione livedata
+                utenteUtils.readData(snapshot)
+                currentUser.postValue(utenteUtils.getUtente())
+                categoriePreferite.postValue(utenteUtils.getCategoriePreferite())
+
+                //Chiamata a utility per popolazione liste corsi, e relative sottocategorie
+                corsoUtils.readData(snapshot)
+                listCorsi.postValue(corsoUtils.getCorsi())
+                listLezioni.postValue(corsoUtils.getLezioni())
+                listAggiuntiDiRecente.postValue(
+                    corsoUtils.getCorsi().reversed()
+                )//oppure takeLast(numero)
+                listCategorie.postValue(corsoUtils.getCat())
+                listDispense.postValue(corsoUtils.getDispense())
+
+
             }
+
 
             override fun onCancelled(error: DatabaseError) {
             }
@@ -121,7 +69,21 @@ class FirebaseConnection : ViewModel() {
         })
 
     }
-/*
+
+    //questa funzione aggiunge/elimina il corso dalle iscrizioni richiamando la setiscrizione del corsoUtils
+    fun iscriviti(id_corso:String){
+        utenteUtils.setIscrizione(id_corso)
+        loggedUser.let { it1 ->
+            userDatabaseReference!!.child(it1!!.uid).setValue(currentUser.value as User)
+        }
+    }
+    fun setUtente(utente: User) {
+        loggedUser.let { it1 ->
+            userDatabaseReference!!.child(it1!!.uid).setValue(utente)
+        }
+    }
+
+
     fun getUser(): MutableLiveData<User> {
         return currentUser
     }
@@ -131,7 +93,7 @@ class FirebaseConnection : ViewModel() {
     }
 
     //Funzione che ritorna lista consigliati iterando una Lista di Corsi
-    //Non utilizza liveData
+//Non utilizza liveData
     fun getListaConsigliati(corsi: ArrayList<Corso>): ArrayList<Corso> {
         val consigliati = ArrayList<Corso>()
         for (corso in corsi) {
@@ -142,14 +104,24 @@ class FirebaseConnection : ViewModel() {
             }
 
         }
-        if(consigliati.isEmpty())
+        if (consigliati.isEmpty())
             return corsi //ritorna corsi se l'utente non ha categorie predefinite
         return consigliati
     }
+    fun getCorsiFrequentati(corsi: ArrayList<Corso>): ArrayList<Corso> {
+        val frequentati = ArrayList<Corso>()
+        for (corso in corsi) {
+            for (iscrizioni_id in utenteUtils.getIscrizioni()) {
+                if (corso.id.equals(iscrizioni_id)) {
+                    Log.d("MSG","frequentati")
+                    frequentati.add(corso)
+                }
+            }
 
-    fun getAggiuntiDiRecente(): MutableLiveData<List<Corso>> {
-        return listAggiuntiDiRecente
+        }
+        return frequentati
     }
+
 
     fun getListaLezioni(): MutableLiveData<HashMap<String, ArrayList<Lezione>>> {
         System.out.println("EntraLezione")
@@ -165,6 +137,43 @@ class FirebaseConnection : ViewModel() {
         System.out.println("EntraDispense")
         return listDispense
     }
-    */
+
+
+/*
+    //private var controllerCorsi:CorsiViewModel = CorsiViewModel()
+    //private var controllerUser:UserViewModel = UserViewModel()
+    //private val listaConsigliati = MutableLiveData<List<Corso>>()
+
+    // private val currentCourse = MutableLiveData<Corso>()
+   fun getAggiuntiDiRecente(): MutableLiveData<List<Corso>> {
+        return listAggiuntiDiRecente
+    }
+    fun readUtente(snapshot: DataSnapshot) {
+
+        if (snapshot.child("Users").child(loggedUser!!.uid)!!.exists()) {
+            val utenteSnap = snapshot.child("Users").child(loggedUser!!.uid)
+            val utente = utenteSnap.getValue(User::class.java)
+            currentUser.postValue(utente)
+            categoriePreferite.postValue(utente!!.categoriePref)
+        }
+
+    }
+
+    fun setUtente(firstName: String, lastName: String) {
+        mDatabase = FirebaseDatabase.getInstance()
+        mDatabaseReference = mDatabase!!.reference!!.child("Users")
+
+        loggedUser.let { it1 ->
+            mDatabaseReference!!.child(it1!!.uid).child("firstName")
+                .setValue(firstName)
+        }
+        loggedUser.let { it1 ->
+            mDatabaseReference!!.child(it1!!.uid).child("lastName")
+                .setValue(lastName)
+        }
+
+
+    }*/
+
 }
 

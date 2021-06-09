@@ -13,14 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Adapters.LezioniAdapter
 import com.example.progettomobilecamillonitisenigiri.Model.Lezione
 import com.example.progettomobilecamillonitisenigiri.R
-import com.example.progettomobilecamillonitisenigiri.ViewModels.CorsiViewModel
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
-import com.example.progettomobilecamillonitisenigiri.ViewModels.UserViewModel
 
 
 class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniAdapter.OnLezioniAdapterListener {
-    val corsiModel: CorsiViewModel by viewModels()
-    //val userModel: UserViewModel by viewModels()
+    //val corsiModel: CorsiViewModel by viewModels()
+    val firebaseConnection: FirebaseConnection by viewModels()
     override fun onResume() {
         super.onResume()
         val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
@@ -28,7 +26,7 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
 
         rvLezioni?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        corsiModel.getListaLezioni()
+        firebaseConnection.getListaLezioni()
             .observe(viewLifecycleOwner, Observer<HashMap<String, ArrayList<Lezione>>> { lezioni ->
                 rvLezioni?.adapter = LezioniAdapter(lezioni.getValue(id).toList(), this, view)
             })

@@ -6,20 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.R
-import com.example.progettomobilecamillonitisenigiri.ViewModels.CorsiViewModel
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
 class FragmentInfoCorso : Fragment() {
-    val corsoModel: CorsiViewModel by viewModels()
-
+    //val corsoModel: CorsiViewModel by viewModels()
+    val firebaseConnection:FirebaseConnection by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,23 +40,35 @@ class FragmentInfoCorso : Fragment() {
         if (id != null) {
             Log.d("CiaoId", id)
         }
-        /*
-        val model: FirebaseConnection by viewModels()
-        var corso: Corso? = null
-        model.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>>{ corsi->
-         */
+
 
     }
 
     fun populateView() {
         val id = requireActivity().intent.getStringExtra("ID_CORSO")
-        corsoModel.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
+        firebaseConnection.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
             for (a in corsi)
                 if (a.id.equals(id)) {
                     view?.findViewById<TextView>(R.id.nomeCorso)?.text = a.titolo
                     view?.findViewById<TextView>(R.id.descrizioneCorso)?.text = a.descrizione
                     view?.findViewById<TextView>(R.id.categoriaCorso)?.text = a.categoria
                     view?.findViewById<TextView>(R.id.numLezioni)?.text = a.lezioni.size.toString()
+
+                    //Aggiorno il bottone iìdi iscrizione a seconda se l'utente è iscritto o meno
+                    if(firebaseConnection.getUser().value!!.iscrizioni.contains(id)){
+                        view?.findViewById<Button>(R.id.iscrivitiButton)?.text = "ANNULLA ISCRIZIONE"
+                        view?.findViewById<Button>(R.id.iscrivitiButton)?.setTextColor(
+                            -65536
+                        )}
+                    else{
+                        view?.findViewById<Button>(R.id.iscrivitiButton)?.text = "ISCRIVITI"
+                        view?.findViewById<Button>(R.id.iscrivitiButton)?.setTextColor(
+                            -10354450
+                        )
+                    }
+                    view?.findViewById<Button>(R.id.iscrivitiButton)?.setOnClickListener {
+                        firebaseConnection.iscriviti(id) //al click del bottone l'utente viene iscritto/tolto al/dal corso
+                    }
                     //view?.findViewById<RatingBar>(R.id.rating)?.rating = 5F
                     try {
                         Picasso.get().load(a.immagine)

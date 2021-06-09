@@ -12,11 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Adapters.CorsoAdapter
-import com.example.progettomobilecamillonitisenigiri.Corsi
 import com.example.progettomobilecamillonitisenigiri.R
-import com.example.progettomobilecamillonitisenigiri.ViewModels.CorsiViewModel
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
-import com.example.progettomobilecamillonitisenigiri.ViewModels.UserViewModel
 
 class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnMyAdapterListener {
     var list = ArrayList<Corso>()
@@ -25,8 +22,11 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnMyAdapterL
         val rvPopolari: RecyclerView = view.findViewById(R.id.recyclerViewPopolari)
         val rvConsigliati: RecyclerView = view.findViewById(R.id.recyclerViewConsigliati)
         val rvRecenti: RecyclerView = view.findViewById(R.id.recyclerViewRecenti)
+        /*FirebaseConnection().readDataUser()
         val corsiModel: CorsiViewModel by viewModels()
-        val userModel: UserViewModel by viewModels()
+        val userModel: UserViewModel by viewModels()*/
+        val firebaseConnection : FirebaseConnection by viewModels()
+
 
         rvPopolari.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -34,12 +34,13 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnMyAdapterL
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvRecenti.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        corsiModel.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
+        firebaseConnection.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
             rvPopolari.adapter = CorsoAdapter(corsi, this)
-            rvConsigliati?.adapter = CorsoAdapter(userModel.getListaConsigliati(corsi as ArrayList<Corso>), this)
+            rvConsigliati?.adapter = CorsoAdapter(firebaseConnection.getListaConsigliati(corsi as ArrayList<Corso>), this)
             rvRecenti.adapter = CorsoAdapter(corsi.takeLast(5), this)
         })
 
+        
 
 
     }

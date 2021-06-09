@@ -14,9 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.progettomobilecamillonitisenigiri.Model.User
 import com.example.progettomobilecamillonitisenigiri.R
-import com.example.progettomobilecamillonitisenigiri.ViewModels.CorsiViewModel
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
-import com.example.progettomobilecamillonitisenigiri.ViewModels.UserViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
@@ -35,15 +33,16 @@ class FragmentUser : Fragment() {
     private var tvLastName: EditText? = null
     private var tvEmail: TextView? = null
     lateinit var mSaveBtn: Button
-    lateinit var chipGroup1 : ChipGroup
-    lateinit var chipGroup2 : ChipGroup
-    val listaCategorie : ArrayList<String> = ArrayList()
-    val corsiModel: CorsiViewModel by viewModels()
-    val userModel: UserViewModel by viewModels()
+    lateinit var chipGroup1: ChipGroup
+    lateinit var chipGroup2: ChipGroup
+    val listaCategorie: ArrayList<String> = ArrayList()
+
+    //val corsiModel: CorsiViewModel by viewModels()
+    //val userModel: UserViewModel by viewModels()
+    val firebaseConnection: FirebaseConnection by viewModels()
 
 
-
-    private var mUser:FirebaseUser?=null
+    private var mUser: FirebaseUser? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,37 +52,39 @@ class FragmentUser : Fragment() {
         chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupUser1)
         chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupUser2)
 
-        corsiModel.getCategorie().observe(viewLifecycleOwner, Observer<Set<String>>{ categorie->
+        firebaseConnection.getCategorie().observe(viewLifecycleOwner, Observer<Set<String>> { categorie ->
             //Pulizia chipgroup
             chipGroup1.removeAllViews()
             chipGroup2.removeAllViews()
 
             listaCategorie.clear()
-            listaCategorie.addAll(userModel.getUser().value!!.categoriePref) //assegnazione categorie utente
+            listaCategorie.addAll(firebaseConnection.getUser().value!!.categoriePref) //assegnazione categorie utente
 
-            for (i in 0..categorie.size-1) {
+            for (i in 0..categorie.size - 1) {
                 var chip = inflater.inflate(R.layout.chip_catalogo, chipGroup1, false) as Chip
                 var chip2 = inflater.inflate(R.layout.chip_catalogo, chipGroup2, false) as Chip
                 if (i % 2 == 0) {
                     chip.id = i
                     chip.text = categorie.elementAt(i)
                     chip.isCheckable = true
-                    if(listaCategorie.contains(categorie.elementAt(i)))
+                    if (listaCategorie.contains(categorie.elementAt(i)))
                         chip.isChecked = true
 
                     chipGroup1.setOnCheckedChangeListener { group, checkedId ->
-                        view.findViewById<Chip>(checkedId).isChecked =  !view.findViewById<Chip>(checkedId).isChecked
+                        view.findViewById<Chip>(checkedId).isChecked =
+                            !view.findViewById<Chip>(checkedId).isChecked
                     }
                     chipGroup1.addView(chip)
                 } else {
                     chip2.id = i
                     chip2.text = categorie.elementAt(i)
                     chip2.isCheckable = true
-                    if(listaCategorie.contains(categorie.elementAt(i)))
+                    if (listaCategorie.contains(categorie.elementAt(i)))
                         chip2.isChecked = true
 
                     chipGroup2.setOnCheckedChangeListener { group, checkedId ->
-                        view.findViewById<Chip>(checkedId).isChecked =  !view.findViewById<Chip>(checkedId).isChecked
+                        view.findViewById<Chip>(checkedId).isChecked =
+                            !view.findViewById<Chip>(checkedId).isChecked
                     }
                     chipGroup2.addView(chip2)
                 }
@@ -92,6 +93,7 @@ class FragmentUser : Fragment() {
 
         return view
     }
+
     override fun onStart() {
         super.onStart()
 
@@ -117,7 +119,7 @@ class FragmentUser : Fragment() {
         initialise()
 
 
-        Log.d("MSG",chipGroup1.checkedChipIds.toString())
+        Log.d("MSG", chipGroup1.checkedChipIds.toString())
         /*for (a in chipGroup1.checkedChipIds){
             val chip = chipGroup1.findViewById<Chip>(id)
             Log.d("Valore Chip", chip.text.toString())
@@ -138,17 +140,17 @@ class FragmentUser : Fragment() {
         mSaveBtn = view?.findViewById(R.id.save_btn) as Button
 
 
-        mSaveBtn.setOnClickListener{
+        mSaveBtn.setOnClickListener {
             listaCategorie.clear()
-            val utente : User = userModel.getUser().value as User
+            val utente: User = firebaseConnection.getUser().value as User
             utente.categoriePref.clear()
             utente.firstName = tvFirstName!!.text.toString()
             utente.lastName = tvLastName!!.text.toString()
-            for(id in chipGroup1.checkedChipIds){
+            for (id in chipGroup1.checkedChipIds) {
                 var chip = view?.findViewById<Chip>(id)
                 listaCategorie.add(chip!!.text.toString())
             }
-            for(id in chipGroup2.checkedChipIds){
+            for (id in chipGroup2.checkedChipIds) {
                 var chip = view?.findViewById<Chip>(id)
                 listaCategorie.add(chip!!.text.toString())
             }
@@ -157,9 +159,9 @@ class FragmentUser : Fragment() {
             //utente.categoriePref.addAll()
 
 
-            userModel.setUtente(utente)
+            firebaseConnection.setUtente(utente)
 
-            Toast.makeText(context,"Modifiche salvate correttamente", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Modifiche salvate correttamente", Toast.LENGTH_LONG).show()
         }
     }
 

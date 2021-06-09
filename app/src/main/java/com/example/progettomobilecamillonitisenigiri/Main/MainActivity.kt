@@ -21,7 +21,6 @@ import com.example.progettomobilecamillonitisenigiri.Model.User
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.SettingsActivity
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
-import com.example.progettomobilecamillonitisenigiri.ViewModels.UserViewModel
 
 import com.example.progettomobilecamillonitisenigiri.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -31,10 +30,10 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var mAuth: FirebaseAuth
     lateinit var mLogoutBtn: Button
-    lateinit var firebaseConnection:FirebaseConnection
+    //lateinit var firebaseConnection:FirebaseConnection
     var isThefirstTime = true
-    val userModel: UserViewModel by viewModels()
-
+    //val userModel: UserViewModel by viewModels()
+    val firebaseConnection: FirebaseConnection by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +91,7 @@ class MainActivity : AppCompatActivity() {
             finish()
 
         } else {
-            userModel.getUser().observe(this, Observer<User> { utente->
+            firebaseConnection.getUser().observe(this, Observer<User> { utente->
                 if(isThefirstTime){
                     Toast.makeText(applicationContext, "Login Successfully ", Toast.LENGTH_SHORT).show()
                     if(utente.categoriePref.size<2){

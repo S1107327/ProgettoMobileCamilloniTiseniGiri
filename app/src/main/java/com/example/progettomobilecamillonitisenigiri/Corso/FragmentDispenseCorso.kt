@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Adapters.DispenseAdapter
 import com.example.progettomobilecamillonitisenigiri.Model.Documento
 import com.example.progettomobilecamillonitisenigiri.R
-import com.example.progettomobilecamillonitisenigiri.ViewModels.CorsiViewModel
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 
 
 class FragmentDispenseCorso : Fragment(), DispenseAdapter.OnDispenseAdapterListener {
-    val corsoModel: CorsiViewModel by viewModels()
+    //val corsoModel: CorsiViewModel by viewModels()
+    val firebaseConnection: FirebaseConnection by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +39,7 @@ class FragmentDispenseCorso : Fragment(), DispenseAdapter.OnDispenseAdapterListe
             false
         )
 
-        corsoModel.getListaDispense().observe(
+        firebaseConnection.getListaDispense().observe(
             viewLifecycleOwner,
             Observer<HashMap<String, ArrayList<Documento>>> { dispense ->
                 rvDispense?.adapter = DispenseAdapter(dispense.getValue(id).toList(), this)
