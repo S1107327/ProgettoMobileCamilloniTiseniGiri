@@ -68,6 +68,7 @@ class FragmentInfoCorso : Fragment() {
                     view?.findViewById<Button>(R.id.iscrivitiButton)?.setOnClickListener {
                         firebaseConnection.iscriviti(id) //al click del bottone l'utente viene iscritto/tolto al/dal corso
                     }
+
                     //Operazioni su bottone wishlist
                     if(firebaseConnection.getUser().value!!.wishlist.contains(id)){
                         view?.findViewById<ImageButton>(R.id.bottoneWishlist)?.setImageResource(R.drawable.wishlistfull36dp)

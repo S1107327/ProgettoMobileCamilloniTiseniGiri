@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -43,6 +44,13 @@ class FragmentDispenseCorso : Fragment(), DispenseAdapter.OnDispenseAdapterListe
             viewLifecycleOwner,
             Observer<HashMap<String, ArrayList<Documento>>> { dispense ->
                 rvDispense?.adapter = DispenseAdapter(dispense.getValue(id).toList(), this)
+                //Abilita/disabilita la sezione a seconda dell'iscrizione dell'utente
+                if(!firebaseConnection.isIscritto(id)){
+                    view?.findViewById<ConstraintLayout>(R.id.paginaNonVisualizzabile)?.visibility =
+                        View.VISIBLE
+                    view?.findViewById<ConstraintLayout>(R.id.paginaVisualizzabileIscritti)?.visibility =
+                        View.GONE
+                }
             })
     }
 

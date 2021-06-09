@@ -3,14 +3,18 @@ package com.example.progettomobilecamillonitisenigiri.Corso
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Adapters.LezioniAdapter
+import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Model.Lezione
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
@@ -26,9 +30,17 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
 
         rvLezioni?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
+
+
+
         firebaseConnection.getListaLezioni()
             .observe(viewLifecycleOwner, Observer<HashMap<String, ArrayList<Lezione>>> { lezioni ->
                 rvLezioni?.adapter = LezioniAdapter(lezioni.getValue(id).toList(), this, view)
+
+                if(!firebaseConnection.isIscritto(id)){
+                    view?.findViewById<ConstraintLayout>(R.id.paginaNonVisualizzabile)?.visibility = VISIBLE
+                    view?.findViewById<ConstraintLayout>(R.id.paginaVisualizzabileIscritti)?.visibility = GONE
+                }
             })
     }
 

@@ -147,7 +147,11 @@ class FirebaseConnection : ViewModel() {
         }
         return wishlist
     }
-
+    fun isIscritto(idCorso:String): Boolean{
+        if (currentUser.value?.iscrizioni?.contains(idCorso) == true)
+            return true
+        return false
+    }
 
     fun getListaLezioni(): MutableLiveData<HashMap<String, ArrayList<Lezione>>> {
         System.out.println("EntraLezione")
