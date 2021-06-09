@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Adapters.LezioniAdapter
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Model.Lezione
+import com.example.progettomobilecamillonitisenigiri.Model.UltimaLezione
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
 
 class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniAdapter.OnLezioniAdapterListener {
@@ -28,6 +31,7 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
         val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         val rvLezioni: RecyclerView? = view?.findViewById(R.id.recyclerViewLezioni)
 
+
         rvLezioni?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
 
@@ -35,7 +39,14 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
 
         firebaseConnection.getListaLezioni()
             .observe(viewLifecycleOwner, Observer<HashMap<String, ArrayList<Lezione>>> { lezioni ->
-                rvLezioni?.adapter = LezioniAdapter(lezioni.getValue(id).toList(), this, view)
+                val adapter = LezioniAdapter(lezioni.getValue(id).toList(), this, view, this)
+                rvLezioni?.adapter = adapter
+
+                //cose per ultimo video visto
+                val lastVideoId = adapter.getInfo().getString("id")
+                val lastVideoSeconds = adapter.getInfo().getFloat("secondi")
+
+                val lastVideoView = view?.findViewById<com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>(R.id.youtubeLastVideoView)
 
                 if(!firebaseConnection.isIscritto(id)){
                     view?.findViewById<ConstraintLayout>(R.id.paginaNonVisualizzabile)?.visibility = VISIBLE
@@ -56,6 +67,15 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
         } else {
             image?.rotation = 0f
             layout?.setVisibility(View.GONE)
+        }
+    }
+
+    fun prova(idLezione: String?, seconds: Float){
+        val idCorso = requireActivity().intent.getStringExtra("ID_CORSO").toString()
+        val utente = firebaseConnection.getUser().value
+        utente?.ultimeLezioni?.add(UltimaLezione(idCorso, idLezione, seconds))
+        if (utente != null) {
+            firebaseConnection.setUtente(utente)
         }
     }
 }

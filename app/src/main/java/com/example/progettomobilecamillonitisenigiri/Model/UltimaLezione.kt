@@ -2,11 +2,11 @@ package com.example.progettomobilecamillonitisenigiri.Model
 
 class UltimaLezione(
      id_corso: String ,
-     id_lezione: String ,
-     secondi: Int
+     id_lezione: String? ,
+     secondi: Float
 ){
-    var secondi: Int
-    var id_lezione: String
+    var secondi: Float
+    var id_lezione: String?
     var id_corso: String
 
     init {
@@ -15,5 +15,5 @@ class UltimaLezione(
     this.secondi=secondi
 
 }
-constructor() : this( "","",0) {}
+constructor() : this( "","",0.toFloat()) {}
 }
