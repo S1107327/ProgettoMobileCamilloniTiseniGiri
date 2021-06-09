@@ -15,7 +15,7 @@ import com.example.progettomobilecamillonitisenigiri.Adapters.CorsoAdapter
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 
-class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnMyAdapterListener {
+class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListener {
     var list = ArrayList<Corso>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

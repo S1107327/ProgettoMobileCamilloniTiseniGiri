@@ -12,12 +12,14 @@ class CorsoUtils {
     private val lista_lezioni = HashMap<String, ArrayList<Lezione>>()
     private val lista_cat = HashSet<String>()
     private val lista_dispense = HashMap<String, ArrayList<Documento>>()
+    private val lista_CorsiPerCat = HashMap<String,ArrayList<Corso>>()
 
     init {
         lista_corsi.clear()
         lista_cat.clear()
         lista_dispense.clear()
         lista_lezioni.clear()
+        lista_CorsiPerCat.clear()
     }
 
     fun readData(snapshot: DataSnapshot) {
@@ -68,6 +70,17 @@ class CorsoUtils {
 
     fun getCat(): HashSet<String> {
         return lista_cat
+    }
+    fun getCorsiPerCat(): HashMap<String,ArrayList<Corso>>{
+        for (categoria in getCat()){
+            val tmp_list = ArrayList<Corso>()
+            for (corso in getCorsi()) {
+                if(corso.categoria.equals(categoria))
+                    tmp_list.add(corso)
+            }
+            lista_CorsiPerCat.put(categoria,tmp_list)
+        }
+        return lista_CorsiPerCat
     }
 
 

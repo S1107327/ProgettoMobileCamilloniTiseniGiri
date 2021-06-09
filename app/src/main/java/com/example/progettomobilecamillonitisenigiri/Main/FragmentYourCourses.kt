@@ -18,7 +18,7 @@ import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 
 class FragmentYourCourses: Fragment(R.layout.fragment_personal_courses),
-    CorsoAdapter.OnMyAdapterListener{
+    CorsoAdapter.OnCorsoListener{
     val firebaseConnection : FirebaseConnection by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

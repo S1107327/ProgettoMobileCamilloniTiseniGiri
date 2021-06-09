@@ -37,14 +37,13 @@ class UserUtils {
 
     //Aggiunge/Elimina iscrizione aggiornando intera lista iscrizioni
     fun setIscrizione(iscrizione_id: String) {
-        val tmp = hashSetOf<String>()
+        //val tmp = hashSetOf<String>()
         if(utenteLoggato.iscrizioni.contains(iscrizione_id))
             utenteLoggato.iscrizioni.remove(iscrizione_id)
         else
             utenteLoggato.iscrizioni.add(iscrizione_id)
-        tmp.addAll(utenteLoggato.iscrizioni)
+        /*tmp.addAll(utenteLoggato.iscrizioni)
         utenteLoggato.iscrizioni.clear()
-        utenteLoggato.iscrizioni.addAll(tmp)
-
+        utenteLoggato.iscrizioni.addAll(tmp)*/
     }
 }

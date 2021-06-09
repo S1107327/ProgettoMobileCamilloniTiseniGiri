@@ -12,8 +12,8 @@ import com.example.progettomobilecamillonitisenigiri.R
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
-class CorsoAdapter (val data: List<Corso>, val monPopularAdapter: OnMyAdapterListener): RecyclerView.Adapter<CorsoAdapter.MyAdapterViewHolder>() {
-    class MyAdapterViewHolder(val box: View,val onMyAdapterListener: OnMyAdapterListener) : RecyclerView.ViewHolder(box) , View.OnClickListener {
+class CorsoAdapter (val data: List<Corso>, val monPopularAdapter: OnCorsoListener): RecyclerView.Adapter<CorsoAdapter.MyAdapterViewHolder>() {
+    class MyAdapterViewHolder(val box: View,val onCorsoListener: OnCorsoListener) : RecyclerView.ViewHolder(box) , View.OnClickListener {
         init{
             box.setOnClickListener(this)
 
@@ -21,7 +21,7 @@ class CorsoAdapter (val data: List<Corso>, val monPopularAdapter: OnMyAdapterLis
         val cardpopular = box.findViewById<CardView>(R.id.cardpopular)
         override fun onClick(v: View?) {
 
-            onMyAdapterListener.onCorsoClick(adapterPosition,v)
+            onCorsoListener.onCorsoClick(adapterPosition,v)
         }
 
     }
@@ -57,7 +57,7 @@ class CorsoAdapter (val data: List<Corso>, val monPopularAdapter: OnMyAdapterLis
 
     override fun getItemCount(): Int = data.size
 
-    interface OnMyAdapterListener{
+    interface OnCorsoListener{
         fun onCorsoClick(position: Int, v: View?)
     }
 }

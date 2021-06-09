@@ -25,7 +25,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.*
 
 
-class FragmentCatalogo : Fragment(), CorsoAdapter.OnMyAdapterListener {
+class FragmentCatalogo : Fragment(), CorsoAdapter.OnCorsoListener {
     //ViewModels
     //val corsiModel: CorsiViewModel by viewModels()
     val firebaseConnection: FirebaseConnection by viewModels()
@@ -39,6 +39,8 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnMyAdapterListener {
         val chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo1)
         val chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo2)
         firebaseConnection.getCategorie().observe(viewLifecycleOwner,Observer<Set<String>>{ categorie->
+            chipGroup1.removeAllViews()
+            chipGroup2.removeAllViews()
             for (i in 0..categorie.size-1) {
                 var chip = inflater.inflate(R.layout.chip_catalogo, chipGroup1, false) as Chip
                 var chip2 = inflater.inflate(R.layout.chip_catalogo, chipGroup2, false) as Chip
@@ -46,14 +48,14 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnMyAdapterListener {
                     chip.id = i
                     chip.text = categorie.elementAt(i)
                     chip.setOnClickListener {
-                        onclick(view)
+                        onclick(view,chip.text.toString())
                     }
                     chipGroup1.addView(chip)
                 } else {
                     chip2.id = i
                     chip2.text = categorie.elementAt(i)
                     chip2.setOnClickListener {
-                        onclick(view)
+                        onclick(view,chip2.text.toString())
                     }
                     chipGroup2.addView(chip2)
                 }
@@ -102,8 +104,9 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnMyAdapterListener {
     }
 
 
-    fun onclick(view: View) {
-        view.findNavController().navigate(R.id.action_FragmentCatalogo_to_FragmentCategoria)
+    fun onclick(view: View, cat:String) {
+        val action = FragmentCatalogoDirections.actionFragmentCatalogoToFragmentCategoria(cat)
+        view.findNavController().navigate(action)
     }
 
     override fun onCorsoClick(position: Int,v: View?) {

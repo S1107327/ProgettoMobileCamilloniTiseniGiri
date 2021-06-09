@@ -39,7 +39,11 @@
     <fragment android:id="@+id/FragmentCategoria"
         android:label="@string/home"
         android:name="com.example.progettomobilecamillonitisenigiri.Main.FragmentCategoria"
-        tools:layout="@layout/fragment_categoria"/>
+        tools:layout="@layout/fragment_categoria">
+        <argument
+            android:name="categoria"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/FragmentRicerca"
         android:name="com.example.progettomobilecamillonitisenigiri.Main.FragmentRicerca"
@@ -48,6 +52,5 @@
         <argument
             android:name="query"
             app:argType="string" />
-
     </fragment>
 </navigation>

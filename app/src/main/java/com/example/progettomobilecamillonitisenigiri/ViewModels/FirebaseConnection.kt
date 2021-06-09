@@ -25,6 +25,7 @@ class FirebaseConnection : ViewModel() {
     private val listCategorie = MutableLiveData<Set<String>>()
     private val listLezioni = MutableLiveData<HashMap<String, ArrayList<Lezione>>>()
     private val listDispense = MutableLiveData<HashMap<String, ArrayList<Documento>>>()
+    private val listCorsiPerCat = MutableLiveData<HashMap<String,ArrayList<Corso>>>()
 
 
     // Live data relativi tabella utente
@@ -58,6 +59,7 @@ class FirebaseConnection : ViewModel() {
                 )//oppure takeLast(numero)
                 listCategorie.postValue(corsoUtils.getCat())
                 listDispense.postValue(corsoUtils.getDispense())
+                listCorsiPerCat.postValue(corsoUtils.getCorsiPerCat())
 
 
             }
@@ -136,6 +138,9 @@ class FirebaseConnection : ViewModel() {
     fun getListaDispense(): MutableLiveData<HashMap<String, ArrayList<Documento>>> {
         System.out.println("EntraDispense")
         return listDispense
+    }
+    fun getCorsiPerCat(): MutableLiveData<HashMap<String, ArrayList<Corso>>> {
+        return listCorsiPerCat
     }
 
 

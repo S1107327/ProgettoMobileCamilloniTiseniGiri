@@ -3,35 +3,36 @@ package com.example.progettomobilecamillonitisenigiri.Main
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.progettomobilecamillonitisenigiri.Corsi
+import com.example.progettomobilecamillonitisenigiri.Adapters.CorsoAdapter
 import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
-import com.example.progettomobilecamillonitisenigiri.Adapters.PopularAdapter
+import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.R
+import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 
-class FragmentCategoria: Fragment(R.layout.fragment_categoria),
-    PopularAdapter.OnPopularAdapterListener {
-
+class FragmentCategoria: Fragment(R.layout.fragment_categoria), CorsoAdapter.OnCorsoListener {
+    val firebaseConnection:FirebaseConnection by viewModels()
+    val args:FragmentCategoriaArgs by navArgs()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val corso1: Corsi = Corsi()
-        val corso2: Corsi = Corsi()
-        val corso3: Corsi = Corsi()
-        val corso4: Corsi = Corsi()
-        val corso5: Corsi = Corsi()
-        val corso6: Corsi = Corsi()
-        val corso7: Corsi = Corsi()
-        val corso8: Corsi = Corsi()
-        val corso9: Corsi = Corsi()
-        val corso10: Corsi = Corsi()
-        val rvCategoria:RecyclerView = view.findViewById(R.id.recyclerViewCategoria)
-        rvCategoria.layoutManager = GridLayoutManager(context,2)
-        rvCategoria.adapter = PopularAdapter(mutableListOf<Corsi>(corso1,corso2,corso3,corso4,corso5,corso6,corso7,corso8,corso9,corso10),this)
+        val categoria = args.categoria
+        val rvCategoria: RecyclerView = view.findViewById(R.id.recyclerViewCategoria)
+        rvCategoria.layoutManager = GridLayoutManager(context, 2)
+        firebaseConnection.getCorsiPerCat().observe(viewLifecycleOwner,
+            Observer<HashMap<String, ArrayList<Corso>>> { corsiCat ->
+                rvCategoria.adapter = corsiCat.get(categoria)?.let { CorsoAdapter(it,this) }
+            })
     }
-    override fun onCorsoClick(position: Int) {
+
+    override fun onCorsoClick(position: Int, view: View?) {
         val intent = Intent(context, CorsoActivity::class.java)
+        intent.putExtra("ID_CORSO",view?.findViewById<TextView>(R.id.corsoId)!!.text)
         startActivity(intent)
     }
 }
