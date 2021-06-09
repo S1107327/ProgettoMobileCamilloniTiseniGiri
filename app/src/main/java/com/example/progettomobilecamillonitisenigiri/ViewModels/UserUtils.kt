@@ -37,13 +37,19 @@ class UserUtils {
 
     //Aggiunge/Elimina iscrizione aggiornando intera lista iscrizioni
     fun setIscrizione(iscrizione_id: String) {
-        //val tmp = hashSetOf<String>()
         if(utenteLoggato.iscrizioni.contains(iscrizione_id))
             utenteLoggato.iscrizioni.remove(iscrizione_id)
         else
             utenteLoggato.iscrizioni.add(iscrizione_id)
-        /*tmp.addAll(utenteLoggato.iscrizioni)
-        utenteLoggato.iscrizioni.clear()
-        utenteLoggato.iscrizioni.addAll(tmp)*/
+    }
+    fun getWishlist(): List<String> {
+        return utenteLoggato.wishlist
+    }
+    //Aggiunge/Elimina iscrizione aggiornando intera lista iscrizioni
+    fun setWishlist(iscrizione_id: String) {
+        if(utenteLoggato.wishlist.contains(iscrizione_id))
+            utenteLoggato.wishlist.remove(iscrizione_id)
+        else
+            utenteLoggato.wishlist.add(iscrizione_id)
     }
 }

@@ -1,14 +1,13 @@
 package com.example.progettomobilecamillonitisenigiri.Corso
 
+import android.media.Rating
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
@@ -69,6 +68,18 @@ class FragmentInfoCorso : Fragment() {
                     view?.findViewById<Button>(R.id.iscrivitiButton)?.setOnClickListener {
                         firebaseConnection.iscriviti(id) //al click del bottone l'utente viene iscritto/tolto al/dal corso
                     }
+                    //Operazioni su bottone wishlist
+                    if(firebaseConnection.getUser().value!!.wishlist.contains(id)){
+                        view?.findViewById<ImageButton>(R.id.bottoneWishlist)?.setImageResource(R.drawable.wishlistfull36dp)
+                    }
+                    else{
+                        view?.findViewById<ImageButton>(R.id.bottoneWishlist)?.setImageResource(R.drawable.wishlistempty36dp)
+
+                    }
+                    view?.findViewById<ImageButton>(R.id.bottoneWishlist)?.setOnClickListener {
+                        firebaseConnection.wishlist(id) //al click si aggiunge/elimina il corso dalla wishlist
+                    }
+
                     //view?.findViewById<RatingBar>(R.id.rating)?.rating = 5F
                     try {
                         Picasso.get().load(a.immagine)

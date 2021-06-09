@@ -14,6 +14,7 @@ class FirebaseConnection : ViewModel() {
 
     private var database: DatabaseReference
     private lateinit var mDatabase: FirebaseDatabase
+
     //private var mDatabaseReference: DatabaseReference
     private var userDatabaseReference: DatabaseReference
     private var loggedUser = FirebaseAuth.getInstance().currentUser
@@ -25,7 +26,7 @@ class FirebaseConnection : ViewModel() {
     private val listCategorie = MutableLiveData<Set<String>>()
     private val listLezioni = MutableLiveData<HashMap<String, ArrayList<Lezione>>>()
     private val listDispense = MutableLiveData<HashMap<String, ArrayList<Documento>>>()
-    private val listCorsiPerCat = MutableLiveData<HashMap<String,ArrayList<Corso>>>()
+    private val listCorsiPerCat = MutableLiveData<HashMap<String, ArrayList<Corso>>>()
 
 
     // Live data relativi tabella utente
@@ -73,12 +74,20 @@ class FirebaseConnection : ViewModel() {
     }
 
     //questa funzione aggiunge/elimina il corso dalle iscrizioni richiamando la setiscrizione del corsoUtils
-    fun iscriviti(id_corso:String){
+    fun iscriviti(id_corso: String) {
         utenteUtils.setIscrizione(id_corso)
         loggedUser.let { it1 ->
             userDatabaseReference!!.child(it1!!.uid).setValue(currentUser.value as User)
         }
     }
+
+    fun wishlist(id_corso: String) {
+        utenteUtils.setWishlist(id_corso)
+        loggedUser.let { it1 ->
+            userDatabaseReference!!.child(it1!!.uid).setValue(currentUser.value as User)
+        }
+    }
+
     fun setUtente(utente: User) {
         loggedUser.let { it1 ->
             userDatabaseReference!!.child(it1!!.uid).setValue(utente)
@@ -93,6 +102,8 @@ class FirebaseConnection : ViewModel() {
     fun getListaCorsi(): MutableLiveData<List<Corso>> {
         return listCorsi
     }
+
+    /* *********************** Bisogna fare refactor del codice qui******************* */
 
     //Funzione che ritorna lista consigliati iterando una Lista di Corsi
 //Non utilizza liveData
@@ -110,18 +121,31 @@ class FirebaseConnection : ViewModel() {
             return corsi //ritorna corsi se l'utente non ha categorie predefinite
         return consigliati
     }
+
     fun getCorsiFrequentati(corsi: ArrayList<Corso>): ArrayList<Corso> {
         val frequentati = ArrayList<Corso>()
         for (corso in corsi) {
             for (iscrizioni_id in utenteUtils.getIscrizioni()) {
                 if (corso.id.equals(iscrizioni_id)) {
-                    Log.d("MSG","frequentati")
                     frequentati.add(corso)
                 }
             }
 
         }
         return frequentati
+    }
+
+    fun getCorsiFromWishlist(corsi: ArrayList<Corso>): ArrayList<Corso> {
+        val wishlist = ArrayList<Corso>()
+        for (corso in corsi) {
+            for (iscrizioni_id in utenteUtils.getWishlist()) {
+                if (corso.id.equals(iscrizioni_id)) {
+                    wishlist.add(corso)
+                }
+            }
+
+        }
+        return wishlist
     }
 
 
@@ -139,6 +163,7 @@ class FirebaseConnection : ViewModel() {
         System.out.println("EntraDispense")
         return listDispense
     }
+
     fun getCorsiPerCat(): MutableLiveData<HashMap<String, ArrayList<Corso>>> {
         return listCorsiPerCat
     }
