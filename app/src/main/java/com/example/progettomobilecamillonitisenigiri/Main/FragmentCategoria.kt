@@ -19,6 +19,7 @@ import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnecti
 class FragmentCategoria: Fragment(R.layout.fragment_categoria), CorsoAdapter.OnCorsoListener {
     val firebaseConnection:FirebaseConnection by viewModels()
     val args:FragmentCategoriaArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val categoria = args.categoria

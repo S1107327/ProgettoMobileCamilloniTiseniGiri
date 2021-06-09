@@ -36,6 +36,8 @@
     <!--Stringhe Fragment Catalogo-->
     <string name="categories">Categorie</string>
     <string name="search">Cerca</string>
+    <string name="top">Top in</string>
+
 
     <!--Stringhe Fragment Categoria-->
     <string name="categoria">Nome Categoria:</string>

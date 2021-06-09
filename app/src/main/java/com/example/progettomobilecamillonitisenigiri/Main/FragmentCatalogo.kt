@@ -14,10 +14,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.progettomobilecamillonitisenigiri.Adapters.CatalogoAdapter
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Adapters.CorsoAdapter
+import com.example.progettomobilecamillonitisenigiri.Model.CategoriaListModel
 import com.example.progettomobilecamillonitisenigiri.R
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -60,28 +62,28 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnCorsoListener {
                     chipGroup2.addView(chip2)
                 }
             }
+
         })
         return view
     }
 
 
-    var list = ArrayList<Corso>()
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val rvCat1: RecyclerView = view.findViewById(R.id.recyclerViewCat1)
-        val rvCat2: RecyclerView = view.findViewById(R.id.recyclerViewCat2)
+        val rvCat: RecyclerView = view.findViewById(R.id.recyclerViewContainer)
 
+        rvCat.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        rvCat1.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        rvCat2.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        firebaseConnection.getListaCorsi().observe(viewLifecycleOwner,Observer<List<Corso>>{corsi->
-            rvCat1.adapter = CorsoAdapter(corsi, this)
-            rvCat2.adapter = CorsoAdapter(corsi, this)
+        firebaseConnection.getCorsiPerCat().observe(viewLifecycleOwner,Observer<HashMap<String,ArrayList<Corso>>>{corsiPerCat->
+            var list = ArrayList<CategoriaListModel>()
+            for((key,value) in corsiPerCat){
+                list.add(CategoriaListModel(key,value))
+            }
+            rvCat.adapter = CatalogoAdapter(list, context,this)
         })
 
 

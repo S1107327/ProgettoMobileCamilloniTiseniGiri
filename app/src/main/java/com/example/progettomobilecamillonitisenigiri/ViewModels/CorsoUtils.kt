@@ -23,6 +23,11 @@ class CorsoUtils {
     }
 
     fun readData(snapshot: DataSnapshot) {
+        lista_corsi.clear()
+        lista_cat.clear()
+        lista_dispense.clear()
+        lista_lezioni.clear()
+        lista_CorsiPerCat.clear()
         if (snapshot.child("Corsi")!!.exists()) {
             for (e in snapshot.child("Corsi").children) {
 

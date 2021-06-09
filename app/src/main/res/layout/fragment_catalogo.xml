@@ -6,11 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Main.FragmentCatalogo">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -82,55 +77,15 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </HorizontalScrollView>
 
-
-        <TextView
-            android:id="@+id/Cat1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="Top in Cat1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView2"
-            tools:textSize="24sp" />
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCat1"
+            android:id="@+id/recyclerViewContainer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:scrollbars="none"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Cat1"></androidx.recyclerview.widget.RecyclerView>
-
-        <TextView
-            android:id="@+id/Cat2"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Top in Cat2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerViewCat1"
-            tools:textSize="24sp" />
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView2" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCat2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:scrollbars="none"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Cat2"></androidx.recyclerview.widget.RecyclerView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 
 </FrameLayout>
 
