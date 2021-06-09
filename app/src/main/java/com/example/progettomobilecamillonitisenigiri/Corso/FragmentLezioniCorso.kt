@@ -34,7 +34,19 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
 
         rvLezioni?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
+        val latestVideoView = view?.findViewById<com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>(R.id.youtubeLastVideoView)
+        latestVideoView?.addYouTubePlayerListener(object :
+            AbstractYouTubePlayerListener() {
+            override fun onReady(lastYouTubePlayer: YouTubePlayer) {
+                val user = firebaseConnection.getUser().value
+                for (ultimaLezione in user!!.ultimeLezioni){
+                    if(ultimaLezione.id_corso == id){
+                        ultimaLezione.id_lezione?.let { lastYouTubePlayer.cueVideo(it, ultimaLezione.secondi) }
+                    }
+                }
 
+            }
+        })
 
 
         firebaseConnection.getListaLezioni()
@@ -73,6 +85,10 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
     fun prova(idLezione: String?, seconds: Float){
         val idCorso = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         val utente = firebaseConnection.getUser().value
+        for (lastLesson in utente!!.ultimeLezioni){
+            if(lastLesson.id_corso == idCorso)
+                utente.ultimeLezioni.remove(lastLesson)
+        }
         utente?.ultimeLezioni?.add(UltimaLezione(idCorso, idLezione, seconds))
         if (utente != null) {
             firebaseConnection.setUtente(utente)
