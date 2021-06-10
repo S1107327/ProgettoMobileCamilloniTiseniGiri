@@ -27,7 +27,6 @@ class LezioniAdapter(
     val view: View?,
     val fragment: FragmentLezioniCorso
 ): RecyclerView.Adapter<LezioniAdapter.LezioniAdapterViewHolder>() {
-    val infoLastLesson = Bundle()
     class LezioniAdapterViewHolder(
         val box: View,
         val onLezioniAdapterListener: OnLezioniAdapterListener
@@ -71,29 +70,10 @@ class LezioniAdapter(
                 state: PlayerConstants.PlayerState
             ) {
                 if (state == PlayerConstants.PlayerState.PAUSED) {
-
-                    infoLastLesson.putString("id", tracker.videoId)
-                    infoLastLesson.putFloat("secondi", tracker.currentSecond)
-                    fragment.prova(tracker.videoId, tracker.currentSecond)
-
-
-                    /*
-                    if (view != null) {
-                        latestVideoView = view.findViewById(R.id.youtubeLastVideoView)
-                    }
-                    latestVideoView.addYouTubePlayerListener(object :
-                        AbstractYouTubePlayerListener() {
-                        override fun onReady(lastYouTubePlayer: YouTubePlayer) {
-
-                            val lastVideoId = tracker.videoId
-                            val seconds = tracker.currentSecond
-                            if (lastVideoId != null) {
-                                lastYouTubePlayer.cueVideo(lastVideoId, seconds)
-                            }
-                        }
-                    })
-                    */
-
+                    fragment.addUltimaLezione(tracker.videoId, data.get(position).id, tracker.currentSecond,true)
+                }
+                if (state == PlayerConstants.PlayerState.PLAYING) {
+                    fragment.addUltimaLezione(tracker.videoId, data.get(position).id, tracker.currentSecond,true)
                 }
             }
         })
@@ -103,11 +83,6 @@ class LezioniAdapter(
 
     interface OnLezioniAdapterListener{
         fun onLezioneClick(position: Int, v: View?)
-    }
-
-    fun getInfo(): Bundle{
-
-        return infoLastLesson
     }
 }
 
