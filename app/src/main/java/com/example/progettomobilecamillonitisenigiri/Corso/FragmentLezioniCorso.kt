@@ -48,18 +48,14 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
             }
         })
 
-
-        firebaseConnection.getListaLezioni()
-            .observe(viewLifecycleOwner, Observer<HashMap<String, ArrayList<Lezione>>> { lezioni ->
-                val adapter = LezioniAdapter(lezioni.getValue(id).toList(), this, view, this)
-                rvLezioni?.adapter = adapter
+       firebaseConnection.getListaLezioni()
+          .observe(viewLifecycleOwner, Observer<HashMap<String, ArrayList<Lezione>>> { lezioni ->
+                rvLezioni?.adapter = LezioniAdapter(lezioni?.getValue(id)?.toList() as List<Lezione>, this, view, this,)
 
                 //cose per ultimo video visto
-                val lastVideoId = adapter.getInfo().getString("id")
+                /*val lastVideoId = adapter.getInfo().getString("id")
                 val lastVideoSeconds = adapter.getInfo().getFloat("secondi")
-
-                val lastVideoView = view?.findViewById<com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>(R.id.youtubeLastVideoView)
-
+                val lastVideoView = view?.findViewById<com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>(R.id.youtubeLastVideoView)*/
                 if(!firebaseConnection.isIscritto(id)){
                     view?.findViewById<ConstraintLayout>(R.id.paginaNonVisualizzabile)?.visibility = VISIBLE
                     view?.findViewById<ConstraintLayout>(R.id.paginaVisualizzabileIscritti)?.visibility = GONE

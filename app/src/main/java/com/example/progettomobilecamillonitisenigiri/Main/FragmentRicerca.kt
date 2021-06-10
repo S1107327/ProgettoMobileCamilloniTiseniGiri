@@ -24,11 +24,11 @@ class FragmentRicerca : Fragment(R.layout.fragment_ricerca), CorsoAdapter.OnCors
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val query = args.query
-        view.findViewById<TextView>(R.id.risRicerca).text = query
+        view.findViewById<TextView>(R.id.risRicerca).text = "'$query'"
         val rvSearch = view.findViewById<RecyclerView>(R.id.risultatiSearch)
         rvSearch.layoutManager = GridLayoutManager(context, 2)
         firebaseConnection.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>> { corsi->
-            rvSearch.adapter = CorsoAdapter(corsi.filter { corso -> corso.titolo.contains(query,true) || corso.descrizione.contains(query,true) },this)
+            rvSearch.adapter = CorsoAdapter(corsi.filter { corso -> corso.titolo.contains(query,true) || corso.descrizione.contains(query,true) || corso.categoria.contains(query,true)},this)
         })
     }
     override fun onCorsoClick(position: Int, view: View?) {

@@ -41,26 +41,42 @@ class FirebaseConnection : ViewModel() {
         database = FirebaseDatabase.getInstance().reference
         userDatabaseReference = database!!.child("Users")
         readData()
+        readDataOnce()
+
     }
 
     fun readData() {
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                //Chiamata a utility utente e popolazione livedata
+                //Chiamata a utility utente e popolazione livedata che avviene ad ogni cambio nel DB
                 utenteUtils.readData(snapshot)
                 currentUser.postValue(utenteUtils.getUtente())
                 categoriePreferite.postValue(utenteUtils.getCategoriePreferite())
-
-                //Chiamata a utility per popolazione liste corsi, e relative sottocategorie
+                //Chiamata a utility per popolazione lista corsi che avviene ad ogni cambio nel DB
                 corsoUtils.readData(snapshot)
                 listCorsi.postValue(corsoUtils.getCorsi())
-                listLezioni.postValue(corsoUtils.getLezioni())
+            }
+
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+
+    }
+
+    fun readDataOnce() {
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                //popolazione componenti accessorie ai corsi che avviene solo una volta al lancio dell'activity
                 listAggiuntiDiRecente.postValue(
                     corsoUtils.getCorsi().reversed()
                 )//oppure takeLast(numero)
+
+                listCorsiPerCat.postValue(corsoUtils.getCorsiPerCat())
                 listCategorie.postValue(corsoUtils.getCat())
                 listDispense.postValue(corsoUtils.getDispense())
-                listCorsiPerCat.postValue(corsoUtils.getCorsiPerCat())
+                listLezioni.postValue(corsoUtils.getLezioni())
 
 
             }
