@@ -41,7 +41,7 @@ class FirebaseConnection : ViewModel() {
         database = FirebaseDatabase.getInstance().reference
         userDatabaseReference = database!!.child("Users")
         readData()
-        readDataOnce()
+        readDataFirst()
 
     }
 
@@ -55,6 +55,13 @@ class FirebaseConnection : ViewModel() {
                 //Chiamata a utility per popolazione lista corsi che avviene ad ogni cambio nel DB
                 corsoUtils.readData(snapshot)
                 listCorsi.postValue(corsoUtils.getCorsi())
+                listAggiuntiDiRecente.postValue(
+                    corsoUtils.getCorsi().reversed()
+                )//oppure takeLast(numero)
+
+                listCorsiPerCat.postValue(corsoUtils.getCorsiPerCat())
+                listCategorie.postValue(corsoUtils.getCat())
+
             }
 
 
@@ -65,16 +72,10 @@ class FirebaseConnection : ViewModel() {
 
     }
 
-    fun readDataOnce() {
+    fun readDataFirst() {
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 //popolazione componenti accessorie ai corsi che avviene solo una volta al lancio dell'activity
-                listAggiuntiDiRecente.postValue(
-                    corsoUtils.getCorsi().reversed()
-                )//oppure takeLast(numero)
-
-                listCorsiPerCat.postValue(corsoUtils.getCorsiPerCat())
-                listCategorie.postValue(corsoUtils.getCat())
                 listDispense.postValue(corsoUtils.getDispense())
                 listLezioni.postValue(corsoUtils.getLezioni())
 
