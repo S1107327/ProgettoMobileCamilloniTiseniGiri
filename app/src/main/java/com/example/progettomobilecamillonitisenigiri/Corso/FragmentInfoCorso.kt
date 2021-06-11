@@ -52,6 +52,9 @@ class FragmentInfoCorso : Fragment() {
                         if (!ratingBarIsInitialized) {
                             view?.findViewById<RatingBar>(R.id.rating)?.rating =
                                 a.recensioni.values.average().toFloat()
+                            if(a.recensioni.size==1)
+                                view?.findViewById<TextView>(R.id.textView2)?.text="(${a.recensioni.size.toString()} Recensione)"
+                            else view?.findViewById<TextView>(R.id.textView2)?.text="(${a.recensioni.size.toString()} Recensioni)"
                             ratingBarIsInitialized = true
                         }
                         // Disabilito la ratingBar se l'utente non è iscritto
@@ -73,6 +76,9 @@ class FragmentInfoCorso : Fragment() {
                                         //Aggiorno la recensione o la aggiungo se assente nel db
                                         firebaseConnection.setRecensione(id, recensione)
                                         ratingBar?.rating = a.recensioni.values.average().toFloat() //setto il valore medio delle recensioni presenti
+                                        if(a.recensioni.size==1)
+                                            view?.findViewById<TextView>(R.id.textView2)?.text="(${a.recensioni.size.toString()} Recensione)"
+                                        else view?.findViewById<TextView>(R.id.textView2)?.text="(${a.recensioni.size.toString()} Recensioni)"
 
                                     }
 
