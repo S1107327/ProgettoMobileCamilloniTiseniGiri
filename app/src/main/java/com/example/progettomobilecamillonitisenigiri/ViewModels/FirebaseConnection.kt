@@ -223,12 +223,12 @@ class FirebaseConnection : ViewModel() {
     }
     fun addRisposta(risposta: RispostaForum,id_corso: String ,id_domanda:Int): Boolean{
         var aggiunta = false
-        val risposte = listDomande.value!!.get(id_corso)!!.get(id_domanda).Risposte
+        val risposte = listDomande.value!!.get(id_corso)!!.get(id_domanda).risposte
         if(!risposte.contains(risposta)) {
             risposte.add(risposta)
             aggiunta = true
         }
-        corsoDatabaseReference.child(id_corso).child("forum").child(id_domanda.toString()).child("Risposte").setValue(risposte)
+        corsoDatabaseReference.child(id_corso).child("forum").child(id_domanda.toString()).child("risposte").setValue(risposte)
         return aggiunta
     }
 

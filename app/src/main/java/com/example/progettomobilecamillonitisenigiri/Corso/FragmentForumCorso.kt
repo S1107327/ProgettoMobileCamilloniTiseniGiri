@@ -47,7 +47,7 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
                 "AGGIUNGI",
                 DialogInterface.OnClickListener() { dialog, which ->
                     val domanda = DomandaForum(firebaseConnection.getUser().value!!.firstName,firebaseConnection.getUser().value!!.lastName,firebaseConnection.newDomandaId(id),input.text.toString(), ArrayList<RispostaForum>())
-                    if(!domanda.Domanda.isEmpty()) {
+                    if(!domanda.domanda.isEmpty()) {
                         if (!firebaseConnection.addDomanda(domanda, id)) {
                             val contextView = requireView().findViewById<View>(R.id.fragmentforum)
                             Snackbar.make(
@@ -113,7 +113,7 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
     fun addRispostaFrag(risposta:String, idDomanda:Int){
         val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         val risposta = RispostaForum(firebaseConnection.getUser().value!!.firstName,firebaseConnection.getUser().value!!.lastName,risposta)
-        if(!risposta.Risposta.isEmpty()) {
+        if(!risposta.risposta.isEmpty()) {
             if (!firebaseConnection.addRisposta(risposta, id, idDomanda)) {
                 val contextView = requireView().findViewById<View>(R.id.fragmentforum)
                 Snackbar.make(contextView, "La risposta esiste già", Snackbar.LENGTH_SHORT).show()

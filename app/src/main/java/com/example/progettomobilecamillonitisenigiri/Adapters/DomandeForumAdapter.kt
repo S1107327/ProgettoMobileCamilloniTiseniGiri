@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +25,7 @@ class DomandeForumAdapter(val data: List<DomandaForum>, val context:Context?, va
         override fun onClick(v: View?) {
             onDomandeAdapterListener.onDomandeClick(adapterPosition, v)
         }
-        val domanda = box.findViewById<ConstraintLayout>(R.id.domandaLayout)
+        val domanda = box.findViewById<CardView>(R.id.cardViewDomande)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DomandeForumViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(
@@ -37,7 +38,7 @@ class DomandeForumAdapter(val data: List<DomandaForum>, val context:Context?, va
         holder.domanda.findViewById<TextView>(R.id.idDomanda).text = data.get(position).id.toString()
         holder.domanda.findViewById<TextView>(R.id.nome).text = data.get(position).nomeUtente
         holder.domanda.findViewById<TextView>(R.id.cognome).text = data.get(position).cognomeUtente
-        holder.domanda.findViewById<TextView>(R.id.domanda).text = data.get(position).Domanda
+        holder.domanda.findViewById<TextView>(R.id.domanda).text = data.get(position).domanda
         val inputRisposta = holder.domanda.findViewById<TextInputEditText>(R.id.aggiungiRisposta)
         holder.domanda.findViewById<TextInputLayout>(R.id.aggiungiRispostaContainer)?.setEndIconOnClickListener {
                 if(!inputRisposta!!.text.toString().equals(null)){
@@ -45,7 +46,7 @@ class DomandeForumAdapter(val data: List<DomandaForum>, val context:Context?, va
                 }
             }
         holder.domanda.findViewById<RecyclerView>(R.id.list_risposte).layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        holder.domanda.findViewById<RecyclerView>(R.id.list_risposte).adapter = RispostaForumAdapter(data.get(position).Risposte)
+        holder.domanda.findViewById<RecyclerView>(R.id.list_risposte).adapter = RispostaForumAdapter(data.get(position).risposte)
 
     }
     override fun getItemCount(): Int = data.size
