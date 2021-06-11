@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Model.RispostaForum
-import com.example.progettomobilecamillonitisenigiri.Model.User
 import com.example.progettomobilecamillonitisenigiri.R
 
 class RispostaForumAdapter(val data: List<RispostaForum>): RecyclerView.Adapter<RispostaForumAdapter.RispostaForumViewHolder>() {
@@ -16,7 +15,7 @@ class RispostaForumAdapter(val data: List<RispostaForum>): RecyclerView.Adapter<
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RispostaForumViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(
-            R.layout.risposta_layout,
+            R.layout.layout_risposta,
             parent, false
         )
         return RispostaForumViewHolder(layout)

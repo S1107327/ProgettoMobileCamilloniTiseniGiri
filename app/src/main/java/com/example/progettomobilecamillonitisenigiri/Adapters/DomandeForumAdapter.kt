@@ -28,7 +28,7 @@ class DomandeForumAdapter(val data: List<DomandaForum>, val context:Context?, va
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DomandeForumViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(
-            R.layout.domanda_layout,
+            R.layout.layout_domanda,
             parent, false
         )
         return DomandeForumViewHolder(layout,monDomandeAdapterListener)

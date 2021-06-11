@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Adapters.DomandeForumAdapter
@@ -21,10 +19,7 @@ import com.example.progettomobilecamillonitisenigiri.Model.DomandaForum
 import com.example.progettomobilecamillonitisenigiri.Model.RispostaForum
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 
 class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListener {
     val firebaseConnection:FirebaseConnection by viewModels()
@@ -52,9 +47,23 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
                 "AGGIUNGI",
                 DialogInterface.OnClickListener() { dialog, which ->
                     val domanda = DomandaForum(firebaseConnection.getUser().value!!.firstName,firebaseConnection.getUser().value!!.lastName,firebaseConnection.newDomandaId(id),input.text.toString(), ArrayList<RispostaForum>())
-                    if(!firebaseConnection.addDomanda(domanda,id)){
+                    if(!domanda.Domanda.isEmpty()) {
+                        if (!firebaseConnection.addDomanda(domanda, id)) {
+                            val contextView = requireView().findViewById<View>(R.id.fragmentforum)
+                            Snackbar.make(
+                                contextView,
+                                "Domanda già esistente",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    else{
                         val contextView = requireView().findViewById<View>(R.id.fragmentforum)
-                        Snackbar.make(contextView,"Domanda già esistente",Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            contextView,
+                            "Non puoi aggiungere una domanda vuota",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 })
             alertDialogAdd.setNegativeButton("ANNULLA", null)
@@ -69,8 +78,6 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
             false
         )
 
-
-
         firebaseConnection.getListDomande().observe(
             viewLifecycleOwner,
             Observer<HashMap<String, ArrayList<DomandaForum>>> { domande ->
@@ -84,13 +91,13 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
                 if (!firebaseConnection.isIscritto(id)) {
                     view?.findViewById<ConstraintLayout>(R.id.paginaNonVisualizzabile)?.visibility =
                         View.VISIBLE
-                    view?.findViewById<ConstraintLayout>(R.id.paginaVisualizzabileIscritti)?.visibility =
+                    view?.findViewById<ScrollView>(R.id.paginaVisualizzabileIscrittiForum)?.visibility =
                         View.GONE
                 }
             })
     }
 
-    override fun onDomandeClick(position: Int, view: View?) {
+    override fun onDomandeClick(position: Int, view: View?){
         val image = view?.findViewById<ImageView>(R.id.immagineDomande)
 
         val layout = view?.findViewById<ConstraintLayout>(R.id.expandableLayoutDomande)
@@ -106,9 +113,19 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
     fun addRispostaFrag(risposta:String, idDomanda:Int){
         val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         val risposta = RispostaForum(firebaseConnection.getUser().value!!.firstName,firebaseConnection.getUser().value!!.lastName,risposta)
-        if(!firebaseConnection.addRisposta(risposta,id,idDomanda)) {
+        if(!risposta.Risposta.isEmpty()) {
+            if (!firebaseConnection.addRisposta(risposta, id, idDomanda)) {
+                val contextView = requireView().findViewById<View>(R.id.fragmentforum)
+                Snackbar.make(contextView, "La risposta esiste già", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+        else{
             val contextView = requireView().findViewById<View>(R.id.fragmentforum)
-            Snackbar.make(contextView, "La risposta esiste già", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(
+                contextView,
+                "Non puoi aggiungere una risposta vuota",
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 }
