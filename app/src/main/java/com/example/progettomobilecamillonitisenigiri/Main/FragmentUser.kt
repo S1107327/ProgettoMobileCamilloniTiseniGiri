@@ -24,8 +24,8 @@ import com.google.firebase.database.*
 
 class FragmentUser : Fragment() {
     //Firebase references
-    private var mDatabaseReference: DatabaseReference? = null
-    private var mDatabase: FirebaseDatabase? = null
+    //private var mDatabaseReference: DatabaseReference? = null
+    //private var mDatabase: FirebaseDatabase? = null
     private var mAuth: FirebaseAuth? = null
 
     //UI elements
@@ -49,10 +49,18 @@ class FragmentUser : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
+        mAuth = FirebaseAuth.getInstance()
+        mUser = mAuth!!.currentUser
+
+
         chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupUser1)
         chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupUser2)
 
         firebaseConnection.getCategorie().observe(viewLifecycleOwner, Observer<Set<String>> { categorie ->
+
+            tvFirstName!!.setText(firebaseConnection.getUser().value?.firstName)
+            tvLastName!!.setText(firebaseConnection.getUser().value?.lastName)
+            tvEmail!!.text = mUser!!.email
             //Pulizia chipgroup
             chipGroup1.removeAllViews()
             chipGroup2.removeAllViews()
@@ -94,45 +102,9 @@ class FragmentUser : Fragment() {
         return view
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        mUser = mAuth!!.currentUser
-        val mUserReference = mDatabaseReference!!.child(mUser!!.uid)
-
-        tvEmail!!.text = mUser!!.email
-
-
-        mUserReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                tvFirstName!!.setText(snapshot.child("firstName").value as String)
-                tvLastName!!.setText(snapshot.child("lastName").value as String)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initialise()
-
-
-        Log.d("MSG", chipGroup1.checkedChipIds.toString())
-        /*for (a in chipGroup1.checkedChipIds){
-            val chip = chipGroup1.findViewById<Chip>(id)
-            Log.d("Valore Chip", chip.text.toString())
-        }*/
-
-
-    }
-
-    private fun initialise() {
-
-        mDatabase = FirebaseDatabase.getInstance()
-        mDatabaseReference = mDatabase!!.reference!!.child("Users")
-        mAuth = FirebaseAuth.getInstance()
 
         tvFirstName = view?.findViewById<View>(R.id.tv_first_name) as EditText
         tvLastName = view?.findViewById<View>(R.id.tv_last_name) as EditText
@@ -163,7 +135,10 @@ class FragmentUser : Fragment() {
 
             Toast.makeText(context, "Modifiche salvate correttamente", Toast.LENGTH_LONG).show()
         }
+
+
     }
+
 
 
 }
