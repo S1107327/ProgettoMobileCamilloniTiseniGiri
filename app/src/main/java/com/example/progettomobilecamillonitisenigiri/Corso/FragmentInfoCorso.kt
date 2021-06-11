@@ -2,24 +2,19 @@ package com.example.progettomobilecamillonitisenigiri.Corso
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.media.Rating
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
+import android.widget.LinearLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.awaitAll
-import java.lang.Exception
+
 
 class FragmentInfoCorso : Fragment() {
     //val corsoModel: CorsiViewModel by viewModels()
@@ -47,44 +42,81 @@ class FragmentInfoCorso : Fragment() {
                             a.lezioni.size.toString()
                         view?.findViewById<TextView>(R.id.docenteCorso)?.text = a.docente
                         view?.findViewById<TextView>(R.id.textView15)?.text = a.prezzo
+                        val recensioniBar = view?.findViewById<RatingBar>(R.id.rating)
+                        // Disabilito la ratingBar
+                        recensioniBar?.setIsIndicator(true)
 
                         //Inizializzo la ratingBar con il valore medio delle recensioni associate corso
                         if (!ratingBarIsInitialized) {
-                            view?.findViewById<RatingBar>(R.id.rating)?.rating =
+                            recensioniBar?.rating =
                                 a.recensioni.values.average().toFloat()
-                            if(a.recensioni.size==1)
-                                view?.findViewById<TextView>(R.id.textView2)?.text="(${a.recensioni.size.toString()} Recensione)"
-                            else view?.findViewById<TextView>(R.id.textView2)?.text="(${a.recensioni.size.toString()} Recensioni)"
+                            if (a.recensioni.size == 1)
+                                view?.findViewById<TextView>(R.id.textView2)?.text =
+                                    "(${a.recensioni.size.toString()} Recensione)"
+                            else view?.findViewById<TextView>(R.id.textView2)?.text =
+                                "(${a.recensioni.size.toString()} Recensioni)"
                             ratingBarIsInitialized = true
                         }
-                        // Disabilito la ratingBar se l'utente non è iscritto
-                        view?.findViewById<RatingBar>(R.id.rating)?.setIsIndicator(true)
 
-                        //Se l'utente è iscritto al corso la ratingBar viene abilitata e avrà la possibilià di dare una recensione
-                        if (firebaseConnection.getUser().value!!.iscrizioni.contains(id)) {
-                            view?.findViewById<RatingBar>(R.id.rating)?.setIsIndicator(false) //abilita ratingBar
-                            view?.findViewById<RatingBar>(R.id.rating)?.setOnRatingBarChangeListener(object : RatingBar.OnRatingBarChangeListener {
-                                    override fun onRatingChanged(ratingBar: RatingBar?, recensione: Float, isChangeFromUser: Boolean) {
-                                        //Controllo se il cambio stato della ratingBar è dovuto dall'azione dell'utente
-                                        if(isChangeFromUser) {
-                                            Toast.makeText(
-                                                context,
-                                                "Grazie per la sua recensione: $recensione stelle",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
-                                        //Aggiorno la recensione o la aggiungo se assente nel db
-                                        firebaseConnection.setRecensione(id, recensione)
-                                        ratingBar?.rating = a.recensioni.values.average().toFloat() //setto il valore medio delle recensioni presenti
-                                        if(a.recensioni.size==1)
-                                            view?.findViewById<TextView>(R.id.textView2)?.text="(${a.recensioni.size.toString()} Recensione)"
-                                        else view?.findViewById<TextView>(R.id.textView2)?.text="(${a.recensioni.size.toString()} Recensioni)"
 
+                        recensioniBar
+                            ?.setOnTouchListener(View.OnTouchListener { v, event ->
+                                if (event.action == MotionEvent.ACTION_UP) {
+                                    if (firebaseConnection.getUser().value!!.iscrizioni.contains(id)) {
+                                        val alertDialogAdd = AlertDialog.Builder(context)
+
+                                        val linearLayout = LinearLayout(alertDialogAdd.context)
+                                        val ratingBarAlertDialog = RatingBar(linearLayout.context)
+                                        val lp = LinearLayout.LayoutParams(
+                                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                                            LinearLayout.LayoutParams.WRAP_CONTENT,
+
+                                        )
+                                        linearLayout.gravity = Gravity.CENTER
+                                        lp.gravity= Gravity.LEFT
+
+                                        ratingBarAlertDialog.layoutParams = lp
+                                        ratingBarAlertDialog.numStars = 5
+                                        ratingBarAlertDialog.setIsIndicator(false)
+
+
+                                        linearLayout.addView(ratingBarAlertDialog)
+                                        //ratingBarAlertDialog.
+                                        //Se l'utente è iscritto al corso la ratingBar viene abilitata e avrà la possibilià di dare una recensione
+
+                                        alertDialogAdd.setView(linearLayout)
+                                        alertDialogAdd.setTitle("Aggiungi/Modifica recensione")
+                                        alertDialogAdd.setMessage("Lascia qui la tua recensione, o aggiorna la tua recensione sul corso!")
+                                        alertDialogAdd.setPositiveButton(
+                                            "AGGIUNGI/MODIFICA",
+                                            DialogInterface.OnClickListener() { dialog, which ->
+
+                                                firebaseConnection.setRecensione(
+                                                    id,
+                                                    ratingBarAlertDialog.rating
+                                                )
+                                                recensioniBar?.rating =
+                                                    a.recensioni.values.average()
+                                                        .toFloat() //setto il valore medio delle recensioni presenti
+                                                if (a.recensioni.size == 1)
+                                                    view?.findViewById<TextView>(R.id.textView2)?.text =
+                                                        "(${a.recensioni.size.toString()} Recensione)"
+                                                else view?.findViewById<TextView>(R.id.textView2)?.text =
+                                                    "(${a.recensioni.size.toString()} Recensioni)"
+                                                Toast.makeText(context,"Grazie per la sua recensione",Toast.LENGTH_SHORT).show()
+
+                                            })
+                                        alertDialogAdd.setNegativeButton("ANNULLA", null)
+                                        alertDialogAdd.show()
                                     }
+                                    else{
+                                        Toast.makeText(context,"Per recensire il corso devi essere iscritto!",Toast.LENGTH_SHORT).show()
+                                    }
+                                }
 
-                                })
+                                return@OnTouchListener true
+                            })
 
-                        }
 
                         //Aggiorno il bottone di iscrizione a seconda se l'utente è iscritto o meno
                         if (firebaseConnection.getUser().value!!.iscrizioni.contains(id)) {
