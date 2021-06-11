@@ -76,7 +76,6 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
 
     //funzione che aggiunge l'ultima lezione al database
     fun addUltimaLezione(urlLezione: String?, idLezione: String, seconds: Float, repopulate: Boolean) {
-        //val idCorso = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         val utente = firebaseConnection.getUser().value
         var ultimeLezioni = utente!!.ultimeLezioni
         for (lastLesson in ultimeLezioni) {
@@ -86,6 +85,8 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
             }
         }
         utente?.ultimeLezioni?.add(UltimaLezione(id_corso, urlLezione, idLezione, seconds))
+        utente?.ultimaLezione = UltimaLezione(id_corso, urlLezione, idLezione, seconds)
+
         if (utente != null) {
             firebaseConnection.setUtente(utente)
         }
@@ -212,11 +213,12 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
                 }
             }
         }
+        if(latestVideoView!=null) {
+            val parent = latestVideoView.parent as ViewGroup
+            val index = parent.indexOfChild(latestVideoView)
+            parent.removeView(latestVideoView)
 
-        val parent = latestVideoView?.parent as ViewGroup
-        val index = parent.indexOfChild(latestVideoView)
-        parent.removeView(latestVideoView)
-
-        parent.addView(youTubePlayerView, index)
+            parent.addView(youTubePlayerView, index)
+        }
     }
 }
