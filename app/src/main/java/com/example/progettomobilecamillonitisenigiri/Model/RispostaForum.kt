@@ -4,7 +4,7 @@ class RispostaForum(val nomeUtente:String,val cognomeUtente:String,var Risposta:
     constructor() : this("Utente", "Utente", "Assente")
     override fun equals(other: Any?): Boolean {
         return if(other is RispostaForum) {
-            (other.nomeUtente == nomeUtente && other.cognomeUtente == cognomeUtente && other.Risposta == Risposta)
+            (other.Risposta.equals(Risposta, true))
         } else false
     }
 }

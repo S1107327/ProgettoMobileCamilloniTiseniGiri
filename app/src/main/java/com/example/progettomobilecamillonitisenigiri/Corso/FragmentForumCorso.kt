@@ -8,10 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,6 +22,7 @@ import com.example.progettomobilecamillonitisenigiri.Model.RispostaForum
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -43,7 +41,7 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
         super.onResume()
         val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         //Aggiunta Nuova Domanda
-        view?.findViewById<FloatingActionButton>(R.id.floatingActionButtonForum)?.setOnClickListener{
+        view?.findViewById<Button>(R.id.ButtonForum)?.setOnClickListener{
             val alertDialogAdd = AlertDialog.Builder(context)
             val input = EditText(context)
             input.inputType = InputType.TYPE_CLASS_TEXT
@@ -55,7 +53,8 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
                 DialogInterface.OnClickListener() { dialog, which ->
                     val domanda = DomandaForum(firebaseConnection.getUser().value!!.firstName,firebaseConnection.getUser().value!!.lastName,firebaseConnection.newDomandaId(id),input.text.toString(), ArrayList<RispostaForum>())
                     if(!firebaseConnection.addDomanda(domanda,id)){
-                        Toast.makeText(context,"Domanda già esistente",Toast.LENGTH_LONG).show()
+                        val contextView = requireView().findViewById<View>(R.id.fragmentforum)
+                        Snackbar.make(contextView,"Domanda già esistente",Snackbar.LENGTH_SHORT).show()
                     }
                 })
             alertDialogAdd.setNegativeButton("ANNULLA", null)
@@ -107,7 +106,9 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
     fun addRispostaFrag(risposta:String, idDomanda:Int){
         val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         val risposta = RispostaForum(firebaseConnection.getUser().value!!.firstName,firebaseConnection.getUser().value!!.lastName,risposta)
-        if(!firebaseConnection.addRisposta(risposta,id,idDomanda))
-            Toast.makeText(context,"La risposta esiste già",Toast.LENGTH_LONG).show()
+        if(!firebaseConnection.addRisposta(risposta,id,idDomanda)) {
+            val contextView = requireView().findViewById<View>(R.id.fragmentforum)
+            Snackbar.make(contextView, "La risposta esiste già", Snackbar.LENGTH_SHORT).show()
+        }
     }
 }

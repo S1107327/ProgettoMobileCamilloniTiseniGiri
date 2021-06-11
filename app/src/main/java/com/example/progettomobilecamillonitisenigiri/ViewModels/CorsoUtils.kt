@@ -45,8 +45,8 @@ class CorsoUtils {
 
                 //liste di appoggio temporanee per lezioni e dispense
                 /*val tmp_list_lezioni = ArrayList<Lezione>()
-                val tmp_list_dispense = ArrayList<Documento>()*/
-                val tmp_list_domande = ArrayList<DomandaForum>()
+                val tmp_list_dispense = ArrayList<Documento>()
+                val tmp_list_domande = ArrayList<DomandaForum>()*/
 
                 //Aggiunta lezioni relative al corso
                 /*for (lezione in e.child("lezioni").children) {
@@ -61,11 +61,11 @@ class CorsoUtils {
                     if (l != null) tmp_list_dispense.add(l)
                 }*/
                 lista_dispense.put(corso.id, corso.dispense)
-                for(domanda in e.child("Forum").children){
+                /*for(domanda in e.child("Forum").children){
                     val domForum = domanda.getValue(DomandaForum::class.java)
                     if(domForum != null) tmp_list_domande.add(domForum)
-                }
-                mapDomande.put(corso.id,tmp_list_domande)
+                }*/
+                mapDomande.put(corso.id,corso.forum)
             }
         }
     }

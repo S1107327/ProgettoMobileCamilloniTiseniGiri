@@ -218,7 +218,7 @@ class FirebaseConnection : ViewModel() {
             listaDomandeCorso.add(domanda)
             aggiunta = true
         }
-        corsoDatabaseReference.child(id_corso).child("Forum").setValue(listaDomandeCorso)
+        corsoDatabaseReference.child(id_corso).child("forum").setValue(listaDomandeCorso)
         return aggiunta
     }
     fun addRisposta(risposta: RispostaForum,id_corso: String ,id_domanda:Int): Boolean{
@@ -228,7 +228,7 @@ class FirebaseConnection : ViewModel() {
             risposte.add(risposta)
             aggiunta = true
         }
-        corsoDatabaseReference.child(id_corso).child("Forum").child(id_domanda.toString()).child("Risposte").setValue(risposte)
+        corsoDatabaseReference.child(id_corso).child("forum").child(id_domanda.toString()).child("Risposte").setValue(risposte)
         return aggiunta
     }
 

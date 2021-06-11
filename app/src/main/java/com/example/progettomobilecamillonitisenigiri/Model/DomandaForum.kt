@@ -5,7 +5,7 @@ class DomandaForum(val nomeUtente:String,val cognomeUtente:String,val id:Int, va
 
     override fun equals(other: Any?): Boolean {
         return if(other is DomandaForum) {
-            (other.nomeUtente == nomeUtente && other.cognomeUtente == cognomeUtente && other.Domanda == Domanda)
+            (other.Domanda.equals(Domanda,true))
         } else false
     }
 }
