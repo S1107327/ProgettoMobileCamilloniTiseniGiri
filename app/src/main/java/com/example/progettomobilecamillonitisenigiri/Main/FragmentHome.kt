@@ -1,7 +1,9 @@
 package com.example.progettomobilecamillonitisenigiri.Main
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -17,6 +19,9 @@ import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnecti
 
 class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListener {
     var list = ArrayList<Corso>()
+    lateinit var mProgressbar: ProgressDialog
+    var isTheFirstTime = true
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val rvPopolari: RecyclerView = view.findViewById(R.id.recyclerViewPopolari)
@@ -26,6 +31,12 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
         val corsiModel: CorsiViewModel by viewModels()
         val userModel: UserViewModel by viewModels()*/
         val firebaseConnection : FirebaseConnection by viewModels()
+        if(isTheFirstTime){
+            mProgressbar = ProgressDialog(context)
+            mProgressbar!!.setMessage("Sto caricando i corsi...")
+            mProgressbar.show()
+            isTheFirstTime = false
+        }
 
 
         rvPopolari.layoutManager =
@@ -38,6 +49,7 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
             rvPopolari.adapter = CorsoAdapter(corsi, this)
             rvConsigliati?.adapter = CorsoAdapter(firebaseConnection.getListaConsigliati(corsi as ArrayList<Corso>), this)
             rvRecenti.adapter = CorsoAdapter(corsi.takeLast(5), this)
+            mProgressbar.hide()
         })
 
         

@@ -1,6 +1,5 @@
 package com.example.progettomobilecamillonitisenigiri.ViewModels
 
-import android.util.Log
 import com.example.progettomobilecamillonitisenigiri.Model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -52,4 +51,5 @@ class UserUtils {
         else
             utenteLoggato.wishlist.add(iscrizione_id)
     }
+
 }

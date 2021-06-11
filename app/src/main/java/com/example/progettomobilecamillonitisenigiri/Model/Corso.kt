@@ -1,15 +1,17 @@
 package com.example.progettomobilecamillonitisenigiri.Model
 
 import com.google.gson.Gson
-import org.w3c.dom.Document
 
 
 class Corso(
     titolo: String,
     descrizione: String,
+    docente: String,
     id: String,
     immagine: String,
+    prezzo: String,
     categoria: String,
+    recensioni: HashMap<String,Float>,
     lezioni: ArrayList<Lezione>?,
     dispense: ArrayList<Documento>?
 ) {
@@ -22,7 +24,10 @@ class Corso(
     var titolo: String
     var descrizione: String
     var id: String
+    var docente: String
     var immagine: String
+    var prezzo: String
+    lateinit var recensioni: HashMap<String,Float>
     var categoria: String
     lateinit var lezioni: ArrayList<Lezione>
     lateinit var dispense: ArrayList<Documento>
@@ -32,7 +37,9 @@ class Corso(
         this.titolo = titolo
         this.descrizione = descrizione
         this.id = id
+        this.docente = docente
         this.immagine = immagine
+        this.prezzo = prezzo
         this.categoria = categoria
         if (lezioni != null) {
             this.lezioni = lezioni
@@ -40,8 +47,15 @@ class Corso(
         if (dispense != null) {
             this.dispense = dispense
         }
+        if (recensioni != null) {
+            this.recensioni = recensioni
+        }
+
     }
-    constructor() : this("Assente", "assente", "0", "assente", "assente",null,null) {
+    constructor() : this("Non specificato", "assente", "Non specificato","0", "assente", "Corso gratuito","assente",
+        hashMapOf(),
+        arrayListOf(),
+        arrayListOf()) {
 
     }
 
