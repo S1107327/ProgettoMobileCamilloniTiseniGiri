@@ -1,5 +1,6 @@
 package com.example.progettomobilecamillonitisenigiri.Corso
 
+import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -28,9 +29,15 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
     //val corsiModel: CorsiViewModel by viewModels()
     val firebaseConnection: FirebaseConnection by viewModels()
     val tracker = YouTubePlayerTracker()
+    lateinit var id_corso: String
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        id_corso  = requireActivity().intent.getStringExtra("ID_CORSO").toString()
+    }
     override fun onResume() {
         super.onResume()
-        val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
+        //val id = arguments?.getString("ID_CORSO").toString()
+
         val rvLezioni: RecyclerView? = view?.findViewById(R.id.recyclerViewLezioni)
 
 
@@ -41,9 +48,9 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
         firebaseConnection.getListaLezioni()
             .observe(viewLifecycleOwner, Observer<HashMap<String, ArrayList<Lezione>>> { lezioni ->
                 rvLezioni?.adapter = LezioniAdapter(
-                    lezioni?.getValue(id)?.toList() as List<Lezione>, this, view, this
+                    lezioni?.getValue(id_corso)?.toList() as List<Lezione>, this, view, this
                 )
-                if (!firebaseConnection.isIscritto(id)) {
+                if (!firebaseConnection.isIscritto(id_corso)) {
                     view?.findViewById<ConstraintLayout>(R.id.paginaNonVisualizzabile)?.visibility =
                         VISIBLE
                     view?.findViewById<ConstraintLayout>(R.id.paginaVisualizzabileIscritti)?.visibility =
@@ -69,16 +76,16 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
 
     //funzione che aggiunge l'ultima lezione al database
     fun addUltimaLezione(urlLezione: String?, idLezione: String, seconds: Float, repopulate: Boolean) {
-        val idCorso = requireActivity().intent.getStringExtra("ID_CORSO").toString()
+        //val idCorso = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         val utente = firebaseConnection.getUser().value
         var ultimeLezioni = utente!!.ultimeLezioni
         for (lastLesson in ultimeLezioni) {
-            if (lastLesson.id_corso == idCorso) {
+            if (lastLesson.id_corso == id_corso) {
                 utente.ultimeLezioni.remove(lastLesson)
                 break
             }
         }
-        utente?.ultimeLezioni?.add(UltimaLezione(idCorso, urlLezione, idLezione, seconds))
+        utente?.ultimeLezioni?.add(UltimaLezione(id_corso, urlLezione, idLezione, seconds))
         if (utente != null) {
             firebaseConnection.setUtente(utente)
         }
@@ -96,7 +103,7 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
         latestVideoView?.addYouTubePlayerListener(object :
             AbstractYouTubePlayerListener() {
             override fun onReady(lastYouTubePlayer: YouTubePlayer) {
-                val id_corso = requireActivity().intent.getStringExtra("ID_CORSO").toString()
+               // val id_corso = requireActivity().intent.getStringExtra("ID_CORSO").toString()
                 val user = firebaseConnection.getUser().value
                 val listaLezioni = firebaseConnection.getListaLezioni().value?.get(id_corso)
                 var found =
@@ -165,7 +172,7 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
             view?.findViewById<com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>(
                 R.id.youtubeLastVideoView
             )
-        val id_corso = requireActivity().intent.getStringExtra("ID_CORSO").toString()
+        //val id_corso = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         val listaLezioni = firebaseConnection.getListaLezioni().value?.get(id_corso)
         val youTubePlayerView = context?.let { YouTubePlayerView(it) }
         youTubePlayerView?.layoutParams = latestVideoView?.layoutParams
