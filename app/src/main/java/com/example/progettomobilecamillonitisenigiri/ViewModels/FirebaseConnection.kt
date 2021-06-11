@@ -1,11 +1,9 @@
 package com.example.progettomobilecamillonitisenigiri.ViewModels
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.*
-import com.example.progettomobilecamillonitisenigiri.Model.Corso
-import com.example.progettomobilecamillonitisenigiri.Model.Documento
-import com.example.progettomobilecamillonitisenigiri.Model.Lezione
-import com.example.progettomobilecamillonitisenigiri.Model.User
+import com.example.progettomobilecamillonitisenigiri.Model.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -14,6 +12,7 @@ class FirebaseConnection : ViewModel() {
 
     private var database: DatabaseReference
     private lateinit var mDatabase: FirebaseDatabase
+    private var corsoDatabaseReference:DatabaseReference
 
     //private var mDatabaseReference: DatabaseReference
     private var userDatabaseReference: DatabaseReference
@@ -27,6 +26,7 @@ class FirebaseConnection : ViewModel() {
     private val listLezioni = MutableLiveData<HashMap<String, ArrayList<Lezione>>>()
     private val listDispense = MutableLiveData<HashMap<String, ArrayList<Documento>>>()
     private val listCorsiPerCat = MutableLiveData<HashMap<String, ArrayList<Corso>>>()
+    private val listDomande = MutableLiveData<HashMap<String,ArrayList<DomandaForum>>>()
 
 
     // Live data relativi tabella utente
@@ -40,6 +40,7 @@ class FirebaseConnection : ViewModel() {
         //mDatabaseReference = FirebaseDatabase.getInstance().reference
         database = FirebaseDatabase.getInstance().reference
         userDatabaseReference = database!!.child("Users")
+        corsoDatabaseReference = database!!.child("Corsi")
         readData()
         readDataFirst()
 
@@ -61,6 +62,7 @@ class FirebaseConnection : ViewModel() {
 
                 listCorsiPerCat.postValue(corsoUtils.getCorsiPerCat())
                 listCategorie.postValue(corsoUtils.getCat())
+                listDomande.postValue(corsoUtils.getDomande())
 
             }
 
@@ -202,7 +204,33 @@ class FirebaseConnection : ViewModel() {
     fun getCorsiPerCat(): MutableLiveData<HashMap<String, ArrayList<Corso>>> {
         return listCorsiPerCat
     }
-
+    fun getListDomande(): MutableLiveData<HashMap<String,ArrayList<DomandaForum>>>{
+        return listDomande
+    }
+    fun newDomandaId(id_corso:String):Int{
+        val id = listDomande.value!!.get(id_corso)!!.lastIndex+1
+        return id
+    }
+    fun addDomanda(domanda:DomandaForum, id_corso: String): Boolean{
+        var aggiunta = false
+        val listaDomandeCorso = listDomande.value?.get(id_corso)
+        if(! listaDomandeCorso!!.contains(domanda)) {
+            listaDomandeCorso.add(domanda)
+            aggiunta = true
+        }
+        corsoDatabaseReference.child(id_corso).child("Forum").setValue(listaDomandeCorso)
+        return aggiunta
+    }
+    fun addRisposta(risposta: RispostaForum,id_corso: String ,id_domanda:Int): Boolean{
+        var aggiunta = false
+        val risposte = listDomande.value!!.get(id_corso)!!.get(id_domanda).Risposte
+        if(!risposte.contains(risposta)) {
+            risposte.add(risposta)
+            aggiunta = true
+        }
+        corsoDatabaseReference.child(id_corso).child("Forum").child(id_domanda.toString()).child("Risposte").setValue(risposte)
+        return aggiunta
+    }
 
 /*
     //private var controllerCorsi:CorsiViewModel = CorsiViewModel()
