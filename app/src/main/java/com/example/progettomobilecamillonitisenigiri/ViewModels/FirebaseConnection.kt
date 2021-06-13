@@ -155,7 +155,7 @@ class FirebaseConnection : ViewModel() {
 
         }
         if (consigliati.isEmpty())
-            return corsi //ritorna corsi se l'utente non ha categorie predefinite
+            return corsi.shuffled().take(5) as ArrayList<Corso> //ritorna corsi se l'utente non ha categorie predefinite
         return consigliati.shuffled().take(5) as ArrayList<Corso>
     }
 
