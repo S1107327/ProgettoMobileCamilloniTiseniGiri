@@ -5,10 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -51,10 +49,21 @@ class FragmentUser : Fragment() {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
         mAuth = FirebaseAuth.getInstance()
         mUser = mAuth!!.currentUser
+        view.findViewById<Switch>(R.id.switch1).setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                // The switch is enabled/checked
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                // The switch is disabled
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        }
+
 
 
         chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupUser1)
         chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupUser2)
+
 
         firebaseConnection.getCategorie().observe(viewLifecycleOwner, Observer<Set<String>> { categorie ->
 
