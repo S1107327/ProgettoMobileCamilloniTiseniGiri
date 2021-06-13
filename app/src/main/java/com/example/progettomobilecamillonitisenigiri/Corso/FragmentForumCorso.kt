@@ -15,8 +15,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Adapters.DomandeForumAdapter
+import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Model.DomandaForum
 import com.example.progettomobilecamillonitisenigiri.Model.RispostaForum
+import com.example.progettomobilecamillonitisenigiri.Model.User
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 import com.google.android.material.snackbar.Snackbar
@@ -35,40 +37,6 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
     override fun onResume() {
         super.onResume()
         val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
-        //Aggiunta Nuova Domanda
-        view?.findViewById<Button>(R.id.ButtonForum)?.setOnClickListener{
-            val alertDialogAdd = AlertDialog.Builder(context)
-            val input = EditText(context)
-            input.inputType = InputType.TYPE_CLASS_TEXT
-            alertDialogAdd.setView(input)
-            alertDialogAdd.setTitle("Aggiungi una nuova  domanda")
-            alertDialogAdd.setMessage("Aggiungendo una nuova domanda gli altri utenti potranno rispondere ad essa con dei commenti. Fare domande rende la fruizione del corso più facile per tutti!")
-            alertDialogAdd.setPositiveButton(
-                "AGGIUNGI",
-                DialogInterface.OnClickListener() { dialog, which ->
-                    val domanda = DomandaForum(firebaseConnection.getUser().value!!.firstName,firebaseConnection.getUser().value!!.lastName,firebaseConnection.newDomandaId(id),input.text.toString(), ArrayList<RispostaForum>())
-                    if(!domanda.domanda.isEmpty()) {
-                        if (!firebaseConnection.addDomanda(domanda, id)) {
-                            val contextView = requireView().findViewById<View>(R.id.fragmentforum)
-                            Snackbar.make(
-                                contextView,
-                                "Domanda già esistente",
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                    else{
-                        val contextView = requireView().findViewById<View>(R.id.fragmentforum)
-                        Snackbar.make(
-                            contextView,
-                            "Non puoi aggiungere una domanda vuota",
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
-                })
-            alertDialogAdd.setNegativeButton("ANNULLA", null)
-            alertDialogAdd.show()
-        }
 
         val rvDomande: RecyclerView? = view?.findViewById(R.id.recyclerViewDomanda)
 
@@ -77,24 +45,73 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
             LinearLayoutManager.VERTICAL,
             false
         )
+        rvDomande?.adapter = DomandeForumAdapter(
+            ArrayList<DomandaForum>(),
+            context,
+            this,
+            this
+        )
 
         firebaseConnection.getListDomande().observe(
             viewLifecycleOwner,
             Observer<HashMap<String, ArrayList<DomandaForum>>> { domande ->
+                val corsoActivity:CorsoActivity = activity as CorsoActivity
                 rvDomande?.adapter = DomandeForumAdapter(
                     domande.getValue(id).toList(),
                     context,
                     this,
                     this
                 )
-                //Abilita/disabilita la sezione a seconda dell'iscrizione dell'utente
-                if (!firebaseConnection.isIscritto(id)) {
-                    view?.findViewById<ConstraintLayout>(R.id.paginaNonVisualizzabile)?.visibility =
-                        View.VISIBLE
-                    view?.findViewById<ScrollView>(R.id.paginaVisualizzabileIscrittiForum)?.visibility =
-                        View.GONE
+                //Aggiunta Nuova Domanda
+                view?.findViewById<Button>(R.id.ButtonForum)?.setOnClickListener{
+                    val alertDialogAdd = AlertDialog.Builder(context)
+                    val input = EditText(context)
+                    input.inputType = InputType.TYPE_CLASS_TEXT
+                    alertDialogAdd.setView(input)
+                    alertDialogAdd.setTitle("Aggiungi una nuova  domanda")
+                    alertDialogAdd.setMessage("Aggiungendo una nuova domanda gli altri utenti potranno rispondere ad essa con dei commenti. Fare domande rende la fruizione del corso più facile per tutti!")
+                    alertDialogAdd.setPositiveButton(
+                        "AGGIUNGI",
+                        DialogInterface.OnClickListener() { dialog, which ->
+                            val domanda = DomandaForum(firebaseConnection.getUser().value!!.firstName,firebaseConnection.getUser().value!!.lastName,firebaseConnection.newDomandaId(id),input.text.toString(), ArrayList<RispostaForum>())
+                            if(!domanda.domanda.isEmpty()) {
+                                if (!firebaseConnection.addDomanda(domanda, id)) {
+                                    val contextView = requireView().findViewById<View>(R.id.fragmentforum)
+                                    Snackbar.make(
+                                        contextView,
+                                        "Domanda già esistente",
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                }
+                                rvDomande?.adapter = DomandeForumAdapter(
+                                    domande.getValue(id).toList(),
+                                    context,
+                                    this,
+                                    this
+                                )
+                            }
+                            else{
+                                val contextView = requireView().findViewById<View>(R.id.fragmentforum)
+                                Snackbar.make(
+                                    contextView,
+                                    "Non puoi aggiungere una domanda vuota",
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
+                    alertDialogAdd.setNegativeButton("ANNULLA", null)
+                    alertDialogAdd.show()
                 }
             })
+        firebaseConnection.getUser().observe(viewLifecycleOwner, Observer<User> {
+            //Abilita/disabilita la sezione a seconda dell'iscrizione dell'utente
+            if (!firebaseConnection.isIscritto(id)) {
+                view?.findViewById<ConstraintLayout>(R.id.paginaNonVisualizzabile)?.visibility =
+                    View.VISIBLE
+                view?.findViewById<ScrollView>(R.id.paginaVisualizzabileIscrittiForum)?.visibility =
+                    View.GONE
+            }
+        })
     }
 
     override fun onDomandeClick(position: Int, view: View?){

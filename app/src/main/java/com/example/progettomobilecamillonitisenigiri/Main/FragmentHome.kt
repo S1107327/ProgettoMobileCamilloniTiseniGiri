@@ -58,7 +58,7 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
                 populateLastLessonPlayer()
                 rvPopolari.adapter = CorsoAdapter(corsi, this)
                 rvConsigliati?.adapter = CorsoAdapter(
-                    firebaseConnection.getListaConsigliati(corsi as ArrayList<Corso>),
+                     corsi.filter { corso-> (firebaseConnection.getUser().value?.categoriePref)?.contains(corso.categoria)!! },
                     this
                 )
                 rvRecenti.adapter = CorsoAdapter(corsi.takeLast(5), this)

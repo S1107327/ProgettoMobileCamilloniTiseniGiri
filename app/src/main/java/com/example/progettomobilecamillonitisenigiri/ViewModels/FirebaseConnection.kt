@@ -13,6 +13,7 @@ class FirebaseConnection : ViewModel() {
     private var database: DatabaseReference
     private lateinit var mDatabase: FirebaseDatabase
     private var corsoDatabaseReference:DatabaseReference
+    private var forumsDatabaseReference:DatabaseReference
 
     //private var mDatabaseReference: DatabaseReference
     private var userDatabaseReference: DatabaseReference
@@ -35,25 +36,49 @@ class FirebaseConnection : ViewModel() {
 
     private val corsoUtils: CorsoUtils = CorsoUtils()
     private val utenteUtils: UserUtils = UserUtils()
+    private val forumUtils: ForumUtils = ForumUtils()
 
     init {
         //mDatabaseReference = FirebaseDatabase.getInstance().reference
         database = FirebaseDatabase.getInstance().reference
         userDatabaseReference = database!!.child("Users")
         corsoDatabaseReference = database!!.child("Corsi")
+        forumsDatabaseReference = database!!.child("forums")
         readData()
-        readDataFirst()
 
     }
 
+
     fun readData() {
-        database.addValueEventListener(object : ValueEventListener {
+        /*database.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                utenteUtils.readData(snapshot)
+                currentUser.postValue(utenteUtils.getUtente())
+                categoriePreferite.postValue(utenteUtils.getCategoriePreferite())
+                corsoUtils.readData(snapshot)
+                listCorsi.postValue(corsoUtils.getCorsi())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })*/
+        userDatabaseReference.child(loggedUser!!.uid).addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 //Chiamata a utility utente e popolazione livedata che avviene ad ogni cambio nel DB
                 utenteUtils.readData(snapshot)
                 currentUser.postValue(utenteUtils.getUtente())
                 categoriePreferite.postValue(utenteUtils.getCategoriePreferite())
-                //Chiamata a utility per popolazione lista corsi che avviene ad ogni cambio nel DB
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+        corsoDatabaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                //popolazione componenti accessorie ai corsi che avviene solo una volta al lancio dell'activity
                 corsoUtils.readData(snapshot)
                 listCorsi.postValue(corsoUtils.getCorsi())
                 listAggiuntiDiRecente.postValue(
@@ -62,22 +87,6 @@ class FirebaseConnection : ViewModel() {
 
                 listCorsiPerCat.postValue(corsoUtils.getCorsiPerCat())
                 listCategorie.postValue(corsoUtils.getCat())
-                listDomande.postValue(corsoUtils.getDomande())
-
-            }
-
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-
-        })
-
-    }
-
-    fun readDataFirst() {
-        database.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                //popolazione componenti accessorie ai corsi che avviene solo una volta al lancio dell'activity
                 listDispense.postValue(corsoUtils.getDispense())
                 listLezioni.postValue(corsoUtils.getLezioni())
 
@@ -87,9 +96,45 @@ class FirebaseConnection : ViewModel() {
 
             override fun onCancelled(error: DatabaseError) {
             }
+        })
+
+        forumsDatabaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                forumUtils.readData(snapshot)
+                listDomande.postValue(forumUtils.getDomande())
+            }
+
+
+            override fun onCancelled(error: DatabaseError) {
+            }
 
         })
 
+
+    }
+
+    fun readDataFirst() {
+        corsoDatabaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                //popolazione componenti accessorie ai corsi che avviene solo una volta al lancio dell'activity
+                corsoUtils.readData(snapshot)
+                listCorsi.postValue(corsoUtils.getCorsi())
+                listAggiuntiDiRecente.postValue(
+                    corsoUtils.getCorsi().reversed()
+                )//oppure takeLast(numero)
+
+                listCorsiPerCat.postValue(corsoUtils.getCorsiPerCat())
+                listCategorie.postValue(corsoUtils.getCat())
+                listDispense.postValue(corsoUtils.getDispense())
+                listLezioni.postValue(corsoUtils.getLezioni())
+
+
+            }
+
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
     }
 
     //questa funzione aggiunge/elimina il corso dalle iscrizioni richiamando la setiscrizione del corsoUtils
@@ -143,7 +188,7 @@ class FirebaseConnection : ViewModel() {
     fun getListaConsigliati(corsi: ArrayList<Corso>): ArrayList<Corso> {
         val consigliati = ArrayList<Corso>()
         for (corso in corsi) {
-            for (categoria in currentUser.value!!.categoriePref) {
+            for (categoria in categoriePreferite.value!!) {
                 if (corso.categoria.equals(categoria)) {
                     consigliati.add(corso)
                 }
@@ -208,17 +253,33 @@ class FirebaseConnection : ViewModel() {
         return listDomande
     }
     fun newDomandaId(id_corso:String):Int{
-        val id = listDomande.value!!.get(id_corso)!!.lastIndex+1
+        val id: Int
+        if(listDomande.value == null){
+            id = 0
+        }
+        else{
+             id = listDomande.value!!.get(id_corso)!!.lastIndex+1
+        }
         return id
     }
     fun addDomanda(domanda:DomandaForum, id_corso: String): Boolean{
+
         var aggiunta = false
-        val listaDomandeCorso = listDomande.value?.get(id_corso)
-        if(! listaDomandeCorso!!.contains(domanda)) {
+        var listaDomandeCorso = listDomande.value?.get(id_corso)
+        if(listaDomandeCorso != null) {
+            if (!listaDomandeCorso!!.contains(domanda)){
+                listaDomandeCorso.add(domanda)
+                aggiunta = true
+            }
+            Log.d("prova","entrato in if"+listaDomandeCorso.toString())
+        }
+        else{
+            listaDomandeCorso = ArrayList<DomandaForum>()
             listaDomandeCorso.add(domanda)
             aggiunta = true
+            Log.d("prova","entrato in else"+listaDomandeCorso.toString())
         }
-        corsoDatabaseReference.child(id_corso).child("forum").setValue(listaDomandeCorso)
+        forumsDatabaseReference.child(id_corso).setValue(listaDomandeCorso)
         return aggiunta
     }
     fun addRisposta(risposta: RispostaForum,id_corso: String ,id_domanda:Int): Boolean{
@@ -228,7 +289,7 @@ class FirebaseConnection : ViewModel() {
             risposte.add(risposta)
             aggiunta = true
         }
-        corsoDatabaseReference.child(id_corso).child("forum").child(id_domanda.toString()).child("risposte").setValue(risposte)
+        forumsDatabaseReference.child(id_corso).child(id_domanda.toString()).child("risposte").setValue(risposte)
         return aggiunta
     }
 

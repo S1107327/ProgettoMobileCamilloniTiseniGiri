@@ -13,8 +13,7 @@ class Corso(
     categoria: String,
     recensioni: HashMap<String,Float>,
     lezioni: ArrayList<Lezione>?,
-    dispense: ArrayList<Documento>?,
-    forum: ArrayList<DomandaForum>
+    dispense: ArrayList<Documento>?
 ) {
     fun clone(): Corso {
         val corso = Gson().toJson(this)
@@ -32,7 +31,7 @@ class Corso(
     var categoria: String
     lateinit var lezioni: ArrayList<Lezione>
     lateinit var dispense: ArrayList<Documento>
-    lateinit var forum: ArrayList<DomandaForum>
+    //lateinit var forum: ArrayList<DomandaForum>
 
 
     init {
@@ -52,14 +51,10 @@ class Corso(
         if (recensioni != null) {
             this.recensioni = recensioni
         }
-        if(forum != null){
-            this.forum = forum
-        }
 
     }
     constructor() : this("Non specificato", "assente", "Non specificato","0", "assente", "Corso gratuito","assente",
         hashMapOf(),
-        arrayListOf(),
         arrayListOf(),
         arrayListOf()) {
 
