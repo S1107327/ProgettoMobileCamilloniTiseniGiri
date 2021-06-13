@@ -95,7 +95,6 @@ class MainActivity : AppCompatActivity() {
             firebaseConnection.getUser().observe(this, Observer<User> { utente->
                 if(isThefirstTime){
                     isThefirstTime = false
-                    Toast.makeText(applicationContext, "Login Successfully ", Toast.LENGTH_SHORT).show()
                     if(utente.categoriePref.size<1){
                         val alertDialog = AlertDialog.Builder(this)
                         alertDialog.setTitle("Indica le tue Categorie Preferite")

@@ -156,7 +156,10 @@ class FirebaseConnection : ViewModel() {
         }
         if (consigliati.isEmpty())
             return corsi.shuffled().take(5) as ArrayList<Corso> //ritorna corsi se l'utente non ha categorie predefinite
-        return consigliati.shuffled().take(5) as ArrayList<Corso>
+        if(consigliati.size >= 5 ) {
+            return consigliati.shuffled().take(5) as ArrayList<Corso>
+        }
+        else return consigliati.shuffled() as ArrayList<Corso>
     }
 
     fun getCorsiFrequentati(corsi: ArrayList<Corso>): ArrayList<Corso> {
