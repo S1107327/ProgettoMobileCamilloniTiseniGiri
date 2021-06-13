@@ -27,6 +27,8 @@ class FragmentRicerca : Fragment(R.layout.fragment_ricerca), CorsoAdapter.OnCors
         view.findViewById<TextView>(R.id.risRicerca).text = "'$query'"
         val rvSearch = view.findViewById<RecyclerView>(R.id.risultatiSearch)
         rvSearch.layoutManager = GridLayoutManager(context, 2)
+        rvSearch.adapter = CorsoAdapter(ArrayList<Corso>(),this)
+
         firebaseConnection.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>> { corsi->
             rvSearch.adapter = CorsoAdapter(corsi.filter { corso -> corso.titolo.contains(query,true) || corso.descrizione.contains(query,true) || corso.categoria.contains(query,true)},this)
         })

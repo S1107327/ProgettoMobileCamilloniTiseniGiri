@@ -13,9 +13,13 @@ class UserUtils {
     }
 
     fun readData(snapshot: DataSnapshot) {
-        if (snapshot.exists()) {
-            utenteLoggato = snapshot.getValue(User::class.java)!!
+
+        if (snapshot.child("Users").child(loggedUser!!.uid)!!.exists()) {
+            val utenteSnap = snapshot.child("Users").child(loggedUser!!.uid)
+            utenteLoggato = utenteSnap.getValue(User::class.java)!!
+
         }
+
     }
 
     fun getUtente(): User {

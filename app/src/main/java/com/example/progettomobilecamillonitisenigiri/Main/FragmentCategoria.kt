@@ -25,6 +25,7 @@ class FragmentCategoria: Fragment(R.layout.fragment_categoria), CorsoAdapter.OnC
         val categoria = args.categoria
         val rvCategoria: RecyclerView = view.findViewById(R.id.recyclerViewCategoria)
         rvCategoria.layoutManager = GridLayoutManager(context, 2)
+        rvCategoria.adapter = CorsoAdapter(ArrayList<Corso>(),this)
         firebaseConnection.getCorsiPerCat().observe(viewLifecycleOwner,
             Observer<HashMap<String, ArrayList<Corso>>> { corsiCat ->
                 rvCategoria.adapter = corsiCat.get(categoria)?.let { CorsoAdapter(it,this) }

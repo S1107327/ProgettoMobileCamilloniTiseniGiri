@@ -77,7 +77,7 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnCorsoListener {
 
         rvCat.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
+        rvCat.adapter = CatalogoAdapter(ArrayList<CategoriaListModel>(), context,this)
         firebaseConnection.getCorsiPerCat().observe(viewLifecycleOwner,Observer<HashMap<String,ArrayList<Corso>>>{corsiPerCat->
             var list = ArrayList<CategoriaListModel>()
             for((key,value) in corsiPerCat){

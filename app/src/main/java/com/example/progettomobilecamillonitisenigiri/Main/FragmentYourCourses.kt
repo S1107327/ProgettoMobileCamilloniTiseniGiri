@@ -25,6 +25,7 @@ class FragmentYourCourses: Fragment(R.layout.fragment_personal_courses),
         super.onViewCreated(view, savedInstanceState)
         val rvYourCourses:RecyclerView = view.findViewById(R.id.recyclerViewYourCourses)
         rvYourCourses.layoutManager = GridLayoutManager(context,2)
+        rvYourCourses.adapter = CorsoAdapter(ArrayList<Corso>(),this)
         firebaseConnection.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
             rvYourCourses.adapter = CorsoAdapter(firebaseConnection.getCorsiFrequentati(corsi as ArrayList<Corso>),this)
         })

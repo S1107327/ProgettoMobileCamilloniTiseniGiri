@@ -45,6 +45,9 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
 
         populateLastLessonPlayer()
 
+        rvLezioni?.adapter = LezioniAdapter(
+            ArrayList<Lezione>(), this, view, this
+        )
         firebaseConnection.getListaLezioni()
             .observe(viewLifecycleOwner, Observer<HashMap<String, ArrayList<Lezione>>> { lezioni ->
                 rvLezioni?.adapter = LezioniAdapter(

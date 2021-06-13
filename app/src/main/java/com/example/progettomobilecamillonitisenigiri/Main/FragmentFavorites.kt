@@ -27,6 +27,7 @@ class FragmentFavorites: Fragment(R.layout.fragment_favorites),
 
         val rvFavorites: RecyclerView = view.findViewById(R.id.recyclerViewFavorites)
         rvFavorites.layoutManager = GridLayoutManager(context,2)
+        rvFavorites.adapter = CorsoAdapter(ArrayList<Corso>(),this)
         firebaseConnection.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
             rvFavorites.adapter = CorsoAdapter(firebaseConnection.getCorsiFromWishlist(corsi as ArrayList<Corso>),this)
         })

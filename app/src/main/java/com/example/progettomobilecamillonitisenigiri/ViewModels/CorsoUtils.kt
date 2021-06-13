@@ -1,6 +1,5 @@
 package com.example.progettomobilecamillonitisenigiri.ViewModels
 
-import android.util.Log
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Model.Documento
 import com.example.progettomobilecamillonitisenigiri.Model.DomandaForum
@@ -33,8 +32,8 @@ class CorsoUtils {
         lista_lezioni.clear()
         lista_CorsiPerCat.clear()
         mapDomande.clear()
-        if (snapshot.exists()) {
-            for (e in snapshot.children) {
+        if (snapshot.child("Corsi")!!.exists()) {
+            for (e in snapshot.child("Corsi").children) {
 
                 //Aggiunta corso a lista corsi
                 val corso = e.getValue(Corso::class.java)
@@ -66,15 +65,7 @@ class CorsoUtils {
                     val domForum = domanda.getValue(DomandaForum::class.java)
                     if(domForum != null) tmp_list_domande.add(domForum)
                 }*/
-            }
-            if(snapshot.child("forums").exists()) {
-                for (e in snapshot.child("forums").children) {
-                    val domande = ArrayList<DomandaForum>()
-                    for (dom in e.children)
-                        domande!!.add(dom.getValue(DomandaForum::class.java)!!)
-                    Log.d("prova",e.key!!)
-                    mapDomande.put(e.key!!, domande)
-                }
+                mapDomande.put(corso.id,corso.forum)
             }
         }
     }

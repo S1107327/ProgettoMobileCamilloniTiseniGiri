@@ -52,13 +52,16 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvRecenti.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rvPopolari.adapter = CorsoAdapter(ArrayList<Corso>(), this)
+        rvConsigliati?.adapter = CorsoAdapter(ArrayList<Corso>(), this)
+        rvRecenti.adapter =CorsoAdapter(ArrayList<Corso>(), this)
         firebaseConnection.getListaCorsi().observe(
             viewLifecycleOwner,
             Observer<List<Corso>> { corsi ->
                 populateLastLessonPlayer()
                 rvPopolari.adapter = CorsoAdapter(corsi, this)
                 rvConsigliati?.adapter = CorsoAdapter(
-                     corsi.filter { corso-> (firebaseConnection.getUser().value?.categoriePref)?.contains(corso.categoria)!! },
+                    firebaseConnection.getListaConsigliati(corsi as ArrayList<Corso>),
                     this
                 )
                 rvRecenti.adapter = CorsoAdapter(corsi.takeLast(5), this)

@@ -39,6 +39,7 @@ class FragmentDispenseCorso : Fragment(), DispenseAdapter.OnDispenseAdapterListe
             LinearLayoutManager.VERTICAL,
             false
         )
+        rvDispense?.adapter = DispenseAdapter(ArrayList<Documento>(), this)
 
         firebaseConnection.getListaDispense().observe(
             viewLifecycleOwner,
