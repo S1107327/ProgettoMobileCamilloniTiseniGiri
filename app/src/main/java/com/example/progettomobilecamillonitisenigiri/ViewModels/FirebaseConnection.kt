@@ -54,14 +54,6 @@ class FirebaseConnection : ViewModel() {
                 currentUser.postValue(utenteUtils.getUtente())
                 categoriePreferite.postValue(utenteUtils.getCategoriePreferite())
                 //Chiamata a utility per popolazione lista corsi che avviene ad ogni cambio nel DB
-                corsoUtils.readData(snapshot)
-                listCorsi.postValue(corsoUtils.getCorsi())
-                listAggiuntiDiRecente.postValue(
-                    corsoUtils.getCorsi().reversed()
-                )//oppure takeLast(numero)
-
-                listCorsiPerCat.postValue(corsoUtils.getCorsiPerCat())
-                listCategorie.postValue(corsoUtils.getCat())
                 listDomande.postValue(corsoUtils.getDomande())
 
             }
@@ -78,6 +70,14 @@ class FirebaseConnection : ViewModel() {
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 //popolazione componenti accessorie ai corsi che avviene solo una volta al lancio dell'activity
+                corsoUtils.readData(snapshot)
+                listCorsi.postValue(corsoUtils.getCorsi())
+                listAggiuntiDiRecente.postValue(
+                    corsoUtils.getCorsi().reversed()
+                )//oppure takeLast(numero)
+
+                listCorsiPerCat.postValue(corsoUtils.getCorsiPerCat())
+                listCategorie.postValue(corsoUtils.getCat())
                 listDispense.postValue(corsoUtils.getDispense())
                 listLezioni.postValue(corsoUtils.getLezioni())
 
@@ -140,6 +140,10 @@ class FirebaseConnection : ViewModel() {
 
     //Funzione che ritorna lista consigliati iterando una Lista di Corsi
 //Non utilizza liveData
+    fun getListaPopolari(corsi: ArrayList<Corso>): ArrayList<Corso>{
+        corsi.sort()
+        return corsi.take(5).reversed() as ArrayList<Corso>
+    }
     fun getListaConsigliati(corsi: ArrayList<Corso>): ArrayList<Corso> {
         val consigliati = ArrayList<Corso>()
         for (corso in corsi) {
@@ -152,7 +156,7 @@ class FirebaseConnection : ViewModel() {
         }
         if (consigliati.isEmpty())
             return corsi //ritorna corsi se l'utente non ha categorie predefinite
-        return consigliati
+        return consigliati.shuffled().take(5) as ArrayList<Corso>
     }
 
     fun getCorsiFrequentati(corsi: ArrayList<Corso>): ArrayList<Corso> {

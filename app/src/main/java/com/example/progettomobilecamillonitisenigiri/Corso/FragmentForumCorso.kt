@@ -19,6 +19,7 @@ import com.example.progettomobilecamillonitisenigiri.Model.DomandaForum
 import com.example.progettomobilecamillonitisenigiri.Model.RispostaForum
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 
 class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListener {
@@ -35,6 +36,7 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
     override fun onResume() {
         super.onResume()
         val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
+
         //Aggiunta Nuova Domanda
         view?.findViewById<Button>(R.id.ButtonForum)?.setOnClickListener{
             val alertDialogAdd = AlertDialog.Builder(context)

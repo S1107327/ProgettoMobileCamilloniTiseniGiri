@@ -17,10 +17,11 @@ import com.example.progettomobilecamillonitisenigiri.Adapters.DispenseAdapter
 import com.example.progettomobilecamillonitisenigiri.Model.Documento
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
+import com.google.android.material.appbar.MaterialToolbar
 
 
 class FragmentDispenseCorso : Fragment(), DispenseAdapter.OnDispenseAdapterListener {
-    //val corsoModel: CorsiViewModel by viewModels()
+
     val firebaseConnection: FirebaseConnection by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -15,7 +15,7 @@ class Corso(
     lezioni: ArrayList<Lezione>?,
     dispense: ArrayList<Documento>?,
     forum: ArrayList<DomandaForum>
-) {
+): Comparable<Corso> {
     fun clone(): Corso {
         val corso = Gson().toJson(this)
         return Gson().fromJson(corso,Corso::class.java)
@@ -63,6 +63,10 @@ class Corso(
         arrayListOf(),
         arrayListOf()) {
 
+    }
+
+    override fun compareTo(other: Corso): Int {
+        return this.recensioni.values.average().compareTo(other.recensioni.values.average())
     }
 
 }

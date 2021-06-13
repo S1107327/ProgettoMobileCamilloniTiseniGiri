@@ -11,13 +11,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
+import com.example.progettomobilecamillonitisenigiri.Model.User
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.MaterialToolbar
 import com.squareup.picasso.Picasso
 
 
 class FragmentInfoCorso : Fragment() {
-    //val corsoModel: CorsiViewModel by viewModels()
     val firebaseConnection: FirebaseConnection by viewModels()
     private var ratingBarIsInitialized = false
     override fun onCreateView(
@@ -30,7 +32,7 @@ class FragmentInfoCorso : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val id = requireActivity().intent.getStringExtra("ID_CORSO")
+        val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         firebaseConnection.getListaCorsi()
             .observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
                 for (a in corsi)
@@ -117,38 +119,6 @@ class FragmentInfoCorso : Fragment() {
                                 return@OnTouchListener true
                             })
 
-
-                        //Aggiorno il bottone di iscrizione a seconda se l'utente è iscritto o meno
-                        if (firebaseConnection.getUser().value!!.iscrizioni.contains(id)) {
-                            view?.findViewById<Button>(R.id.iscrivitiButton)?.text =
-                                "ANNULLA ISCRIZIONE"
-                            view?.findViewById<Button>(R.id.iscrivitiButton)?.setTextColor(
-                                -65536
-                            )
-                        } else {
-                            view?.findViewById<Button>(R.id.iscrivitiButton)?.text = "ISCRIVITI"
-                            view?.findViewById<Button>(R.id.iscrivitiButton)?.setTextColor(
-                                -10354450
-                            )
-                        }
-                        view?.findViewById<Button>(R.id.iscrivitiButton)?.setOnClickListener {
-                            firebaseConnection.iscriviti(id) //al click del bottone l'utente viene iscritto/tolto al/dal corso
-                        }
-
-                        //Operazioni su bottone wishlist
-                        if (firebaseConnection.getUser().value!!.wishlist.contains(id)) {
-                            view?.findViewById<ImageButton>(R.id.bottoneWishlist)
-                                ?.setImageResource(R.drawable.wishlistfull36dp)
-                        } else {
-                            view?.findViewById<ImageButton>(R.id.bottoneWishlist)
-                                ?.setImageResource(R.drawable.wishlistempty36dp)
-
-                        }
-                        view?.findViewById<ImageButton>(R.id.bottoneWishlist)?.setOnClickListener {
-                            firebaseConnection.wishlist(id) //al click si aggiunge/elimina il corso dalla wishlist
-                        }
-
-
                         try {
                             Picasso.get().load(a.immagine)
                                 .into(view?.findViewById<ImageView>(R.id.imageCorso))
@@ -161,7 +131,37 @@ class FragmentInfoCorso : Fragment() {
 
                     }
             })
+        firebaseConnection.getUser().observe(viewLifecycleOwner,Observer<User>{
+            //Aggiorno il bottone di iscrizione a seconda se l'utente è iscritto o meno
+            if (firebaseConnection.getUser().value!!.iscrizioni.contains(id)) {
+                view?.findViewById<Button>(R.id.iscrivitiButton)?.text =
+                    "ANNULLA ISCRIZIONE"
+                view?.findViewById<Button>(R.id.iscrivitiButton)?.setTextColor(
+                    -65536
+                )
+            } else {
+                view?.findViewById<Button>(R.id.iscrivitiButton)?.text = "ISCRIVITI"
+                view?.findViewById<Button>(R.id.iscrivitiButton)?.setTextColor(
+                    -10354450
+                )
+            }
+            view?.findViewById<Button>(R.id.iscrivitiButton)?.setOnClickListener {
+                firebaseConnection.iscriviti(id) //al click del bottone l'utente viene iscritto/tolto al/dal corso
+            }
 
+            //Operazioni su bottone wishlist
+            if (firebaseConnection.getUser().value!!.wishlist.contains(id)) {
+                view?.findViewById<ImageButton>(R.id.bottoneWishlist)
+                    ?.setImageResource(R.drawable.wishlistfull36dp)
+            } else {
+                view?.findViewById<ImageButton>(R.id.bottoneWishlist)
+                    ?.setImageResource(R.drawable.wishlistempty36dp)
+
+            }
+            view?.findViewById<ImageButton>(R.id.bottoneWishlist)?.setOnClickListener {
+                firebaseConnection.wishlist(id) //al click si aggiunge/elimina il corso dalla wishlist
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
