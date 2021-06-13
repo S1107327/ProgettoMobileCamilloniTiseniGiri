@@ -60,11 +60,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.share -> {
-                    val intent = Intent(Intent.ACTION_WEB_SEARCH)
-                    intent.putExtra(SearchManager.QUERY, "share")
-                    if (intent.resolveActivity(packageManager) != null) {
-                        startActivity(intent)
-                    }
+                    val intent= Intent()
+                    intent.action=Intent.ACTION_SEND
+                    intent.putExtra(Intent.EXTRA_TEXT,"Scopri la nostra piattaforma! Scarica la nostra app!")
+                    intent.type="text/plain"
+                    startActivity(Intent.createChooser(intent,"Condividi con:"))
                     true
                 }
                 R.id.logout -> {
