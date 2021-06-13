@@ -21,7 +21,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="nomeUtente"
-            android:textSize="18sp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/teal_200"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,8 +33,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
-            android:text="cognomeUtente"
-            android:textSize="18sp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/teal_200"
             app:layout_constraintStart_toEndOf="@+id/nome"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,6 +93,8 @@
                 android:id="@+id/aggiungiRisposta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/aggiungiRispostaContainer" />
 
             <com.google.android.material.textfield.TextInputLayout

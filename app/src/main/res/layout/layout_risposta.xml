@@ -19,6 +19,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="nomeUtente"
+        android:textColor="@color/teal_200"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,16 +31,18 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
         android:text="cognomeUtente"
+        android:textColor="@color/teal_200"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/nomeRisp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/risposta"
-        android:layout_width="340dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:autoSizeMaxTextSize="30sp"
         android:autoSizeMinTextSize="12sp"
         android:autoSizeStepGranularity="2sp"
@@ -47,6 +50,7 @@
         android:justificationMode="inter_word"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed tincidunt risus"
         android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nomeRisp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

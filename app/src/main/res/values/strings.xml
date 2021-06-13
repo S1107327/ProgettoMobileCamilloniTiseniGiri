@@ -32,6 +32,9 @@
     <string name="cognome">Cognome</string>
     <string name="email">Email</string>
     <string name="catPref">Le tue Categorie Preferite</string>
+    <string name="modNotturna">Modalità notturna</string>
+    <string name="dati">I miei dati</string>
+    <string name="miecategorie">Le mie categorie</string>
 
 
     <!--Stringhe Fragment Catalogo-->

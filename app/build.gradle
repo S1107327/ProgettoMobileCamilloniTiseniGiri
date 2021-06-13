@@ -8,6 +8,10 @@ plugins {
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
+    useLibrary("android.test.runner")
+
+    useLibrary("android.test.base")
+    useLibrary("android.test.mock")
 
     defaultConfig {
         applicationId "com.example.progettomobilecamillonitisenigiri"
@@ -15,6 +19,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -51,10 +56,14 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:20.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
 
+    testImplementation("org.mockito:mockito-inline:2.13.0")
+
     testImplementation 'junit:junit:4.+'
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
 
