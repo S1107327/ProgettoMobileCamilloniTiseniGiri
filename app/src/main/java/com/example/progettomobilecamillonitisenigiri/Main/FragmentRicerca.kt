@@ -40,6 +40,22 @@ class FragmentRicerca : Fragment(R.layout.fragment_ricerca), CorsoAdapter.OnCors
         return view
     }
 
+    override fun onPause() {
+        super.onPause()
+        val toolbar: Toolbar = activity?.findViewById<View>(R.id.topAppBar) as Toolbar
+        toolbar.navigationIcon = null
+    }
+
+    override fun onResume(){
+        super.onResume()
+        val toolbar: Toolbar = activity?.findViewById<View>(R.id.topAppBar) as Toolbar
+        toolbar.setNavigationIcon(R.drawable.torna_indietro)
+        toolbar.setNavigationOnClickListener {
+            toolbar.navigationIcon = null
+            requireActivity().onBackPressed()
+        }
+    }
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
