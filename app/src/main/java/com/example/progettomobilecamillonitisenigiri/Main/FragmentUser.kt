@@ -1,5 +1,6 @@
 package com.example.progettomobilecamillonitisenigiri.Main
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -38,6 +39,7 @@ class FragmentUser : Fragment() {
     //val corsiModel: CorsiViewModel by viewModels()
     //val userModel: UserViewModel by viewModels()
     val firebaseConnection: FirebaseConnection by viewModels()
+    var checked = false
 
 
     private var mUser: FirebaseUser? = null
@@ -49,6 +51,15 @@ class FragmentUser : Fragment() {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
         mAuth = FirebaseAuth.getInstance()
         mUser = mAuth!!.currentUser
+
+        // context?.resources?.configuration?.uiMode restituisce 17 in nightModeOFF e 33 in nightModeON
+        checked = context?.resources?.configuration?.uiMode != 17
+        if (checked)
+            view.findViewById<Switch>(R.id.switch1).text = "ON"
+        else
+            view.findViewById<Switch>(R.id.switch1).text = "OFF"
+        view.findViewById<Switch>(R.id.switch1).isChecked = checked
+        //Switch della modalità notturna
         view.findViewById<Switch>(R.id.switch1).setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 // The switch is enabled/checked
@@ -57,19 +68,22 @@ class FragmentUser : Fragment() {
                 // The switch is disabled
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
+            checked=isChecked
         }
 
 
-
+        //Chipgroup delle categorie dove specificare le categorie preferite
         chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupUser1)
         chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupUser2)
 
-
+        //chiamata al view model
         firebaseConnection.getCategorie().observe(viewLifecycleOwner, Observer<Set<String>> { categorie ->
 
+            //ottengo dati utente e popola EditText
             tvFirstName!!.setText(firebaseConnection.getUser().value?.firstName)
             tvLastName!!.setText(firebaseConnection.getUser().value?.lastName)
             tvEmail!!.text = mUser!!.email
+
             //Pulizia chipgroup
             chipGroup1.removeAllViews()
             chipGroup2.removeAllViews()
@@ -140,7 +154,7 @@ class FragmentUser : Fragment() {
             //utente.categoriePref.addAll()
 
 
-            firebaseConnection.setUtente(utente)
+            firebaseConnection.setUtente(utente) //salva l'utente e viene aggiornato nel database
 
             Toast.makeText(context, "Modifiche salvate correttamente", Toast.LENGTH_LONG).show()
         }
