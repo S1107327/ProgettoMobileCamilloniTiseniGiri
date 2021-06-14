@@ -42,7 +42,7 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
             mProgressbar = ProgressDialog(context)
             mProgressbar!!.setMessage("Sto caricando i corsi...")
             mProgressbar.show()
-            isTheFirstTime = false
+            //isTheFirstTime = false
         }
 
 
@@ -65,13 +65,23 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
                     this
                 )
                 rvRecenti.adapter = CorsoAdapter(corsi.takeLast(5), this)
-                mProgressbar.hide()
+                if(isTheFirstTime ) {
+                    mProgressbar.hide()
+                    isTheFirstTime=false
+                }
             })
+
 
 
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (!isTheFirstTime)
+            mProgressbar.cancel()
+
+    }
     override fun onCorsoClick(position: Int, v: View?) {
         val intent = Intent(context, CorsoActivity::class.java)
         intent.putExtra("ID_CORSO", v?.findViewById<TextView>(R.id.corsoId)?.text)
