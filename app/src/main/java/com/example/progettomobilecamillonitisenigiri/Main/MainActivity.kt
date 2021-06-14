@@ -1,13 +1,11 @@
 package com.example.progettomobilecamillonitisenigiri.Main
 
 import android.app.AlertDialog
-import android.app.SearchManager
 import android.content.DialogInterface
 import android.content.Intent
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -15,11 +13,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
 import com.example.progettomobilecamillonitisenigiri.Auth.LoginActivity
 import com.example.progettomobilecamillonitisenigiri.Model.User
 import com.example.progettomobilecamillonitisenigiri.R
-import com.example.progettomobilecamillonitisenigiri.SettingsActivity
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 
 import com.example.progettomobilecamillonitisenigiri.databinding.ActivityMainBinding
@@ -50,16 +46,6 @@ class MainActivity : AppCompatActivity() {
         binding.topAppBar.title = "Corsi per Tutti"
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.settings -> {
-                    val intent = Intent(this, SettingsActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.faq -> {
-                    val intent = Intent(this,CorsoActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
                 R.id.share -> {
                     val intent= Intent()
                     intent.action=Intent.ACTION_SEND

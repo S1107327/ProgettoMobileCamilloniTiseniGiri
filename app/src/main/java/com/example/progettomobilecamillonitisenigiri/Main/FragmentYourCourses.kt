@@ -10,9 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Adapters.CorsoAdapter
-import com.example.progettomobilecamillonitisenigiri.Corsi
 import com.example.progettomobilecamillonitisenigiri.Corso.CorsoActivity
-import com.example.progettomobilecamillonitisenigiri.Adapters.PopularAdapter
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection

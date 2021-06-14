@@ -11,17 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-        <activity android:name=".Corso.CorsoActivity" />
+        <activity android:name=".Corso.CorsoActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Auth.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.DayNight" />
         <activity
             android:name=".Auth.RegisterActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.DayNight" />
-        <activity
-            android:name=".SettingsActivity"
-            android:theme="@style/Theme.MaterialComponents.DayNight" />
-        <activity android:name=".Main.MainActivity">
+        <activity android:name=".Main.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
