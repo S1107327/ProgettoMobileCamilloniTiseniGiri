@@ -3,14 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/settings"
-        android:title="@string/settings"
-        android:contentDescription="@string/settings" />
-    <item
-        android:id="@+id/faq"
-        android:title="@string/faq"
-        android:contentDescription="@string/faq" />
-    <item
         android:id="@+id/share"
         android:title="@string/share"
         android:contentDescription="@string/share" />
