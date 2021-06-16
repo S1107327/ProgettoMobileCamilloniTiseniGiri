@@ -20,15 +20,19 @@ import com.google.android.material.appbar.MaterialToolbar
 
 
 class CorsoActivity : AppCompatActivity() {
+    //viewModels e dbConnection
     val model: FirebaseConnection by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Binding
         val binding: ActivityCorsoBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_corso)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.myNavHostCorsoFragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomCorsoNavigation.setupWithNavController(navController)
+
+        //Abilita backButton
         setSupportActionBar(binding.topAppBarCorso)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -46,6 +50,7 @@ class CorsoActivity : AppCompatActivity() {
 
     }
 
+    //Click del backButton ritorna a home
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {

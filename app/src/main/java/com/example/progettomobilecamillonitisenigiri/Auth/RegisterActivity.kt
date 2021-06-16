@@ -16,8 +16,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
+/*
+*  Activity che gestisce la fase di registrazione dell'utente non registrato
+* La registrazione è gestitata tramite le librerie di Firebase
+* */
 class RegisterActivity : AppCompatActivity() {
 
+    //elementi ui
     lateinit var mRegisterBtn: Button
     lateinit var mRegisterEmail: EditText
     lateinit var mRegisterPassword: EditText
@@ -48,6 +53,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initialise() {
+        //elementi ui
         FirstName = findViewById<View>(R.id.first_name) as EditText
         LastName = findViewById<View>(R.id.last_name) as EditText
         mRegisterEmail = findViewById<View>(R.id.RegisterEmail) as EditText
@@ -56,26 +62,28 @@ class RegisterActivity : AppCompatActivity() {
         mRegisterBtn = findViewById<View>(R.id.RegisterBtn) as Button
 
         mProgressbar = ProgressDialog(this)
+
+        //istanziazione connesioni db Firebase
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference!!.child("Users")
-        mAuth = FirebaseAuth.getInstance()
+        mAuth = FirebaseAuth.getInstance()  //istanziazione Firebase Auth
 
         mProgressbar = ProgressDialog(this)
 
+        //LoginBtn lancia activity di login
         mRegisterLoginBtn = findViewById(R.id.RegisterLoginBtn)
         mRegisterLoginBtn.setOnClickListener {
-
             val loginIntent = Intent(applicationContext, LoginActivity::class.java)
             startActivity(loginIntent)
-
         }
 
+        //bottone di registrati
         mRegisterBtn!!.setOnClickListener { createNewAccount() }
 
     }
 
     private fun createNewAccount() {
-
+        //get input da tastiera
         firstName = FirstName?.text.toString()
         lastName = LastName?.text.toString()
         email = mRegisterEmail?.text.toString().trim()
@@ -103,6 +111,7 @@ class RegisterActivity : AppCompatActivity() {
         }
         mProgressbar!!.setMessage("Registering User...")
         mProgressbar!!.show()
+        //creazione utente
         mAuth!!
             .createUserWithEmailAndPassword(email!!, password!!)
             .addOnCompleteListener(this) { task ->
@@ -135,13 +144,13 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun updateUserInfoAndUI() {
-
         //start next activity
         val intent = Intent(this@RegisterActivity, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }
 
+    //funzione che invia un email di verifica
     private fun verifyEmail() {
         val mUser = mAuth!!.currentUser;
         mUser!!.sendEmailVerification()

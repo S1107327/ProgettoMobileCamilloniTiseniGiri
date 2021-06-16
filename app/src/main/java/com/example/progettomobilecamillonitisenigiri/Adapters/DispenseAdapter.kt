@@ -9,6 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Model.Documento
 import com.example.progettomobilecamillonitisenigiri.R
 
+/*
+* Adapter delle Dispense
+* */
+
 class DispenseAdapter (val data: List<Documento>, val monDispenseAdapter: OnDispenseAdapterListener): RecyclerView.Adapter<DispenseAdapter.DispenseAdapterViewHolder>() {
     class DispenseAdapterViewHolder(val box: View,val onDispenseAdapterListener: OnDispenseAdapterListener) : RecyclerView.ViewHolder(box) , View.OnClickListener {
         init{

@@ -1,5 +1,7 @@
 package com.example.progettomobilecamillonitisenigiri.Model
-
+/*
+* Modello del documento
+* */
 class Documento(titolo: String, id: String, url: String) {
       var titolo: String
       var id: String

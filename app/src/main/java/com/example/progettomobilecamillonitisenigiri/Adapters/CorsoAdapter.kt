@@ -12,6 +12,10 @@ import com.example.progettomobilecamillonitisenigiri.R
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
+/*
+* Adapter del Corso
+* */
+
 class CorsoAdapter (val data: List<Corso>, val monPopularAdapter: OnCorsoListener): RecyclerView.Adapter<CorsoAdapter.MyAdapterViewHolder>() {
     class MyAdapterViewHolder(val box: View,val onCorsoListener: OnCorsoListener) : RecyclerView.ViewHolder(box) , View.OnClickListener {
         init{

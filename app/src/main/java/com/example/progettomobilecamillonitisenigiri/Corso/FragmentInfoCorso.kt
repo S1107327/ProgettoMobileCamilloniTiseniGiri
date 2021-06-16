@@ -1,5 +1,6 @@
 package com.example.progettomobilecamillonitisenigiri.Corso
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
@@ -20,7 +21,10 @@ import com.squareup.picasso.Picasso
 
 
 class FragmentInfoCorso : Fragment() {
+    //viewModel e dbConnection
     val firebaseConnection: FirebaseConnection by viewModels()
+
+    //variabile boolean per salvare lo stato in fase di aggiornamente della recensione
     private var ratingBarIsInitialized = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,11 +34,13 @@ class FragmentInfoCorso : Fragment() {
         return inflater.inflate(R.layout.fragment_info_corso, container, false)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onResume() {
         super.onResume()
-        val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
+        val id = requireActivity().intent.getStringExtra("ID_CORSO").toString() //prende l'id del corso corrente
         firebaseConnection.getListaCorsi()
             .observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
+                //cerca il corso e riempe i campi ui
                 for (a in corsi)
                     if (a.id.equals(id)) {
                         view?.findViewById<TextView>(R.id.nomeCorso)?.text = a.titolo
@@ -44,6 +50,8 @@ class FragmentInfoCorso : Fragment() {
                             a.lezioni.size.toString()
                         view?.findViewById<TextView>(R.id.docenteCorso)?.text = a.docente
                         view?.findViewById<TextView>(R.id.textView15)?.text = a.prezzo
+
+                        //RatingBar mostrata nella pagina del corso
                         val recensioniBar = view?.findViewById<RatingBar>(R.id.rating)
                         // Disabilito la ratingBar
                         recensioniBar?.setIsIndicator(true)
@@ -60,7 +68,7 @@ class FragmentInfoCorso : Fragment() {
                             ratingBarIsInitialized = true
                         }
 
-
+                        //al click sulla ratingBar apre un alertDialog per lasciare/modificare una recensione, solo se l'utente è iscritto
                         recensioniBar
                             ?.setOnTouchListener(View.OnTouchListener { v, event ->
                                 if (event.action == MotionEvent.ACTION_UP) {
@@ -83,7 +91,7 @@ class FragmentInfoCorso : Fragment() {
 
 
                                         linearLayout.addView(ratingBarAlertDialog)
-                                        //ratingBarAlertDialog.
+
                                         //Se l'utente è iscritto al corso la ratingBar viene abilitata e avrà la possibilià di dare una recensione
 
                                         alertDialogAdd.setView(linearLayout)
@@ -119,6 +127,7 @@ class FragmentInfoCorso : Fragment() {
                                 return@OnTouchListener true
                             })
 
+                        //carica l'immagine del corso se presente
                         try {
                             Picasso.get().load(a.immagine)
                                 .into(view?.findViewById<ImageView>(R.id.imageCorso))
@@ -131,6 +140,7 @@ class FragmentInfoCorso : Fragment() {
 
                     }
             })
+        //Permette di mantenere aggiornate le funzionalità dell'iscrizione e della wishlist dell'utente
         firebaseConnection.getUser().observe(viewLifecycleOwner,Observer<User>{
             //Aggiorno il bottone di iscrizione a seconda se l'utente è iscritto o meno
             if (firebaseConnection.getUser().value!!.iscrizioni.contains(id)) {

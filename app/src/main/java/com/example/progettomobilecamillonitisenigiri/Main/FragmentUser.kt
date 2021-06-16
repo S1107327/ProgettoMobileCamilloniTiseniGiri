@@ -22,10 +22,9 @@ import com.google.firebase.database.*
 
 
 class FragmentUser : Fragment() {
-    //Firebase references
-    //private var mDatabaseReference: DatabaseReference? = null
-    //private var mDatabase: FirebaseDatabase? = null
+    //Firebase
     private var mAuth: FirebaseAuth? = null
+    private var mUser: FirebaseUser? = null
 
     //UI elements
     private var tvFirstName: EditText? = null
@@ -34,21 +33,23 @@ class FragmentUser : Fragment() {
     lateinit var mSaveBtn: Button
     lateinit var chipGroup1: ChipGroup
     lateinit var chipGroup2: ChipGroup
+    //Lista categorie Corsi
     val listaCategorie: ArrayList<String> = ArrayList()
 
-    //val corsiModel: CorsiViewModel by viewModels()
-    //val userModel: UserViewModel by viewModels()
+
+    //viewModel e dbConnection
     val firebaseConnection: FirebaseConnection by viewModels()
+    //variabile booleana per mantenere lo stato dello switch del tema
     var checked = false
 
 
-    private var mUser: FirebaseUser? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
+        //istanze dell'utente
         mAuth = FirebaseAuth.getInstance()
         mUser = mAuth!!.currentUser
 
@@ -129,12 +130,13 @@ class FragmentUser : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //elementi ui
         tvFirstName = view?.findViewById<View>(R.id.tv_first_name) as EditText
         tvLastName = view?.findViewById<View>(R.id.tv_last_name) as EditText
         tvEmail = view?.findViewById<View>(R.id.tv_email) as TextView
         mSaveBtn = view?.findViewById(R.id.save_btn) as Button
 
-
+        //Bottone salva dei campi dell'utente
         mSaveBtn.setOnClickListener {
             listaCategorie.clear()
             val utente: User = firebaseConnection.getUser().value as User
@@ -151,8 +153,6 @@ class FragmentUser : Fragment() {
             }
 
             utente.categoriePref.addAll(listaCategorie)
-            //utente.categoriePref.addAll()
-
 
             firebaseConnection.setUtente(utente) //salva l'utente e viene aggiornato nel database
 

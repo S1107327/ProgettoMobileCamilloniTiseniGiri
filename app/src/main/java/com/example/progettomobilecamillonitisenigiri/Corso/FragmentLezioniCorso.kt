@@ -27,32 +27,39 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 
 
 class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniAdapter.OnLezioniAdapterListener {
+    //viewModel e dbConnection
     val firebaseConnection: FirebaseConnection by viewModels()
+    //tracker del player YouTube
     val tracker = YouTubePlayerTracker()
+
     lateinit var id_corso: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        id_corso  = requireActivity().intent.getStringExtra("ID_CORSO").toString()
+        id_corso  = requireActivity().intent.getStringExtra("ID_CORSO").toString() //assegnazione dell'id del corso aperto
     }
     override fun onResume() {
         super.onResume()
-        //val id = arguments?.getString("ID_CORSO").toString()
 
+        //recyclerView
         val rvLezioni: RecyclerView? = view?.findViewById(R.id.recyclerViewLezioni)
-
 
         rvLezioni?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
+        //Riempe l'ultima lezione
         populateLastLessonPlayer()
 
         rvLezioni?.adapter = LezioniAdapter(
             ArrayList<Lezione>(), this, view, this
         )
+
         firebaseConnection.getListaLezioni()
             .observe(viewLifecycleOwner, Observer<HashMap<String, ArrayList<Lezione>>> { lezioni ->
                 rvLezioni?.adapter = LezioniAdapter(
                     lezioni?.getValue(id_corso)?.toList() as List<Lezione>, this, view, this
                 )
+
+                //Rende la sezione visibili solo all'utente iscritto
                 if (!firebaseConnection.isIscritto(id_corso)) {
                     view?.findViewById<ConstraintLayout>(R.id.paginaNonVisualizzabile)?.visibility =
                         VISIBLE

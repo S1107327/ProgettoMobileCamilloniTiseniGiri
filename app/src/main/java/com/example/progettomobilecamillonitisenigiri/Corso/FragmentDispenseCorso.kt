@@ -33,6 +33,7 @@ class FragmentDispenseCorso : Fragment(), DispenseAdapter.OnDispenseAdapterListe
     override fun onResume() {
         super.onResume()
         val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
+        //recyclerView
         val rvDispense: RecyclerView? = view?.findViewById(R.id.recyclerViewDispense)
 
         rvDispense?.layoutManager = LinearLayoutManager(

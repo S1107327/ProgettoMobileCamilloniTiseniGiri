@@ -1,5 +1,7 @@
 package com.example.progettomobilecamillonitisenigiri.Model
-
+/*
+* Modello dell'ultimaLezione riprodotta
+* */
 class UltimaLezione(
      id_corso: String ,
      url_lezione: String? ,

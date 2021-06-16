@@ -22,7 +22,9 @@ import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnecti
 
 class FragmentRicerca : Fragment(R.layout.fragment_ricerca), CorsoAdapter.OnCorsoListener {
 
+    //argomento della ricerca
     val args: FragmentRicercaArgs by navArgs()
+    //view model e db connection
     val firebaseConnection:FirebaseConnection by viewModels()
 
     override fun onCreateView(
@@ -62,10 +64,12 @@ class FragmentRicerca : Fragment(R.layout.fragment_ricerca), CorsoAdapter.OnCors
         super.onViewCreated(view, savedInstanceState)
         val query = args.query
         view.findViewById<TextView>(R.id.risRicerca).text = "'$query'"
+        //recyclerview ricerca
         val rvSearch = view.findViewById<RecyclerView>(R.id.risultatiSearch)
         rvSearch.layoutManager = GridLayoutManager(context, 2)
         rvSearch.adapter = CorsoAdapter(ArrayList<Corso>(), this)
 
+        //get dei corsi che vengono poi filtrati in base alla ricerca
         firebaseConnection.getListaCorsi().observe(
             viewLifecycleOwner,
             Observer<List<Corso>> { corsi ->

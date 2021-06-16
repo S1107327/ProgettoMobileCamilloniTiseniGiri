@@ -2,6 +2,9 @@ package com.example.progettomobilecamillonitisenigiri.Model
 
 import com.google.gson.Gson
 
+/*
+* Modello del corso
+* */
 
 class Corso(
     titolo: String,

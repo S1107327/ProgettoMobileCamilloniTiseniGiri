@@ -1,5 +1,7 @@
 package com.example.progettomobilecamillonitisenigiri.Model
-
+/*
+* Modello delle lezioni
+* */
 class Lezione(titolo: String, descrizione: String, url: String, id: String) {
       var titolo: String
       var descrizione: String

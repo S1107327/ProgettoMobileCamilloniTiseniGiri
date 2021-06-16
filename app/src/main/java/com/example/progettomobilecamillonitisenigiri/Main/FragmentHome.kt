@@ -24,17 +24,27 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTube
 
 
 class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListener {
-    var list = ArrayList<Corso>()
+
+    var list = ArrayList<Corso>() //lista di corsi
+
     lateinit var mProgressbar: ProgressDialog
+
     var isTheFirstTime = true
+
+    //view model e db connection
     val firebaseConnection: FirebaseConnection by viewModels()
+
+    //tracker per Ultima lezione nella home
     val tracker = YouTubePlayerTracker()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val rvPopolari: RecyclerView = view.findViewById(R.id.recyclerViewPopolari)
         val rvConsigliati: RecyclerView = view.findViewById(R.id.recyclerViewConsigliati)
         val rvRecenti: RecyclerView = view.findViewById(R.id.recyclerViewRecenti)
 
+        //caricamento dei corsi se non è la prima volta
         if(isTheFirstTime){
             mProgressbar = ProgressDialog(context)
             mProgressbar!!.setMessage("Sto caricando i corsi...")
@@ -42,26 +52,34 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
             //isTheFirstTime = false
         }
 
-
+        //Recycler View
         rvPopolari.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvConsigliati?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvRecenti.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        //Popolamento Recycler View con liste vuote
         rvPopolari.adapter = CorsoAdapter(ArrayList<Corso>(), this)
         rvConsigliati?.adapter = CorsoAdapter(ArrayList<Corso>(), this)
         rvRecenti.adapter =CorsoAdapter(ArrayList<Corso>(), this)
+
+        //Chiamata al getListaCorsi che ritorna una mutableLiveData di List<Corso>
         firebaseConnection.getListaCorsi().observe(
             viewLifecycleOwner,
             Observer<List<Corso>> { corsi ->
+                //Ricerca dell'ultima lezione dell'utente corrente
                 populateLastLessonPlayer()
+
+                //Passaggio dei corsi alle recyclerView
                 rvPopolari.adapter = CorsoAdapter(firebaseConnection.getListaPopolari(corsi as ArrayList<Corso>) , this)
                 rvConsigliati?.adapter = CorsoAdapter(
                     firebaseConnection.getListaConsigliati(corsi as ArrayList<Corso>),
                     this
                 )
                 rvRecenti.adapter = CorsoAdapter(corsi.takeLast(5), this)
+                //Nascondo la progressBar alla fine del caricamento dei corsi
                 if(isTheFirstTime ) {
                     mProgressbar.hide()
                     isTheFirstTime=false
@@ -79,6 +97,7 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
             mProgressbar.cancel()
 
     }
+    //Al click su un corso viene passato alla CorsoActivity l'id del corso cliccato
     override fun onCorsoClick(position: Int, v: View?) {
         val intent = Intent(context, CorsoActivity::class.java)
         intent.putExtra("ID_CORSO", v?.findViewById<TextView>(R.id.corsoId)?.text)
@@ -112,6 +131,7 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
         firebaseConnection.setUtente(utente)
     }
 
+    //funzione per visualizzare l'ultima lezione se presente
     fun populateLastLessonPlayer() {
         val user = firebaseConnection.getUser().value
         val latestVideoView =

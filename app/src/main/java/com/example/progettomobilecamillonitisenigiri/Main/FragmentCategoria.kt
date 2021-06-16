@@ -17,12 +17,14 @@ import com.example.progettomobilecamillonitisenigiri.R
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
 
 class FragmentCategoria: Fragment(R.layout.fragment_categoria), CorsoAdapter.OnCorsoListener {
+    //viewmodel e db connection
     val firebaseConnection:FirebaseConnection by viewModels()
     val args:FragmentCategoriaArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val categoria = args.categoria
+        //recycler view
         val rvCategoria: RecyclerView = view.findViewById(R.id.recyclerViewCategoria)
         rvCategoria.layoutManager = GridLayoutManager(context, 2)
         rvCategoria.adapter = CorsoAdapter(ArrayList<Corso>(),this)

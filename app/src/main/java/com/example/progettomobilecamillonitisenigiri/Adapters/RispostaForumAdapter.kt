@@ -9,6 +9,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Model.RispostaForum
 import com.example.progettomobilecamillonitisenigiri.R
+/*
+* Adapter delle Risposte del Forum
+* */
 
 class RispostaForumAdapter(val data: List<RispostaForum>): RecyclerView.Adapter<RispostaForumAdapter.RispostaForumViewHolder>() {
     class RispostaForumViewHolder(val box: View): RecyclerView.ViewHolder(box){

@@ -5,10 +5,13 @@ import com.example.progettomobilecamillonitisenigiri.Model.Documento
 import com.example.progettomobilecamillonitisenigiri.Model.DomandaForum
 import com.example.progettomobilecamillonitisenigiri.Model.Lezione
 import com.google.firebase.database.DataSnapshot
-
+/*
+CorsoUtils
+* Utils per elaborare lo snapshot passato alla funzione readData e riempire le varie liste/mappe relative ai corsi
+* */
 class CorsoUtils {
 
-    //Liste di appoggio per popolare  i live data
+    //Liste di appoggio per popolare  i live data nella FirebaseConnection
     private var lista_corsi = ArrayList<Corso>()
     private val lista_lezioni = HashMap<String, ArrayList<Lezione>>()
     private val lista_cat = HashSet<String>()
@@ -25,6 +28,7 @@ class CorsoUtils {
         mapDomande.clear()
     }
 
+    //Funzione che legge i dati dello snapshot iterandoli e mappandoli in liste di oggetti
     fun readData(snapshot: DataSnapshot) {
         lista_corsi.clear()
         lista_cat.clear()
@@ -32,7 +36,9 @@ class CorsoUtils {
         lista_lezioni.clear()
         lista_CorsiPerCat.clear()
         mapDomande.clear()
+
         if (snapshot.child("Corsi")!!.exists()) {
+            //itera tutti i figli dello snapshot in Corsi
             for (e in snapshot.child("Corsi").children) {
 
                 //Aggiunta corso a lista corsi
@@ -40,31 +46,15 @@ class CorsoUtils {
                 lista_corsi.add(corso!!)
 
                 //Aggiungo categoria del corso a un Set
-                /*val cat = e.child("categoria").value.toString()*/
                 lista_cat.add(corso.categoria)
 
-                //liste di appoggio temporanee per lezioni e dispense
-                /*val tmp_list_lezioni = ArrayList<Lezione>()
-                val tmp_list_dispense = ArrayList<Documento>()
-                val tmp_list_domande = ArrayList<DomandaForum>()*/
-
-                //Aggiunta lezioni relative al corso
-                /*for (lezione in e.child("lezioni").children) {
-                    val l = lezione.getValue(Lezione::class.java)
-                    if (l != null) tmp_list_lezioni.add(l)
-                }*/
+               //Lista delle lezioni
                 lista_lezioni.put(corso.id, corso.lezioni)
 
                 //Aggiunta Documenti relative al corso
-                /*for (documento in e.child("dispense").children) {
-                    val l = documento.getValue(Documento::class.java)
-                    if (l != null) tmp_list_dispense.add(l)
-                }*/
                 lista_dispense.put(corso.id, corso.dispense)
-                /*for(domanda in e.child("Forum").children){
-                    val domForum = domanda.getValue(DomandaForum::class.java)
-                    if(domForum != null) tmp_list_domande.add(domForum)
-                }*/
+
+                //Aggiunta Forum
                 mapDomande.put(corso.id,corso.forum)
             }
         }

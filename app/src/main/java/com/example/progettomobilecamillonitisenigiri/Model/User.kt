@@ -1,5 +1,7 @@
 package com.example.progettomobilecamillonitisenigiri.Model
-
+/*
+* Modello dell'utente
+* */
 class User (firstName: String, lastName: String, iscrizioni: ArrayList<String>, categoriePref: ArrayList<String>,wishlist: ArrayList<String>, ultimeLezioni: ArrayList<UltimaLezione>, ultimaLezione: UltimaLezione) {
     var firstName: String
     var lastName: String

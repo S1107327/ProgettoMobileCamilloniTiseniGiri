@@ -28,8 +28,7 @@ import com.google.firebase.database.*
 
 
 class FragmentCatalogo : Fragment(), CorsoAdapter.OnCorsoListener {
-    //ViewModels
-    //val corsiModel: CorsiViewModel by viewModels()
+    //ViewModel e dbConnection
     val firebaseConnection: FirebaseConnection by viewModels()
 
     override fun onCreateView(
@@ -38,6 +37,7 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnCorsoListener {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_catalogo, container, false)
+        //ChipGroup contenenti tutte le categorie dei corsi
         val chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo1)
         val chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo2)
         firebaseConnection.getCategorie().observe(viewLifecycleOwner,Observer<Set<String>>{ categorie->
@@ -74,7 +74,7 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnCorsoListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val rvCat: RecyclerView = view.findViewById(R.id.recyclerViewContainer)
-
+        //recycler view
         rvCat.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rvCat.adapter = CatalogoAdapter(ArrayList<CategoriaListModel>(), context,this)
@@ -85,9 +85,6 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnCorsoListener {
             }
             rvCat.adapter = CatalogoAdapter(list, context,this)
         })
-
-
-
 
 
 

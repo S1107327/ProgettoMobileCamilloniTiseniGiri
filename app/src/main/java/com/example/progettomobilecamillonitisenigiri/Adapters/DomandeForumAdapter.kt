@@ -16,6 +16,9 @@ import com.example.progettomobilecamillonitisenigiri.Model.RispostaForum
 import com.example.progettomobilecamillonitisenigiri.R
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+/*
+* Adapter del Delle Domande del Forum
+* */
 
 class DomandeForumAdapter(val data: List<DomandaForum>, val context:Context?, val monDomandeAdapterListener:OnDomandeAdapterListener  , val fragment:FragmentForumCorso): RecyclerView.Adapter<DomandeForumAdapter.DomandeForumViewHolder>(){
     class DomandeForumViewHolder(val box: View, val onDomandeAdapterListener: OnDomandeAdapterListener): RecyclerView.ViewHolder(box), View.OnClickListener{

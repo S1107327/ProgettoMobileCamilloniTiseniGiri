@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progettomobilecamillonitisenigiri.Model.CategoriaListModel
 import com.example.progettomobilecamillonitisenigiri.R
+/*
+* Adapter del catalogo
+* */
 
 class CatalogoAdapter(val data: List<CategoriaListModel>, val context:Context?,val monPopularAdapter: CorsoAdapter.OnCorsoListener)
     : RecyclerView.Adapter<CatalogoAdapter.CatalogoAdapterViewHolder>() {

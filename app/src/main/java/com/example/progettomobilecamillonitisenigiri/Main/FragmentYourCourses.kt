@@ -21,6 +21,7 @@ class FragmentYourCourses: Fragment(R.layout.fragment_personal_courses),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //recyclerview
         val rvYourCourses:RecyclerView = view.findViewById(R.id.recyclerViewYourCourses)
         rvYourCourses.layoutManager = GridLayoutManager(context,2)
         rvYourCourses.adapter = CorsoAdapter(ArrayList<Corso>(),this)

@@ -21,14 +21,19 @@ import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnecti
 import com.example.progettomobilecamillonitisenigiri.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+/*
+* Main Activity
+* */
 
 class MainActivity : AppCompatActivity() {
 
+    //istanza dell'autenticazione che viene usata per controllare se l'utente è loggato
     lateinit var mAuth: FirebaseAuth
-    lateinit var mLogoutBtn: Button
-    //lateinit var firebaseConnection:FirebaseConnection
+
+    //variabile booleana usata per mostrare un alert dialog solo al primo accesso, se non vengono specificate categorie preferite
     var isThefirstTime = true
-    //val userModel: UserViewModel by viewModels()
+
+    //istanziazione viewModel e connesione a firebase
     val firebaseConnection: FirebaseConnection by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,13 +41,18 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             isThefirstTime = savedInstanceState.getBoolean("firstTime")
         }
+        //Binding
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
+
         findViewById<BottomNavigationView>(R.id.bottom_navigation)
             .setupWithNavController(navController)
+
+        //TopAppBar
         binding.topAppBar.title = "Corsi per Tutti"
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -69,15 +79,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
+        //Istanza dell'utente loggato
         val currentUser = FirebaseAuth.getInstance().currentUser
+        //se l'utente non è loggato viene rimandato all'activity di Login
         if (currentUser == null) {
-
             val intent = Intent(applicationContext, LoginActivity::class.java)
             startActivity(intent)
             finish()
 
         } else {
+            //Controllo se l'utente corrente ha specificato categorie preferite altrimenti mostra un alertDialog
             firebaseConnection.getUser().observe(this, Observer<User> { utente->
                 if(isThefirstTime){
                     isThefirstTime = false

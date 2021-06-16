@@ -23,6 +23,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 
 class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListener {
+    //viewModel e dbConnection
     val firebaseConnection:FirebaseConnection by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +38,7 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
         super.onResume()
         val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
 
-        //Aggiunta Nuova Domanda
+        //Aggiunta Nuova Domanda tramite alertDialog
         view?.findViewById<Button>(R.id.ButtonForum)?.setOnClickListener{
             val alertDialogAdd = AlertDialog.Builder(context)
             val input = EditText(context)
@@ -72,6 +73,7 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
             alertDialogAdd.show()
         }
 
+        //RecyclerView
         val rvDomande: RecyclerView? = view?.findViewById(R.id.recyclerViewDomanda)
 
         rvDomande?.layoutManager = LinearLayoutManager(
@@ -118,6 +120,8 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
             layout?.setVisibility(View.GONE)
         }
     }
+
+    //Funzione che aggiunge la risposta
     fun addRispostaFrag(risposta:String, idDomanda:Int){
         val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         val risposta = RispostaForum(firebaseConnection.getUser().value!!.firstName,firebaseConnection.getUser().value!!.lastName,risposta)

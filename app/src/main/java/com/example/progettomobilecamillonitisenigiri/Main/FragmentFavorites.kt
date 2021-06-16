@@ -17,12 +17,13 @@ import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnecti
 
 class FragmentFavorites: Fragment(R.layout.fragment_favorites),
     CorsoAdapter.OnCorsoListener {
-
+    //viewmodel e db connection
     val firebaseConnection : FirebaseConnection by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //recycler view
         val rvFavorites: RecyclerView = view.findViewById(R.id.recyclerViewFavorites)
         rvFavorites.layoutManager = GridLayoutManager(context,2)
         rvFavorites.adapter = CorsoAdapter(ArrayList<Corso>(),this)
