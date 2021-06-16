@@ -5,10 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -59,7 +56,7 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
             viewLifecycleOwner,
             Observer<List<Corso>> { corsi ->
                 populateLastLessonPlayer()
-                rvPopolari.adapter = CorsoAdapter(firebaseConnection.getListaPopolari(corsi as ArrayList<Corso>) , this)
+                rvPopolari.adapter = CorsoAdapter(firebaseConnection.getListaRecenti(corsi as ArrayList<Corso>) , this)
                 rvConsigliati?.adapter = CorsoAdapter(
                     firebaseConnection.getListaConsigliati(corsi as ArrayList<Corso>),
                     this

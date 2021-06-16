@@ -9,7 +9,7 @@ import com.google.firebase.database.DataSnapshot
 class CorsoUtils {
 
     //Liste di appoggio per popolare  i live data
-    private val lista_corsi = ArrayList<Corso>()
+    private var lista_corsi = ArrayList<Corso>()
     private val lista_lezioni = HashMap<String, ArrayList<Lezione>>()
     private val lista_cat = HashSet<String>()
     private val lista_dispense = HashMap<String, ArrayList<Documento>>()
@@ -68,6 +68,9 @@ class CorsoUtils {
                 mapDomande.put(corso.id,corso.forum)
             }
         }
+    }
+    fun setCorsi(corsi : ArrayList<Corso>){
+        lista_corsi = corsi
     }
 
     fun getCorsi(): ArrayList<Corso> {

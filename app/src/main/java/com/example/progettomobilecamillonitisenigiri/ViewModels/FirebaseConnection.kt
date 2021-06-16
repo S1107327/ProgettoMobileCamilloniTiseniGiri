@@ -140,7 +140,7 @@ class FirebaseConnection : ViewModel() {
 
     //Funzione che ritorna lista consigliati iterando una Lista di Corsi
 //Non utilizza liveData
-    fun getListaPopolari(corsi: ArrayList<Corso>): ArrayList<Corso>{
+    fun getListaRecenti(corsi: ArrayList<Corso>): ArrayList<Corso>{
         corsi.sort()
         return corsi.take(5).reversed() as ArrayList<Corso>
     }
