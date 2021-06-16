@@ -78,7 +78,12 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
                     firebaseConnection.getListaConsigliati(corsi as ArrayList<Corso>),
                     this
                 )
-                rvRecenti.adapter = CorsoAdapter(corsi.takeLast(5), this)
+                var AggiuntiDiRecente = ArrayList<Corso>();
+                for(corso in corsi){
+                    if(corso.id.toInt() >= corsi.size-5)
+                    AggiuntiDiRecente.add(corso);
+                }
+                rvRecenti.adapter = CorsoAdapter(AggiuntiDiRecente, this)
                 //Nascondo la progressBar alla fine del caricamento dei corsi
                 if(isTheFirstTime ) {
                     mProgressbar.hide()
