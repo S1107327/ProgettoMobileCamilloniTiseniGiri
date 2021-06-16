@@ -1,13 +1,9 @@
 package com.example.progettomobilecamillonitisenigiri
 
-import androidx.lifecycle.MutableLiveData
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Model.Lezione
-import com.example.progettomobilecamillonitisenigiri.Model.UltimaLezione
-import com.example.progettomobilecamillonitisenigiri.Model.User
 import com.example.progettomobilecamillonitisenigiri.ViewModels.CorsoUtils
 import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnection
-import com.example.progettomobilecamillonitisenigiri.ViewModels.UserUtils
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -76,12 +72,12 @@ class ProgettoUnitTest {
 
     @Test
     fun listaRecenti_isOfCorrectClass() {
-        assertTrue(firebaseConnection.getListaRecenti(lista) is ArrayList<Corso>)
+        assertTrue(firebaseConnection.getListaPopolari(lista) is ArrayList<Corso>)
     }
 
     @Test
     fun listaRecenti_isNotNull() {
-        assertNotNull(firebaseConnection.getListaRecenti(lista))
+        assertNotNull(firebaseConnection.getListaPopolari(lista))
     }
 
     @Test

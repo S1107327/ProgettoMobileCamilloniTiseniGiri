@@ -56,7 +56,7 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
             viewLifecycleOwner,
             Observer<List<Corso>> { corsi ->
                 populateLastLessonPlayer()
-                rvPopolari.adapter = CorsoAdapter(firebaseConnection.getListaRecenti(corsi as ArrayList<Corso>) , this)
+                rvPopolari.adapter = CorsoAdapter(firebaseConnection.getListaPopolari(corsi as ArrayList<Corso>) , this)
                 rvConsigliati?.adapter = CorsoAdapter(
                     firebaseConnection.getListaConsigliati(corsi as ArrayList<Corso>),
                     this
