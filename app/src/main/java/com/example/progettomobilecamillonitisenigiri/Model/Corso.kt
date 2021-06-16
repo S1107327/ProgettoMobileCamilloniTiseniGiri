@@ -69,7 +69,11 @@ class Corso(
     }
 
     override fun compareTo(other: Corso): Int {
-        return this.recensioni.values.average().compareTo(other.recensioni.values.average())
+        if (this.recensioni.values.average() < other.recensioni.values.average()) {
+            return 1
+        } else if (this.recensioni.values.average() > other.recensioni.values.average()) {
+            return -1
+        } else return 0
     }
 
 }

@@ -202,7 +202,7 @@ class FirebaseConnection : ViewModel() {
     //Funzione che ritorna lista popolari ordinati a seconda delle recensioni
     fun getListaPopolari(corsi: ArrayList<Corso>): ArrayList<Corso> {
         corsi.sort()
-        return corsi.take(5).reversed() as ArrayList<Corso>
+        return corsi.take(5) as ArrayList<Corso>
     }
 
     //Funzione che ritorna lista consigliati iterando una Lista di Corsi e confrontando con categorie preferite dell'utente
