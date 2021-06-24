@@ -24,6 +24,7 @@ class DispenseAdapter (val data: List<Documento>, val monDispenseAdapter: OnDisp
         }
     }
 
+    //per creare un layout di item
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DispenseAdapterViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(
             R.layout.layout_documento,
@@ -32,6 +33,7 @@ class DispenseAdapter (val data: List<Documento>, val monDispenseAdapter: OnDisp
         return DispenseAdapterViewHolder(layout, monDispenseAdapter)
     }
 
+    //quando si ricicla un layout di item aggiornando i dati mostrati all’interno
     override fun onBindViewHolder(holder: DispenseAdapterViewHolder, position: Int) {
         holder.cardDocumento.findViewById<TextView>(R.id.titoloDelDocumento).text =
             data.get(position).titolo
@@ -39,8 +41,10 @@ class DispenseAdapter (val data: List<Documento>, val monDispenseAdapter: OnDisp
             data.get(position).url
     }
 
+    //numero totale di item nella lista
     override fun getItemCount(): Int = data.size
 
+    //interfaccia per poter definire il metodo onclick da altre parti
     interface OnDispenseAdapterListener{
         fun onDispenseClick(position: Int, v: View?)
     }

@@ -41,8 +41,9 @@ class FragmentDispenseCorso : Fragment(), DispenseAdapter.OnDispenseAdapterListe
             LinearLayoutManager.VERTICAL,
             false
         )
-        rvDispense?.adapter = DispenseAdapter(ArrayList<Documento>(), this)
+        rvDispense?.adapter = DispenseAdapter(ArrayList<Documento>(), this) //inizializzo la rv vuota
 
+        //popolo la rv con le dispense del corso
         firebaseConnection.getListaDispense().observe(
             viewLifecycleOwner,
             Observer<HashMap<String, ArrayList<Documento>>> { dispense ->
@@ -57,6 +58,7 @@ class FragmentDispenseCorso : Fragment(), DispenseAdapter.OnDispenseAdapterListe
             })
     }
 
+    //override della funzione definita in DispenseAdapter
     override fun onDispenseClick(position: Int, view: View?) {
         val url = view?.findViewById<TextView>(R.id.urlDocumento)?.text
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url as String?))

@@ -24,12 +24,12 @@ class CorsoAdapter (val data: List<Corso>, val monPopularAdapter: OnCorsoListene
         }
         val cardpopular = box.findViewById<CardView>(R.id.cardpopular)
         override fun onClick(v: View?) {
-
             onCorsoListener.onCorsoClick(adapterPosition,v)
         }
 
     }
 
+    //per creare un layout di item
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAdapterViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(
             R.layout.layout_corso,
@@ -38,6 +38,7 @@ class CorsoAdapter (val data: List<Corso>, val monPopularAdapter: OnCorsoListene
         return MyAdapterViewHolder(layout, monPopularAdapter)
     }
 
+    //quando si ricicla un layout di item aggiornando i dati mostrati all’interno
     override fun onBindViewHolder(holder: MyAdapterViewHolder, position: Int) {
         holder.cardpopular.findViewById<TextView>(R.id.corsoId).text =
             data.get(position).id
@@ -59,8 +60,10 @@ class CorsoAdapter (val data: List<Corso>, val monPopularAdapter: OnCorsoListene
 
     }
 
+    //numero totale di item nella lista
     override fun getItemCount(): Int = data.size
 
+    //interfaccia per poter definire il metodo onclick da altre parti
     interface OnCorsoListener{
         fun onCorsoClick(position: Int, v: View?)
     }

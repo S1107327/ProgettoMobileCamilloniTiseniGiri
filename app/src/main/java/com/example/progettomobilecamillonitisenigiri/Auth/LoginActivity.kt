@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_login) //inflating del layout
 
         //inizializzazione elementi ui
         mLoginbtn = findViewById(R.id.LoginBtn)
@@ -70,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    //funzione che gestisce il login dell'utente
     private fun loginUser(email: String, password: String) {
         //Progressbar login
         mProgressbar.setMessage("Please wait..")

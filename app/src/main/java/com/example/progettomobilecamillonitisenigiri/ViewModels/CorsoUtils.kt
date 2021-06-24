@@ -59,6 +59,8 @@ class CorsoUtils {
             }
         }
     }
+
+    //getters e setters
     fun setCorsi(corsi : ArrayList<Corso>){
         lista_corsi = corsi
     }

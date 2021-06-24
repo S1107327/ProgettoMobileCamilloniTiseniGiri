@@ -36,7 +36,7 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
 
     override fun onResume() {
         super.onResume()
-        val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
+        val id = requireActivity().intent.getStringExtra("ID_CORSO").toString() //prende il parametro dell'intent
 
         //Aggiunta Nuova Domanda tramite alertDialog
         view?.findViewById<Button>(R.id.ButtonForum)?.setOnClickListener{
@@ -51,6 +51,7 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
                 DialogInterface.OnClickListener() { dialog, which ->
                     val domanda = DomandaForum(firebaseConnection.getUser().value!!.firstName,firebaseConnection.getUser().value!!.lastName,firebaseConnection.newDomandaId(id),input.text.toString(), ArrayList<RispostaForum>())
                     if(!domanda.domanda.isEmpty()) {
+                        //se la domanda è gia esistente la funzione addDomanda tornerà false
                         if (!firebaseConnection.addDomanda(domanda, id)) {
                             val contextView = requireView().findViewById<View>(R.id.fragmentforum)
                             Snackbar.make(
@@ -107,6 +108,7 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
             })
     }
 
+    //override della funzione definita in DomandeForumAdapter
     override fun onDomandeClick(position: Int, view: View?){
         val image = view?.findViewById<ImageView>(R.id.immagineDomande)
 
@@ -121,11 +123,12 @@ class FragmentForumCorso : Fragment(), DomandeForumAdapter.OnDomandeAdapterListe
         }
     }
 
-    //Funzione che aggiunge la risposta
+    //Funzione che aggiunge la risposta, viene richiamata dal DomandeForumAdapter
     fun addRispostaFrag(risposta:String, idDomanda:Int){
         val id = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         val risposta = RispostaForum(firebaseConnection.getUser().value!!.firstName,firebaseConnection.getUser().value!!.lastName,risposta)
         if(!risposta.risposta.isEmpty()) {
+            //se addRisposta ritorna false significa che la risposta già è presente
             if (!firebaseConnection.addRisposta(risposta, id, idDomanda)) {
                 val contextView = requireView().findViewById<View>(R.id.fragmentforum)
                 Snackbar.make(contextView, "La risposta esiste già", Snackbar.LENGTH_SHORT).show()

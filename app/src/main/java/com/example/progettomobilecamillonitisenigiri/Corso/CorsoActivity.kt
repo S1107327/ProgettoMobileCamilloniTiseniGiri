@@ -27,6 +27,8 @@ class CorsoActivity : AppCompatActivity() {
         //Binding
         val binding: ActivityCorsoBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_corso)
+
+        //set up navigation su bottomNavigationBar
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.myNavHostCorsoFragment) as NavHostFragment
         val navController = navHostFragment.navController
@@ -40,6 +42,7 @@ class CorsoActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        //mette il titolo del corso nella topappbar
         model.getListaCorsi().observe(this, Observer<List<Corso>> { corsi->
             for(corso in corsi){
                 if(corso.id.equals(intent.getStringExtra("ID_CORSO").toString())) {
@@ -61,6 +64,7 @@ class CorsoActivity : AppCompatActivity() {
         }
         return true
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
         //val intent = Intent(applicationContext, MainActivity::class.java)

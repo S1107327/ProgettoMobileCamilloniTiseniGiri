@@ -42,6 +42,8 @@ class LezioniAdapter(
             onLezioniAdapterListener.onLezioneClick(adapterPosition, v)
         }
     }
+
+    //per creare un layout di item
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LezioniAdapterViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(
             R.layout.layout_lezione,
@@ -49,8 +51,11 @@ class LezioniAdapter(
         )
         return LezioniAdapterViewHolder(layout, monLezioniAdapter)
     }
+
     lateinit var ytView : YouTubePlayerView //video player delle varie lezioni
     lateinit var latestVideoView : YouTubePlayerView //video player dell'ultima lezione vista
+
+    //quando si ricicla un layout di item aggiornando i dati mostrati all’interno
     override fun onBindViewHolder(holder: LezioniAdapterViewHolder, position: Int) {
         holder.cardLezione.findViewById<TextView>(R.id.titoloDelDocumento).text =
             data.get(position).titolo
@@ -82,8 +87,10 @@ class LezioniAdapter(
         })
     }
 
+    //numero totale di item nella lista
     override fun getItemCount(): Int = data.size
 
+    //interfaccia per poter definire il metodo onclick da altre parti
     interface OnLezioniAdapterListener{
         fun onLezioneClick(position: Int, v: View?)
     }

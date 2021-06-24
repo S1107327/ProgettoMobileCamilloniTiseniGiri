@@ -37,7 +37,7 @@ class FragmentInfoCorso : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onResume() {
         super.onResume()
-        val id = requireActivity().intent.getStringExtra("ID_CORSO").toString() //prende l'id del corso corrente
+        val id = requireActivity().intent.getStringExtra("ID_CORSO").toString() //prende l'id del corso corrente dai parametri dell'intent
         firebaseConnection.getListaCorsi()
             .observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
                 //cerca il corso e riempe i campi ui
@@ -72,7 +72,9 @@ class FragmentInfoCorso : Fragment() {
                         recensioniBar
                             ?.setOnTouchListener(View.OnTouchListener { v, event ->
                                 if (event.action == MotionEvent.ACTION_UP) {
+                                    //se l'utente è iscritto al corso può inserire una recensione
                                     if (firebaseConnection.getUser().value!!.iscrizioni.contains(id)) {
+                                        //creo l'alert dialog e ne setto i parametri
                                         val alertDialogAdd = AlertDialog.Builder(context)
 
                                         val linearLayout = LinearLayout(alertDialogAdd.context)

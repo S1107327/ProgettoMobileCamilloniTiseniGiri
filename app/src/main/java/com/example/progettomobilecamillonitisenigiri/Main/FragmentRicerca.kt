@@ -33,6 +33,8 @@ class FragmentRicerca : Fragment(R.layout.fragment_ricerca), CorsoAdapter.OnCors
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_ricerca, container, false)
+
+        //metto il bottone per tornare indietro nella appbar
         val toolbar: Toolbar = activity?.findViewById<View>(R.id.topAppBar) as Toolbar
         toolbar.setNavigationIcon(R.drawable.torna_indietro)
         toolbar.setNavigationOnClickListener {
@@ -44,12 +46,14 @@ class FragmentRicerca : Fragment(R.layout.fragment_ricerca), CorsoAdapter.OnCors
 
     override fun onPause() {
         super.onPause()
+        //tolgo il bottone di indietro dall'appbar
         val toolbar: Toolbar = activity?.findViewById<View>(R.id.topAppBar) as Toolbar
         toolbar.navigationIcon = null
     }
 
     override fun onResume(){
         super.onResume()
+        //rimetto il bottone per tornare indietro nella appbar
         val toolbar: Toolbar = activity?.findViewById<View>(R.id.topAppBar) as Toolbar
         toolbar.setNavigationIcon(R.drawable.torna_indietro)
         toolbar.setNavigationOnClickListener {
@@ -66,14 +70,14 @@ class FragmentRicerca : Fragment(R.layout.fragment_ricerca), CorsoAdapter.OnCors
         view.findViewById<TextView>(R.id.risRicerca).text = "'$query'"
         //recyclerview ricerca
         val rvSearch = view.findViewById<RecyclerView>(R.id.risultatiSearch)
-        rvSearch.layoutManager = GridLayoutManager(context, 2)
-        rvSearch.adapter = CorsoAdapter(ArrayList<Corso>(), this)
+        rvSearch.layoutManager = GridLayoutManager(context, 2) //grid layout
+        rvSearch.adapter = CorsoAdapter(ArrayList<Corso>(), this) //inizializza la rv vuota
 
         //get dei corsi che vengono poi filtrati in base alla ricerca
         firebaseConnection.getListaCorsi().observe(
             viewLifecycleOwner,
             Observer<List<Corso>> { corsi ->
-                rvSearch.adapter = CorsoAdapter(corsi.filter { corso ->
+                rvSearch.adapter = CorsoAdapter(corsi.filter { corso -> //popola la rv con i corsi che rispettano la query
                     corso.titolo.contains(
                         query,
                         true
@@ -84,6 +88,8 @@ class FragmentRicerca : Fragment(R.layout.fragment_ricerca), CorsoAdapter.OnCors
                 }, this)
             })
     }
+
+    //override della funzione definita in CorsoAdapter
     override fun onCorsoClick(position: Int, view: View?) {
         val intent = Intent(context, CorsoActivity::class.java)
         intent.putExtra("ID_CORSO", view?.findViewById<TextView>(R.id.corsoId)!!.text)

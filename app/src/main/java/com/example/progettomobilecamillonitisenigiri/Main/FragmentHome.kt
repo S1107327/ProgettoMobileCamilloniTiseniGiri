@@ -113,13 +113,13 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
     fun addUltimaLezione(urlLezione: String?, idLezione: String, seconds: Float, idCorso: String?) {
         val utente = firebaseConnection.getUser().value
         var ultimeLezioni = utente!!.ultimeLezioni
-        for (lastLesson in ultimeLezioni) {
+        for (lastLesson in ultimeLezioni) { //si cerca se l'utente già aveva una ultima lezione per un corso, se si la elimina
             if (lastLesson.id_corso == idCorso) {
                 utente.ultimeLezioni.remove(lastLesson)
                 break
             }
         }
-        utente?.ultimeLezioni?.add(
+        utente?.ultimeLezioni?.add( //aggiunta dell'ultima lezione alle ultime lezioni dell'utente
             UltimaLezione(
                 utente.ultimaLezione.id_corso,
                 urlLezione,
@@ -127,7 +127,7 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
                 seconds
             )
         )
-        utente?.ultimaLezione = UltimaLezione(
+        utente?.ultimaLezione = UltimaLezione( //aggiunta dell'utlima lezione alla ultima lezione vista dell'utente
             utente.ultimaLezione.id_corso,
             urlLezione,
             idLezione,
@@ -144,7 +144,7 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
                 R.id.videoView
             )
         user?.firstName?.let { Log.d("prova", it) }
-        if(!user?.ultimaLezione?.id_corso.equals("")) {
+        if(!user?.ultimaLezione?.id_corso.equals("")) { //se l'utente ha un'ultima lezione mostro il player
             val titolo = view?.findViewById<TextView>(R.id.lezione)
             val card = view?.findViewById<com.google.android.material.card.MaterialCardView>(R.id.card)
             titolo?.visibility = View.VISIBLE
@@ -164,7 +164,7 @@ class FragmentHome : Fragment(R.layout.fragment_home), CorsoAdapter.OnCorsoListe
                     }
                     if (listaLezioni != null) {
                         for (lezione in listaLezioni) {
-                            if (lezione.id == user?.ultimaLezione?.id_lezione) {
+                            if (lezione.id == user?.ultimaLezione?.id_lezione) { //popolo le view del player con gli attributi del corso corrispondente all'ultima lezione
                                 view?.findViewById<TextView>(R.id.titoloLezione)?.text =
                                     lezione.titolo
                                 view?.findViewById<TextView>(R.id.descrizioneLezione)?.text =

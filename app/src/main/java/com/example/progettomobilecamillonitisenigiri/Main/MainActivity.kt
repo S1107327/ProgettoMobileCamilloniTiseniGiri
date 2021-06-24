@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        //setup della navigazione per la bottom navigation
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
@@ -110,8 +111,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // invoked when the activity may be temporarily destroyed, save the instance state here
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean("firstTime",isThefirstTime)
+        outState.putBoolean("firstTime",isThefirstTime) //salva nello stato il valore della variabile booleana
         super.onSaveInstanceState(outState)
     }
 }

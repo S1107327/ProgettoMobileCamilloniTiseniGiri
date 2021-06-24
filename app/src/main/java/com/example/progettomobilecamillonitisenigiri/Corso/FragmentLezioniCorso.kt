@@ -53,6 +53,7 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
             ArrayList<Lezione>(), this, view, this
         )
 
+        //popolo l'adapter con le lezioni del corso
         firebaseConnection.getListaLezioni()
             .observe(viewLifecycleOwner, Observer<HashMap<String, ArrayList<Lezione>>> { lezioni ->
                 rvLezioni?.adapter = LezioniAdapter(
@@ -69,7 +70,7 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
             })
     }
 
-
+    //override della funzione definita in LezioneAdapter
     override fun onLezioneClick(position: Int, view: View?) {
         val image = view?.findViewById<ImageView>(R.id.immagineDocumento)
 
@@ -88,18 +89,22 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
     fun addUltimaLezione(urlLezione: String?, idLezione: String, seconds: Float, repopulate: Boolean) {
         val utente = firebaseConnection.getUser().value
         var ultimeLezioni = utente!!.ultimeLezioni
+        //se l'utente aveva già un'ultima lezione per il corso gliela tolgo
         for (lastLesson in ultimeLezioni) {
             if (lastLesson.id_corso == id_corso) {
                 utente.ultimeLezioni.remove(lastLesson)
                 break
             }
         }
+        //aggiungo la lezione alle ultime lezioni e all'ultima lezione vista
         utente?.ultimeLezioni?.add(UltimaLezione(id_corso, urlLezione, idLezione, seconds))
         utente?.ultimaLezione = UltimaLezione(id_corso, urlLezione, idLezione, seconds)
 
         if (utente != null) {
             firebaseConnection.setUtente(utente)
         }
+        //se questa funzione è chiamata dal player dell'utlima lezione non devo repopolarlo, se invece è chiamata dal player di una
+        //lezione normale devo ripopolare il player dell'ultima lezione
         if(repopulate) {
             populateLastLessonPlayerOnChange(urlLezione, idLezione, seconds)
         }
@@ -185,10 +190,12 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
             )
         //val id_corso = requireActivity().intent.getStringExtra("ID_CORSO").toString()
         val listaLezioni = firebaseConnection.getListaLezioni().value?.get(id_corso)
+        //praticamente creo un nuovo youtubePlayer da mettere al posto di quello precedente, con i suoi stessi parametri
         val youTubePlayerView = context?.let { YouTubePlayerView(it) }
         youTubePlayerView?.layoutParams = latestVideoView?.layoutParams
         youTubePlayerView?.id = latestVideoView?.id!!
-        youTubePlayerView?.enableAutomaticInitialization = false
+        youTubePlayerView?.enableAutomaticInitialization = false //disabilito l'inizializzazione automatica per evitare che esegua l'onReady prima del dovuto
+
 
         youTubePlayerView?.initialize(object :
             AbstractYouTubePlayerListener() {
@@ -223,6 +230,8 @@ class FragmentLezioniCorso : Fragment(R.layout.fragment_lezioni_corso), LezioniA
                 }
             }
         }
+
+        //rimpiazzo il vecchio latestVideoView con il nuovo youtubePlayer
         if(latestVideoView!=null) {
             val parent = latestVideoView.parent as ViewGroup
             val index = parent.indexOfChild(latestVideoView)

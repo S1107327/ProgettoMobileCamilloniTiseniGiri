@@ -1,5 +1,6 @@
 package com.example.progettomobilecamillonitisenigiri
 
+import android.util.Log
 import com.example.progettomobilecamillonitisenigiri.Model.Corso
 import com.example.progettomobilecamillonitisenigiri.Model.Lezione
 import com.example.progettomobilecamillonitisenigiri.ViewModels.CorsoUtils

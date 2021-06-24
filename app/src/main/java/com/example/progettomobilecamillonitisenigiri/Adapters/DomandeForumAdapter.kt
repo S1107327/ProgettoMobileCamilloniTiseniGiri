@@ -30,6 +30,8 @@ class DomandeForumAdapter(val data: List<DomandaForum>, val context:Context?, va
         }
         val domanda = box.findViewById<CardView>(R.id.cardViewDomande)
     }
+
+    //per creare un layout di item
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DomandeForumViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(
             R.layout.layout_domanda,
@@ -37,6 +39,8 @@ class DomandeForumAdapter(val data: List<DomandaForum>, val context:Context?, va
         )
         return DomandeForumViewHolder(layout,monDomandeAdapterListener)
     }
+
+    //quando si ricicla un layout di item aggiornando i dati mostrati all’interno
     override fun onBindViewHolder(holder: DomandeForumViewHolder, position: Int) {
         holder.domanda.findViewById<TextView>(R.id.idDomanda).text = data.get(position).id.toString()
         holder.domanda.findViewById<TextView>(R.id.nome).text = data.get(position).nomeUtente
@@ -52,8 +56,11 @@ class DomandeForumAdapter(val data: List<DomandaForum>, val context:Context?, va
         holder.domanda.findViewById<RecyclerView>(R.id.list_risposte).adapter = RispostaForumAdapter(data.get(position).risposte)
 
     }
+
+    //numero totale di item nella lista
     override fun getItemCount(): Int = data.size
 
+    //interfaccia per poter definire il metodo onclick da altre parti
     interface OnDomandeAdapterListener{
         fun onDomandeClick(position: Int, v: View?)
     }

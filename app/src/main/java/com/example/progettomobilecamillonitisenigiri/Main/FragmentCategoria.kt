@@ -19,21 +19,22 @@ import com.example.progettomobilecamillonitisenigiri.ViewModels.FirebaseConnecti
 class FragmentCategoria: Fragment(R.layout.fragment_categoria), CorsoAdapter.OnCorsoListener {
     //viewmodel e db connection
     val firebaseConnection:FirebaseConnection by viewModels()
-    val args:FragmentCategoriaArgs by navArgs()
+    val args:FragmentCategoriaArgs by navArgs() //prende i valori passati tramite navigazione
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val categoria = args.categoria
         //recycler view
         val rvCategoria: RecyclerView = view.findViewById(R.id.recyclerViewCategoria)
-        rvCategoria.layoutManager = GridLayoutManager(context, 2)
-        rvCategoria.adapter = CorsoAdapter(ArrayList<Corso>(),this)
+        rvCategoria.layoutManager = GridLayoutManager(context, 2) //grid layout
+        rvCategoria.adapter = CorsoAdapter(ArrayList<Corso>(),this) //inizializza la recycler view vuots
         firebaseConnection.getCorsiPerCat().observe(viewLifecycleOwner,
             Observer<HashMap<String, ArrayList<Corso>>> { corsiCat ->
-                rvCategoria.adapter = corsiCat.get(categoria)?.let { CorsoAdapter(it,this) }
+                rvCategoria.adapter = corsiCat.get(categoria)?.let { CorsoAdapter(it,this) } //popola recycler view
             })
     }
 
+    //override della funzione definita nel corsoAdapter
     override fun onCorsoClick(position: Int, view: View?) {
         val intent = Intent(context, CorsoActivity::class.java)
         intent.putExtra("ID_CORSO",view?.findViewById<TextView>(R.id.corsoId)!!.text)

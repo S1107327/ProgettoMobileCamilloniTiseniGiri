@@ -119,7 +119,6 @@ class FirebaseConnection : ViewModel() {
 
     //le recensioni vengono aggiunte a una lista di recensioni nella tabella del corso perchè altrimenti per estrapolare la media bisognava tirar fuori le recensioni da ogni singolo utente
     fun setRecensione(id_corso: String, recensione: Float) {
-        val a: HashMap<String, Float> = hashMapOf()
         loggedUser.let { it1 ->
             //Se nel corso ricercato tramite id_corso in listCorsi, c'è già una recensione dell'utente con l'uid corrente, aggiorna la recensione, altrimenti la aggiunge alla lista delle recensioni
             if (listCorsi.value?.get(id_corso?.toInt())?.recensioni?.contains(it1!!.uid) == true)
@@ -252,6 +251,7 @@ class FirebaseConnection : ViewModel() {
         return wishlist
     }
 
+    //Funzione che controlla se l'utente corrente è iscritto al corso passato per parametro
     fun isIscritto(idCorso: String): Boolean {
         if (currentUser.value?.iscrizioni?.contains(idCorso) == true)
             return true

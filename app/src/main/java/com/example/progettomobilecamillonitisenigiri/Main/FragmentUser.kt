@@ -60,6 +60,7 @@ class FragmentUser : Fragment() {
         else
             view.findViewById<Switch>(R.id.switch1).text = "OFF"
         view.findViewById<Switch>(R.id.switch1).isChecked = checked
+
         //Switch della modalità notturna
         view.findViewById<Switch>(R.id.switch1).setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
@@ -92,6 +93,7 @@ class FragmentUser : Fragment() {
             listaCategorie.clear()
             listaCategorie.addAll(firebaseConnection.getUser().value!!.categoriePref) //assegnazione categorie utente
 
+            //popolo le chip
             for (i in 0..categorie.size - 1) {
                 var chip = inflater.inflate(R.layout.chip_catalogo, chipGroup1, false) as Chip
                 var chip2 = inflater.inflate(R.layout.chip_catalogo, chipGroup2, false) as Chip
@@ -99,9 +101,11 @@ class FragmentUser : Fragment() {
                     chip.id = i
                     chip.text = categorie.elementAt(i)
                     chip.isCheckable = true
+                    //se la categoria è contenuta nelle categoria preferite dell'utente la mette checkata
                     if (listaCategorie.contains(categorie.elementAt(i)))
                         chip.isChecked = true
 
+                    //click listener per il check delle chips
                     chipGroup1.setOnCheckedChangeListener { group, checkedId ->
                         view.findViewById<Chip>(checkedId).isChecked =
                             !view.findViewById<Chip>(checkedId).isChecked
@@ -111,9 +115,11 @@ class FragmentUser : Fragment() {
                     chip2.id = i
                     chip2.text = categorie.elementAt(i)
                     chip2.isCheckable = true
+                    //se la categoria è contenuta nelle categoria preferite dell'utente la mette checkata
                     if (listaCategorie.contains(categorie.elementAt(i)))
                         chip2.isChecked = true
 
+                    //click listener per il check delle chips
                     chipGroup2.setOnCheckedChangeListener { group, checkedId ->
                         view.findViewById<Chip>(checkedId).isChecked =
                             !view.findViewById<Chip>(checkedId).isChecked
@@ -143,6 +149,8 @@ class FragmentUser : Fragment() {
             utente.categoriePref.clear()
             utente.firstName = tvFirstName!!.text.toString()
             utente.lastName = tvLastName!!.text.toString()
+
+            //metto tutte le chips checkate nella variabile listaCategorie
             for (id in chipGroup1.checkedChipIds) {
                 var chip = view?.findViewById<Chip>(id)
                 listaCategorie.add(chip!!.text.toString())

@@ -47,7 +47,7 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        setContentView(R.layout.activity_register) //inflating del layout
         initialise()
 
     }
@@ -82,6 +82,7 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
+    //funzione che gestisce la creazione dell'account
     private fun createNewAccount() {
         //get input da tastiera
         firstName = FirstName?.text.toString()

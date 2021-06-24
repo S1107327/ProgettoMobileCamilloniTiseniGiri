@@ -40,6 +40,8 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnCorsoListener {
         //ChipGroup contenenti tutte le categorie dei corsi
         val chipGroup1 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo1)
         val chipGroup2 = view.findViewById<ChipGroup>(R.id.chipGroupCatalogo2)
+
+        //prendo tutte le categorie per metterle nelle chipgroups
         firebaseConnection.getCategorie().observe(viewLifecycleOwner,Observer<Set<String>>{ categorie->
             chipGroup1.removeAllViews()
             chipGroup2.removeAllViews()
@@ -78,6 +80,8 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnCorsoListener {
         rvCat.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rvCat.adapter = CatalogoAdapter(ArrayList<CategoriaListModel>(), context,this)
+
+        //metto in una variabile tutti i corsi suddivisi per categoria
         firebaseConnection.getCorsiPerCat().observe(viewLifecycleOwner,Observer<HashMap<String,ArrayList<Corso>>>{corsiPerCat->
             var list = ArrayList<CategoriaListModel>()
             for((key,value) in corsiPerCat){
@@ -87,7 +91,7 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnCorsoListener {
         })
 
 
-
+        //funzionalità di ricerca
         val editText = view.findViewById<TextInputEditText>(R.id.query)
         editText.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -95,19 +99,20 @@ class FragmentCatalogo : Fragment(), CorsoAdapter.OnCorsoListener {
                 val action = FragmentCatalogoDirections.actionFragmentCatalogoToFragmentRicerca(
                     query
                 )
-                view.findNavController().navigate(action)
+                view.findNavController().navigate(action) //cerca il navController del fragment e naviga alla pagina di ricerca
                 return@OnEditorActionListener true
             }
             false
         })
     }
 
-
+    //onClick delle chips
     fun onclick(view: View, cat:String) {
         val action = FragmentCatalogoDirections.actionFragmentCatalogoToFragmentCategoria(cat)
         view.findNavController().navigate(action)
     }
 
+    //override della funzione definita nel corsoAdapter
     override fun onCorsoClick(position: Int,v: View?) {
         val intent = Intent(context, CorsoActivity::class.java)
         intent.putExtra("ID_CORSO",v?.findViewById<TextView>(R.id.corsoId)!!.text)

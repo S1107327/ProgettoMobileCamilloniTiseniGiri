@@ -23,15 +23,15 @@ class FragmentYourCourses: Fragment(R.layout.fragment_personal_courses),
         super.onViewCreated(view, savedInstanceState)
         //recyclerview
         val rvYourCourses:RecyclerView = view.findViewById(R.id.recyclerViewYourCourses)
-        rvYourCourses.layoutManager = GridLayoutManager(context,2)
-        rvYourCourses.adapter = CorsoAdapter(ArrayList<Corso>(),this)
+        rvYourCourses.layoutManager = GridLayoutManager(context,2) //grid layout
+        rvYourCourses.adapter = CorsoAdapter(ArrayList<Corso>(),this) //inizializza l'rv vuota
         firebaseConnection.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
-            rvYourCourses.adapter = CorsoAdapter(firebaseConnection.getCorsiFrequentati(corsi as ArrayList<Corso>),this)
+            rvYourCourses.adapter = CorsoAdapter(firebaseConnection.getCorsiFrequentati(corsi as ArrayList<Corso>),this) //popola l'rv
         })
 
     }
 
-
+    //override della funzione definita in CorsoAdapter
     override fun onCorsoClick(position: Int, v: View?) {
         val intent = Intent(context, CorsoActivity::class.java)
         intent.putExtra("ID_CORSO", v?.findViewById<TextView>(R.id.corsoId)?.text)

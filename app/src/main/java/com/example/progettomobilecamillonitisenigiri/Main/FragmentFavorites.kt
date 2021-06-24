@@ -25,13 +25,14 @@ class FragmentFavorites: Fragment(R.layout.fragment_favorites),
 
         //recycler view
         val rvFavorites: RecyclerView = view.findViewById(R.id.recyclerViewFavorites)
-        rvFavorites.layoutManager = GridLayoutManager(context,2)
-        rvFavorites.adapter = CorsoAdapter(ArrayList<Corso>(),this)
+        rvFavorites.layoutManager = GridLayoutManager(context,2) //grid layout
+        rvFavorites.adapter = CorsoAdapter(ArrayList<Corso>(),this) //inizializza la rv vuota
         firebaseConnection.getListaCorsi().observe(viewLifecycleOwner, Observer<List<Corso>> { corsi ->
-            rvFavorites.adapter = CorsoAdapter(firebaseConnection.getCorsiFromWishlist(corsi as ArrayList<Corso>),this)
+            rvFavorites.adapter = CorsoAdapter(firebaseConnection.getCorsiFromWishlist(corsi as ArrayList<Corso>),this) //popola la rv
         })
     }
 
+    //override della funzione definita su CorsoAdapter
     override fun onCorsoClick(position: Int, v: View?) {
         val intent = Intent(context, CorsoActivity::class.java)
         intent.putExtra("ID_CORSO", v?.findViewById<TextView>(R.id.corsoId)?.text)

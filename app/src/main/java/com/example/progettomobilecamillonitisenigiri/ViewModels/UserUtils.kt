@@ -29,6 +29,8 @@ class UserUtils {
     }
 
 
+    //getters e setters
+
     fun getUtente(): User {
         return utenteLoggato
     }
